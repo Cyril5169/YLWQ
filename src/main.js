@@ -41,7 +41,10 @@ Vue.use(ElementUI);
 // Vue.use(vueDirectiveImagePreviewer)
 // Vue.use(preview)
 
-
+//引入全局变量
+Vue.prototype.Global = {
+  baseUrl: baseUrl,//订单url
+}
 
 /* eslint-disable no-new */
 new Vue({

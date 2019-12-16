@@ -12,5 +12,25 @@
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      //后台地址统一配置
+    var urlArr = {
+      local: {
+        baseUrl: 'http://localhost:49438/',//订单
+      },
+      test: {
+        baseUrl: 'http://47.107.56.156:666/',
+      },
+      formal: {
+        baseUrl: 'http://14.29.223.114:568/',
+      }
+    }
+
+    var urlSetting = urlArr.local;//本地
+    //var urlSetting = urlArr.test;//测试
+    //var urlSetting = urlArr.formal;//正式
+
+    var baseUrl = urlSetting.baseUrl;
+    </script>
   </body>
 </html>
