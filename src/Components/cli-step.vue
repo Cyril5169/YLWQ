@@ -109,16 +109,16 @@ ul {
   position: relative;
 }
 li {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 .circle {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5); /**这里动态*/
   text-align: center;
-  line-height: 40px;
-  font-size: 20px;
+  line-height: 30px;
+  font-size: 18px;
   transform: translateX(10px);
 }
 .circle span {

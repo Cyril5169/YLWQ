@@ -78,7 +78,7 @@ export default {
 .right-content {
   width: 90%;
   margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 20px;
   position: relative;
   box-shadow: 7px 7px 3px -2px rgba(0, 0, 0, 0.05);
 }

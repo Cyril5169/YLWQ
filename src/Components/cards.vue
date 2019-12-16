@@ -193,14 +193,15 @@ export default {
   box-sizing: border-box;
   width: 100%;
   background-color: white;
+  margin-top: 50px;
 }
 .step {
   width: 550px;
-  height: 100px;
+  height: 80px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: -50px;
+  top: -40px;
 }
 
 .gray-word {
