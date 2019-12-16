@@ -1,20 +1,14 @@
 <template>
   <div class="wrapper">
     <!-- <div class="space"></div> -->
-    <div
-      class="wangqian"
-      @click="show3=!show3"
-    >
-      <img
-        src="http://14.29.221.109:10250/upload/images/wangqian.png"
-        alt="签订年度协议"
-      >
+    <div class="wangqian" @click="show3=!show3">
+      <img src="http://14.29.221.109:10250/upload/images/wangqian.png" alt="签订年度协议" />
       <p>签订年度协议</p>
     </div>
 
     <el-collapse-transition>
       <div v-show="show3">
-      <!-- <router-link
+        <!-- <router-link
       tag="li" 
       v-for="(item,index) of items"
       :key="index"
@@ -22,19 +16,18 @@
        @click="handleRouter(item)"
       >
       <p>{{item.desc}}</p>
-    </router-link> -->
-     <li 
-      v-for="(item,index) of items"
-      :key="index"
-       @click="handleRouter(item,index)"
-       v-bind:class="{ currentPage:index==current}"
-       style="cursor:pointer;"
-      >
-      <p>{{item.desc}}</p>
-    </li>
+        </router-link>-->
+        <li
+          v-for="(item,index) of items"
+          :key="index"
+          @click="handleRouter(item,index)"
+          v-bind:class="{ currentPage:index==current}"
+          style="cursor:pointer;"
+        >
+          <p>{{item.desc}}</p>
+        </li>
       </div>
     </el-collapse-transition>
-
   </div>
 </template>
 
@@ -43,7 +36,7 @@ export default {
   name: "cli-sidebar",
   data() {
     return {
-      current:0,
+      current: 0,
       show3: true,
       isActive: true,
       items: [
@@ -67,10 +60,9 @@ export default {
     };
   },
   methods: {
-    handleRouter(item,index) {
-      // console.log(index);
+    handleRouter(item, index) {
       if (this.$store.state.user.data.userState == "1") {
-         this.current = index;
+        this.current = index;
         this.$router.push({ path: item.router });
       }
       if (this.$store.state.user.data.userState != "1") {
@@ -100,9 +92,7 @@ export default {
     }
   },
   mounted() {
-    // console.log("是否看过提示书" + this.$store.state.user.data.userState);
     if (this.$store.state.user.data.userState == "1") {
-      // this.items.shift();
       this.current = 1;
       this.$router.replace({ path: "/client/cards" });
     }
@@ -169,7 +159,7 @@ li p {
   color: white;
 }
 
-.currentPage{
+.currentPage {
   background-color: #151515;
 }
 .currentPage p::before {

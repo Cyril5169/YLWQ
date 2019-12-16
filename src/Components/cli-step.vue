@@ -1,22 +1,52 @@
 <template>
   <div class="wrapper">
-      <ul>
-          <li>
-              <div class="content"> <div class="circle circle_finish"><span class="number_finish">1</span></div><p class="word word_finish">基本信息</p></div>
-          </li>
-          <li><div class="long"><div class="bar"></div></div></li>
-          <li>
-              <div class="content"> <div class="circle"><span>2</span></div><p class="word">联系方式</p></div>
-          </li>
-            <li><div class="long"><div class="bar"></div></div></li>
-          <li>
-              <div class="centent"> <div class="circle"><span>3</span></div><p class="word">收货信息</p></div>
-          </li>
-            <li><div class="long"><div class="bar"></div></div></li>
-          <li>
-              <div class="circle"><span>4</span></div><p class="word">银行账号</p>
-          </li>
-        </ul>        
+    <ul>
+      <li>
+        <div class="content">
+          <div class="circle circle_finish">
+            <span class="number_finish">1</span>
+          </div>
+          <p class="word word_finish">基本信息</p>
+        </div>
+      </li>
+      <li>
+        <div class="long">
+          <div class="bar"></div>
+        </div>
+      </li>
+      <li>
+        <div class="content">
+          <div class="circle">
+            <span>2</span>
+          </div>
+          <p class="word">联系方式</p>
+        </div>
+      </li>
+      <li>
+        <div class="long">
+          <div class="bar"></div>
+        </div>
+      </li>
+      <li>
+        <div class="centent">
+          <div class="circle">
+            <span>3</span>
+          </div>
+          <p class="word">收货信息</p>
+        </div>
+      </li>
+      <li>
+        <div class="long">
+          <div class="bar"></div>
+        </div>
+      </li>
+      <li>
+        <div class="circle">
+          <span>4</span>
+        </div>
+        <p class="word">银行账号</p>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -30,11 +60,12 @@ export default {
     back() {
       if (this.active != 0) {
         this.$nextTick(function() {
-          console.log("当前值是" + this.active);
-          var lastStep = document.getElementsByClassName("circle")[this.active + 1];
+          var lastStep = document.getElementsByClassName("circle")[
+            this.active + 1
+          ];
           lastStep.firstChild.classList.remove("number_finish");
           lastStep.classList.remove("circle_finish");
-          lastStep.nextSibling.classList.remove("word_finish");
+          lastStep.nextElementSibling.classList.remove("word_finish");
 
           var lastbar = document.getElementsByClassName("bar")[this.active];
           var per = 100;
@@ -47,10 +78,8 @@ export default {
           }, 0.1);
         });
       }
-
     },
     next() {
-      console.log("当前值是" + this.active);
       var bar = document.getElementsByClassName("bar")[this.active];
       var per = 0;
       var timer = setInterval(() => {
@@ -60,7 +89,7 @@ export default {
           var nowStep = document.getElementsByClassName("circle")[this.active];
           nowStep.firstChild.classList.add("number_finish");
           nowStep.classList.add("circle_finish");
-          nowStep.nextSibling.classList.add("word_finish");
+          nowStep.nextElementSibling.classList.add("word_finish");
           clearInterval(timer);
           this.$emit("flag", true);
         }
@@ -74,8 +103,6 @@ export default {
     this.$on("bridge2", function() {
       this.next();
     });
-
-    ///此时通过$on进行监听中间桥接函数bridge对目的方法childAction进行触发
   }
 };
 </script>

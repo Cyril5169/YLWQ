@@ -34,7 +34,6 @@ export default {
     serSearch
   },
   created() {
-    console.log("登陆了的用户", this.$store.state.user);
   }
 };
 </script>

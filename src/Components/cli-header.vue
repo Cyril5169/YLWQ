@@ -2,22 +2,18 @@
   <div class="wrapper-header">
     <div class="header-left">
       <!-- <div class="icon-flower"></div>
-      <div class="icon-word"></div> -->
+      <div class="icon-word"></div>-->
       <div class="icon-new"></div>
       <!-- <div class="title">订单及库存查询系统</div> -->
     </div>
 
     <div class="header-right">
       <div class="welcome">欢迎你，{{position}}{{realName}}</div>
-      <div
-        class="exit"
-        @click="exitSto"
-      >
+      <div class="exit" @click="exitSto">
         <p style=" user-select: none">退出登录</p>
       </div>
     </div>
   </div>
-
 </template>
 
 
@@ -26,40 +22,52 @@ export default {
   name: "cli-header",
   data() {
     return {
-      realName :this.$store.state.user.data.realName,
-      position :'',
+      realName: this.$store.state.user.data.realName,
+      position: ""
     };
   },
   methods: {
     //退出登陆
     exitSto() {
-      this.$confirm("确定退出？",'提示',{
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type:"warning"
-      }).then(()=>{
-        this.$store.commit("removeStorage");
-        this.$router.push("/");
-      }).catch(()=>{
-
-      });
+      this.$confirm("确定退出？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$store.commit("removeStorage");
+          this.$router.push("/");
+        })
+        .catch(() => {});
     }
   },
-  mounted(){
+  mounted() {
     if (this.$store.state.user.pos) {
-        let position = this.$store.state.user.pos[0].position;
-        switch(position){
-          case 'SALEMAN_M': this.position = '办事处经理';break;
-          case 'SALEMAN_S': this.position = '业务经理';break;
-          case 'BILLDEP_APPROVE': this.position = '订单部';break;
-          case 'MANAGER': this.position = '中心总经理';break;
-          case 'MARKETCHECKER': this.position = '市场部';break;
-          case 'VSMAPPROVEXII': this.position = '销售总监';break;
-          case 'LEGALCHECK': this.position = '法务员';break;
-          
-        }
+      let position = this.$store.state.user.pos[0].position;
+      switch (position) {
+        case "SALEMAN_M":
+          this.position = "办事处经理";
+          break;
+        case "SALEMAN_S":
+          this.position = "业务经理";
+          break;
+        case "BILLDEP_APPROVE":
+          this.position = "订单部";
+          break;
+        case "MANAGER":
+          this.position = "中心总经理";
+          break;
+        case "MARKETCHECKER":
+          this.position = "市场部";
+          break;
+        case "VSMAPPROVEXII":
+          this.position = "销售总监";
+          break;
+        case "LEGALCHECK":
+          this.position = "法务员";
+          break;
+      }
     }
-   
   }
 };
 </script>
@@ -107,7 +115,7 @@ export default {
   top: 0;
   transform: translateY(20%);
 }
-.icon-new{
+.icon-new {
   width: 160px;
   height: 68px;
   background-image: url("http://14.29.221.109:10250/upload/images/玉兰家居logo.png");
@@ -147,32 +155,32 @@ export default {
 }
 </style>
 <style>
-.el-message-box__wrapper{
-    overflow-y: scroll;
-    overflow-x: hidden;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
+.el-message-box__wrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
- .el-message-box .el-popup-parent--hidden{
+.el-message-box .el-popup-parent--hidden {
   overflow-x: hidden !important;
   overflow-y: scroll !important;
 }
- .el-message-box .el-button--primary{
-    border-color:rgb(160, 212, 86) !important;
-    background-color:rgb(160, 212, 86) !important;
+.el-message-box .el-button--primary {
+  border-color: rgb(160, 212, 86) !important;
+  background-color: rgb(160, 212, 86) !important;
 }
-.el-message-box .el-button:hover{
-  border-color:rgb(160, 212, 86) !important;
+.el-message-box .el-button:hover {
+  border-color: rgb(160, 212, 86) !important;
   background-color: white !important;
-  color:rgb(160, 212, 86) !important;
+  color: rgb(160, 212, 86) !important;
 }
- .el-message-box .el-button--primary:hover{
-    border-color:rgb(160, 212, 86) !important;
-    background-color:rgb(160, 212, 86) !important;
-    color:white !important;
+.el-message-box .el-button--primary:hover {
+  border-color: rgb(160, 212, 86) !important;
+  background-color: rgb(160, 212, 86) !important;
+  color: white !important;
 }
 </style>

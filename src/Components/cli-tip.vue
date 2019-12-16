@@ -69,8 +69,6 @@ export default {
           })
           .then(res => {
             if (res.data != null) {
-              console.log("操作成功");
-              this.$alert("我已知悉上述条款");
               let info = res.data;
               this.$store.commit("setStorage", info);
             }

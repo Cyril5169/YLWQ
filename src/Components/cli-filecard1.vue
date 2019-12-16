@@ -293,8 +293,6 @@ export default {
           this.preferedbrand = newV.preferedbrand;
           this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
           this.databool2 = this.preferedbrand.indexOf("软装") != -1;
-        } else {
-          console.log("墙纸，软装都没有");
         }
         (this.shopArea = this.cardobj.shopArea), //店面面积
           (this.invAddress = this.cardobj.invAddress), //地址

@@ -410,12 +410,9 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       //判断支不支持FileReader
       if (!files.length) return;
-      // console.log(this.filesarr);
       var picavalue = files[0];
       var reader = new FileReader();
       reader.readAsDataURL(picavalue); //读取数据
-
-      console.log("图片大小" + picavalue.size / 1024);
       if (picavalue.size / 1024 > 500) {
         //如果图片大于500K则执行以下程序
         reader.onloadend = function() {
@@ -423,8 +420,6 @@ export default {
           let img = new Image();
           img.src = result;
           let fate = 500 / (picavalue.size / 1024);
-          // console.log('压缩比例为'+500/(picavalue.size/1024));
-          // console.log("********未压缩前的图片大小********"+result.length/1024);
           img.onload = function() {
             let data = self.compress(img, fate);
             let blob = self.dataURItoBlob(data);
@@ -479,8 +474,6 @@ export default {
                     res.data.data.path;
                   document.getElementById("show").src =
                     url + "?t=" + Math.random().toFixed(4);
-                  console.log(res.data.data);
-                  console.log("4张图片之一发送成功", url);
                 }
               })
               .catch(res => {
@@ -539,8 +532,6 @@ export default {
               self.filesarr[self.showImageIndex].posturl = res.data.data.path;
               document.getElementById("show").src =
                 url + "?t=" + Math.random().toFixed(4);
-              console.log(res.data.data);
-              console.log("4张图片之一发送成功", url);
             }
           })
           .catch(res => {
@@ -554,24 +545,16 @@ export default {
     },
     // 填写附件
     moreMessageInput() {
-      // if(this.only == false){
       this.showcliDepute = true;
-      // }
     },
     // 在附件中点击关闭传给父组件出发的函数，改变显示状态
     dispearDepute() {
       this.showcliDepute = false;
     },
-    //改变是否有配偶这个字段
-    // changePrivate(){
-    //     this.privateAccountAuthed = "Y";
-    //     console.log(this.privateAccountAuthed);
-    // },
     back() {
       this.$emit("bridgepre");
     },
     save() {
-      //   console.log(this.customerentitytypex);
       if (!this.check()) {
         return;
       }
@@ -615,7 +598,6 @@ export default {
       this.$emit("submitall");
     },
     submit() {
-      console.log(this.recordTitle);
       if (!this.check()) {
         return;
       }
@@ -770,10 +752,8 @@ export default {
       //显示小方块内容
       if (this.pickWay == "has-no") {
         this.isShow = true;
-        console.log(this.isShow);
       } else {
         this.isShow = false;
-        // this.addCheck = "";
       }
       //显示公司和个人信息填写
       if (this.pickWay != "has-has") {
@@ -817,7 +797,6 @@ export default {
           console.log(err);
         });
       this.areas1 = [];
-      // this.areas1 = this.areas1.slice(0,1);
     },
     city1(val, oldval) {
       this.$axios
@@ -1094,9 +1073,6 @@ export default {
       } catch (err) {
         console.log("有图片没路劲的会报错", err);
       }
-
-      console.log(this.filesarr);
-
       this.getWeiTuo();
     }
   },
@@ -1160,7 +1136,6 @@ export default {
     },
     //根据store来更新
     accountTypesList() {
-      // console.log("列表刷新了");
       if (this.$store.state.faPiao == "增值税专用发票") {
         if (
           this.accountType == "个体户：已取得税务登记证" ||
@@ -1171,7 +1146,6 @@ export default {
         }
         return ["公司：三证五证合一", "公司：三证五证未合一"];
       }
-      console.log("还会往下执行？");
       if (this.$store.state.faPiao == "不开发票") {
         if (this.pickWay == "no-no") {
           this.accountType = "个人";
@@ -1207,18 +1181,10 @@ export default {
           ];
         }
       }
-
-      // if(this.$store.state.faPiao == "不开发票")return ['公司：三证五证合一','公司：三证五证未合一','个体户：已取得税务登记证','个体户：未取得税务登记证','个人'];
-      // else{
-      //     if(this.accountType == "个体户：未取得税务登记证" || !this.accountType)this.accountType = "公司：三证五证合一";
-      //     return ['公司：三证五证合一','公司：三证五证未合一','个体户：已取得税务登记证','个人']
-      // }
-      // console.log("现在的那个什么鬼账号实体类型",this.accountTypeList);
     },
     faPiaoDisable() {
       if (this.$store.state.faPiao == "增值税专用发票") {
         this.pickWay = "has-has";
-        console.log("改变最后的经营方式", this.pickWay);
         return true;
       } else return false;
     }
@@ -1228,7 +1194,6 @@ export default {
       .post("/yulan/areaRegion/getProvince.do")
       .then(res => {
         this.provinces1 = this.provinces2 = res.data.province;
-        // console.log("省市县已经加载了");
       })
       .catch(err => {
         console.log(err);

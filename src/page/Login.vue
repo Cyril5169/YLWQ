@@ -151,11 +151,9 @@ export default {
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
-            console.log("成功", res.data);
             let info = res.data;
             //根据身份的种类跳转到不同的页面并带上token
             //这里应该要用vuex了吧，放token
-            // console.log('把登录人信息存进仓库');
             this.$store.commit("setStorage", info);
             if (!info.pos || info.pos.length == 1) {
               switch (info.data.type) {
@@ -179,9 +177,7 @@ export default {
             } else {
               this.dialogVisible = true;
               this.cName = this.$store.state.user.data.realName;
-              //   this.pos = this.$store.state.user.pos;
               for (let i = 0; i < info.pos.length; i++) {
-                //   console.log(info.pos[i].position);
                 switch (info.pos[i].position) {
                   case "SALEMAN_M":
                     this.pos[i] = "办事处经理(审核资料卡，填写修改协议)";
