@@ -1,92 +1,44 @@
 <template>
   <div class="wrapper-search">
     <span class="title">客户:</span>
-    <input
-      type="text"
-      list="cars"
-      v-model="searchContent"
-      @keydown="search"
-    >
-      <!-- @input="handleInput" -->
-    <!-- <datalist id="cars">
-      <option
-        v-for="item in searchlist"
-        :bname="item"
-        :key="item"
-      ></option>
-    </datalist> -->
+    <input type="text" list="cars" v-model="searchContent" @keydown="search" />
+    <div class="search" @click="search">查询</div>
 
-    <div
-      class="search"
-      @click="search"
-    >查询</div>
-    
     <span class="title">区域:</span>
     <!-- 第一级地址 -->
-    <el-select                   
+    <el-select
       v-model="area1"
       class="select"
       @change="filterArea1"
       v-show="this.position!='SALEMAN_S'"
     >
-      <el-option
-        v-for="item in options1"
-        :key="item.bname"
-        :label="item.bname"
-        :value="item.bname"
-        
-      ></el-option>
+      <el-option v-for="item in options1" :key="item.bname" :label="item.bname" :value="item.bname"></el-option>
     </el-select>
 
-<!-- 第二级地址 -->
+    <!-- 第二级地址 -->
     <el-select
       v-model="area2"
       class="select"
       @change="filterArea2"
       v-show="this.position!='SALEMAN_S'"
     >
-      <el-option
-        v-for="item in options2"
-        :key="item.sname"
-        :label="item.sname"
-        :value="item.sname"
-      ></el-option>
+      <el-option v-for="item in options2" :key="item.sname" :label="item.sname" :value="item.sname"></el-option>
     </el-select>
 
-<!-- 片区经理特殊对待地址 -->
+    <!-- 片区经理特殊对待地址 -->
     <el-select
       v-model="area2"
       class="select"
       @change="filterArea2"
       v-show="this.position=='SALEMAN_S'"
     >
-      <el-option
-        v-for="item in options4"
-        :key="item.sname"
-        :label="item.sname"
-        :value="item.sname"
-      ></el-option>
+      <el-option v-for="item in options4" :key="item.sname" :label="item.sname" :value="item.sname"></el-option>
     </el-select>
-<!--  -->
-    <span
-      class="title"
-      id="status"
-      v-show="flag"
-    >状态:</span>
-    <el-select
-      v-model="status"
-      class="select"
-      @change="filterStatus"
-      v-show="flag"
-    >
-      <el-option
-        v-for="item in options3"
-        :key="item.value"
-        :value="item.value"
-        :label="item.label"
-      ></el-option>
+    <!--  -->
+    <span class="title" id="status" v-show="flag">状态:</span>
+    <el-select v-model="status" class="select" @change="filterStatus" v-show="flag">
+      <el-option v-for="item in options3" :key="item.value" :value="item.value" :label="item.label"></el-option>
     </el-select>
-
   </div>
 </template>
 
@@ -95,7 +47,7 @@ export default {
   props: {
     flag: Boolean, //判断是否出现状态筛选框
     list: Array, //接受父组件传过来的showlist
-    area:Array
+    area: Array
   },
   data() {
     return {
@@ -105,58 +57,50 @@ export default {
         //二级联动的地址
         {
           bname: "显示全部",
-          Sarea: [{ sname: "显示全部"}]
+          Sarea: [{ sname: "显示全部" }]
         },
         {
           bname: "北京办事处",
           Sarea: [
             { sname: "显示全部" },
-            { sname: "河北省"},
-            { sname: "北京市"},
-            { sname: "天津市"}
+            { sname: "河北省" },
+            { sname: "北京市" },
+            { sname: "天津市" }
           ]
         },
         {
           bname: "太原办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "山西省"},
-            { sname: "内蒙古自治区"},
-            { sname: "粤北"}
+            { sname: "显示全部" },
+            { sname: "山西省" },
+            { sname: "内蒙古自治区" },
+            { sname: "粤北" }
           ]
         },
         {
           bname: "上海办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "上海市"},
-            { sname: "苏南"}
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "上海市" }, { sname: "苏南" }]
         },
         {
           bname: "南京办事处",
           Sarea: [
             { sname: "显示全部" },
             { sname: "江苏省" },
-            { sname: "安徽省"},
-            { sname: "苏南"},
-            { sname: "江苏其他"}
+            { sname: "安徽省" },
+            { sname: "苏南" },
+            { sname: "江苏其他" }
           ]
         },
         {
           bname: "杭州办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "浙江省"},
-            { sname: "浙南" }
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "浙江省" }, { sname: "浙南" }]
         },
         {
           bname: "广州办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "广东省"},
-            { sname: "粤北"},
+            { sname: "显示全部" },
+            { sname: "广东省" },
+            { sname: "粤北" },
             { sname: "粤西" }
           ]
         },
@@ -165,52 +109,48 @@ export default {
           Sarea: [
             { sname: "显示全部" },
             { sname: "广西省(桂柳邕)" },
-            { sname: "海南省"},
-            { sname: "广西其他"}
+            { sname: "海南省" },
+            { sname: "广西其他" }
           ]
         },
         {
           bname: "成都办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "四川省"},
-            { sname: "云南省"},
-            { sname: "西藏自治区"},
-            { sname: "川南"},
-            { sname: "川北"},
-            { sname: "成都市"}
+            { sname: "显示全部" },
+            { sname: "四川省" },
+            { sname: "云南省" },
+            { sname: "西藏自治区" },
+            { sname: "川南" },
+            { sname: "川北" },
+            { sname: "成都市" }
           ]
         },
         {
           bname: "重庆办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "贵州省"},
-            { sname: "重庆市"}
+            { sname: "显示全部" },
+            { sname: "贵州省" },
+            { sname: "重庆市" }
           ]
         },
         {
           bname: "郑州办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "河南省"},
-            { sname: "豫南" }
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "河南省" }, { sname: "豫南" }]
         },
         {
           bname: "济南办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "山东省"},
-            { sname: "鲁西南"}
+            { sname: "显示全部" },
+            { sname: "山东省" },
+            { sname: "鲁西南" }
           ]
         },
         {
           bname: "沈阳办事处",
           Sarea: [
-            { sname: "显示全部"  },
+            { sname: "显示全部" },
             { sname: "辽宁省" },
-            { sname: "辽西南"}
+            { sname: "辽西南" }
           ]
         },
         {
@@ -233,81 +173,63 @@ export default {
         {
           bname: "西安办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "陕西省"},
+            { sname: "显示全部" },
+            { sname: "陕西省" },
             { sname: "新疆维吾尔自治区" },
-            { sname: "陕南"}
+            { sname: "陕南" }
           ]
         },
         {
           bname: "长沙办事处" /*官网连着三个有问题*/,
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "湖南省"},
-            { sname: "湘中南"},
+            { sname: "显示全部" },
+            { sname: "湖南省" },
+            { sname: "湘中南" }
           ]
         },
-         {
+        {
           bname: "武汉办事处" /*官网连着三个有问题*/,
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "湖北省"},
-            { sname: "湖南省"},
-            { sname: "鄂西"}
+            { sname: "显示全部" },
+            { sname: "湖北省" },
+            { sname: "湖南省" },
+            { sname: "鄂西" }
           ]
         },
         {
           bname: "福州办事处",
           Sarea: [
-            { sname: "显示全部"},
-            { sname: "福建省"},
+            { sname: "显示全部" },
+            { sname: "福建省" },
             { sname: "江西省" }
           ]
         },
         {
           bname: "南昌办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "江西省"}
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "江西省" }]
         },
         {
           bname: "石家庄办事处",
-          Sarea: [
-            { bname: "显示全部"},
-            { bname: "河北省"}
-          ]
+          Sarea: [{ bname: "显示全部" }, { bname: "河北省" }]
         },
         {
           bname: "呼和浩特办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "内蒙古自治区" }
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "内蒙古自治区" }]
         },
         {
           bname: "合肥办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "安徽省"}
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "安徽省" }]
         },
         {
           bname: "昆明办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "云南省"}
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "云南省" }]
         },
         {
           bname: "贵阳办事处",
-          Sarea: [
-            { sname: "显示全部"},
-            { sname: "贵州省"}
-          ]
+          Sarea: [{ sname: "显示全部" }, { sname: "贵州省" }]
         }
       ],
-      options4:[],//专门给片区经理地区显示
+      options4: [], //专门给片区经理地区显示
       options3: [
         //状态选择栏
         { value: "显示全部", label: "显示全部" },
@@ -317,12 +239,12 @@ export default {
         { value: "BUSINESSCHECKING", label: "业务员审核中" },
         { value: "BIILDEPCHECKING", label: "订单部审核中" },
         { value: "APPROVED", label: "已通过" },
-        { value: 'SALEMANMODIFYING', label: "待修改协议书"}
+        { value: "SALEMANMODIFYING", label: "待修改协议书" }
       ],
       status: "显示全部", //三个v-model的值
       area1: "显示全部", //
       area2: "显示全部", //
-      position : this.$store.state.user.pos[0].position
+      position: this.$store.state.user.pos[0].position
     };
   },
   computed: {
@@ -359,7 +281,6 @@ export default {
             }
             ss.push(item);
           }
-      
         });
       }
     },
@@ -376,24 +297,23 @@ export default {
       this.$emit("filterArea2", this.area2);
     }
   },
-  watch:{
-    area(newV){
-       console.log('负责地区看这里');
-       console.log(newV);
-      if(this.position!='SALEMAN_S'){
-          let arr = [{
-          bname: "显示全部",
-          bid:'0',
-          Sarea: [{ sname: "显示全部"}]
-          }]
-        let newnewV = arr.concat(newV)
+  watch: {
+    area(newV) {
+      if (this.position != "SALEMAN_S") {
+        let arr = [
+          {
+            bname: "显示全部",
+            bid: "0",
+            Sarea: [{ sname: "显示全部" }]
+          }
+        ];
+        let newnewV = arr.concat(newV);
         this.options1 = newnewV;
-      }else{
-          this.options4 = newV;
+      } else {
+        this.options4 = newV;
       }
     }
   }
-
 };
 </script>
 

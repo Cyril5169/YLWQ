@@ -1,33 +1,25 @@
 <template>
   <div class="wrapper">
     <!-- <div class="space"></div> -->
-    <div
-      class="wangqian"
-      @click="show3=!show3"
-    >
-      <img
-        src="http://14.29.221.109:10250/upload/images/wangqian.png"
-        alt="签订年度协议"
-      >
+    <div class="wangqian" @click="show3=!show3">
+      <img src="http://14.29.221.109:10250/upload/images/wangqian.png" alt="签订年度协议" />
       <p>签订年度协议</p>
     </div>
-  
-  <el-collapse-transition>
-    <div v-show="show3">
-      <router-link
-      tag="li" 
-      v-for="(item,index) of items"
-      :key="index"
-      :to='item.router'
-      @click="handleRouter(item)"
-      style="cursor:pointer;"
-    >
-      <p>{{item.desc}}</p>
-    </router-link>
-    </div>
-  </el-collapse-transition>
 
-
+    <el-collapse-transition>
+      <div v-show="show3">
+        <router-link
+          tag="li"
+          v-for="(item,index) of items"
+          :key="index"
+          :to="item.router"
+          @click="handleRouter(item)"
+          style="cursor:pointer;"
+        >
+          <p>{{item.desc}}</p>
+        </router-link>
+      </div>
+    </el-collapse-transition>
   </div>
 </template>
 
@@ -37,25 +29,28 @@ export default {
   data() {
     return {
       show3: true,
-      isActive :true,
+      isActive: true,
       items: [
         {
           desc: "资料卡查询",
           router: "/server/card-gather"
-        },{
+        },
+        {
           desc: "待审核协议",
           router: "/server/pending-protocol"
-        },{
+        },
+        {
           desc: "审核过的协议",
           router: "/server/pended-protocol"
-        },{
+        },
+        {
           desc: "2019资料卡执行汇总",
           router: "/server/card-exe-gather"
         },
         {
           desc: "2019协议执行汇总",
           router: "/server/cert-exe-gather"
-        },
+        }
         // {
         //   desc: "待抽查资料卡",
         //   router: "/server/checkingCards"
@@ -74,13 +69,17 @@ export default {
       ]
     };
   },
-  mounted(){
-       let position =  this.$store.state.user.pos[0].position;//根据权限限制功能按键
-       if(position == "SALEMAN_M"||position =='SALEMAN_S'||position == 'BILLDEP_APPROVE') this.items = this.items.slice(0,1)
-       else if(position == 'VSMAPPROVEXII') this.items = this.items.slice(0,5)
-      //  else if(position == 'LEGALCHECK') this.items = this.items.slice(3,9)
-       else this.items = this.items.slice(0,3)
-
+  mounted() {
+    let position = this.$store.state.user.pos[0].position; //根据权限限制功能按键
+    if (
+      position == "SALEMAN_M" ||
+      position == "SALEMAN_S" ||
+      position == "BILLDEP_APPROVE"
+    )
+      this.items = this.items.slice(0, 1);
+    else if (position == "VSMAPPROVEXII") this.items = this.items.slice(0, 5);
+    //  else if(position == 'LEGALCHECK') this.items = this.items.slice(3,9)
+    else this.items = this.items.slice(0, 3);
   }
 };
 </script>
@@ -141,11 +140,11 @@ li p {
   color: white;
 }
 
-.router-link-exact-active{
+.router-link-exact-active {
   background-color: #151515;
 }
-.router-link-exact-active p::before{
-  content: '';
+.router-link-exact-active p::before {
+  content: "";
   position: absolute;
   width: 4px;
   height: 40px;
@@ -155,4 +154,3 @@ li p {
   border-radius: 2px;
 }
 </style>
-

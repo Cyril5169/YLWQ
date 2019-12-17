@@ -480,6 +480,7 @@ input:-webkit-autofill:active {
   padding-left: 20px;
 }
 .dialog a {
+  cursor: pointer;
   position: absolute;
   right: 10%;
   text-decoration: none;

@@ -33,8 +33,7 @@ export default {
     serSidebar,
     serSearch
   },
-  created() {
-  }
+  created() {}
 };
 </script>
 

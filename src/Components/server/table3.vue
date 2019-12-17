@@ -1,60 +1,67 @@
 <template>
-    <div class="wrapper">
-        <div class="protocol"><serProtocol :cid="this.ccid" :flag='1' @close="close" v-show="showProtocol"></serProtocol></div>
-        <ser-search 
-        :list='this.showlist' 
-        :flag='false'
-        :area='area'
-        @search='search'
-        @filterArea1 ='filterArea1'
-        @filterArea2 ='filterArea2'>
-        </ser-search>
-
-       <p class="title">审核过的协议</p>
-          <el-table :data="showlist" stripe   highlight-current-row style="width: 100%"  @row-click="rowClick"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            element-loading-spinner="el-icon-loading">
-          <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
-          <el-table-column prop="CNAME" label="客户名称" width="330"></el-table-column>
-          <el-table-column label="协议" width="160">
-            <template slot-scope="scope">
-            <p style="font-size:14px"> {{scope.row.MARKETNAME}}[{{scope.row.MARKETMANAGERNAME}}]</p>
-            <p style="font-size:14px;color:#409EFF"> {{scope.row.SUBMARKETNAME}}[{{scope.row.SUBMARKETMANAGERNAME}}]</p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="" label="协议" width="225">
-            <template slot-scope="scope">
-              <p style="font-size:14px">{{scope.row.none}}玉兰墙纸年度经销协议书-2019</p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="" label="协议状态" width="65">
-            <template slot-scope="scope">
-              <p style="font-size:14px;color:#409EFF">{{scope.row.none}}已通过</p>
-            </template>
-          </el-table-column>
-           <el-table-column prop="MARKET" label="市场部审批" width="100"></el-table-column>
-            <el-table-column prop="CSA" label="营销总监审批"></el-table-column>
-          <el-table-column  label="操作" width="60">
-          <template slot-scope="scope">
-            <el-button type="text" size="large" @click="verify">{{scope.row.none}}查看</el-button>
-          </template>
-          </el-table-column>
-        </el-table>
-
-
-      <ser-pagination 
-          :currentPage='this.currentPage'
-          :total = 'total'
-          :totalPage = 'totalPage'
-          @bridge1 = 'changeCurrentPage'
-          @bridge2 = 'changeCurrentPage'
-          @bridge3 = 'changeCurrentPage'
-          @bridge4 = 'changeCurrentPage'
-          >
-          </ser-pagination>
-
+  <div class="wrapper">
+    <div class="protocol">
+      <serProtocol :cid="this.ccid" :flag="1" @close="close" v-show="showProtocol"></serProtocol>
     </div>
+    <ser-search
+      :list="this.showlist"
+      :flag="false"
+      :area="area"
+      @search="search"
+      @filterArea1="filterArea1"
+      @filterArea2="filterArea2"
+    ></ser-search>
+
+    <p class="title">审核过的协议</p>
+    <el-table
+      :data="showlist"
+      stripe
+      highlight-current-row
+      style="width: 100%"
+      @row-click="rowClick"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+    >
+      <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
+      <el-table-column prop="CNAME" label="客户名称" width="330"></el-table-column>
+      <el-table-column label="协议" width="160">
+        <template slot-scope="scope">
+          <p style="font-size:14px">{{scope.row.MARKETNAME}}[{{scope.row.MARKETMANAGERNAME}}]</p>
+          <p
+            style="font-size:14px;color:#409EFF"
+          >{{scope.row.SUBMARKETNAME}}[{{scope.row.SUBMARKETMANAGERNAME}}]</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop label="协议" width="225">
+        <template slot-scope="scope">
+          <p style="font-size:14px">{{scope.row.none}}玉兰墙纸年度经销协议书-2019</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop label="协议状态" width="65">
+        <template slot-scope="scope">
+          <p style="font-size:14px;color:#409EFF">{{scope.row.none}}已通过</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="MARKET" label="市场部审批" width="100"></el-table-column>
+      <el-table-column prop="CSA" label="营销总监审批"></el-table-column>
+      <el-table-column label="操作" width="60">
+        <template slot-scope="scope">
+          <el-button type="text" size="large" @click="verify">{{scope.row.none}}查看</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <ser-pagination
+      :currentPage="this.currentPage"
+      :total="total"
+      :totalPage="totalPage"
+      @bridge1="changeCurrentPage"
+      @bridge2="changeCurrentPage"
+      @bridge3="changeCurrentPage"
+      @bridge4="changeCurrentPage"
+    ></ser-pagination>
+  </div>
 </template>
 
 
@@ -74,13 +81,13 @@ export default {
       ccid: "",
       showProtocol: false,
       position: this.$store.state.user.pos[0].position,
-      cid : this.$store.state.user.data.loginName,
+      cid: this.$store.state.user.data.loginName,
 
-      area:[],//当前账号所管辖的地区，大区或片区
-      
-      nowarea1:'',/***从筛选子组件拿到的三个筛选条件 */
-      nowarea2:'',
-      loading:false
+      area: [], //当前账号所管辖的地区，大区或片区
+
+      nowarea1: "" /***从筛选子组件拿到的三个筛选条件 */,
+      nowarea2: "",
+      loading: false
     };
   },
   computed: {
@@ -110,18 +117,17 @@ export default {
           year: this.$store.state.year,
           // area_1: "",
           // area_2: "",
-          area_1:  this.nowarea1,
+          area_1: this.nowarea1,
           area_2: this.nowarea2,
           find: "",
-          need:"checkover",
+          need: "checkover",
           cid: this.cid,
-          position:this.position
+          position: this.position
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
             this.total = res.data.count;
-            console.log(this.showlist);
             this.loading = false;
           }
         })
@@ -140,15 +146,14 @@ export default {
           area_1: "",
           area_2: "",
           find: ae,
-          need:"checkover",
+          need: "checkover",
           cid: this.cid,
-          position:this.position
+          position: this.position
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
             this.total = res.data.count;
-            console.log(this.showlist);
             this.loading = false;
           }
         })
@@ -157,10 +162,10 @@ export default {
         });
     },
     filterArea1(ae) {
-       this.loading = true;
+      this.loading = true;
       //一级地区筛选功能
       if (ae == "显示全部") ae = "";
-       this.nowarea1 = ae;
+      this.nowarea1 = ae;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
           limit: "10",
@@ -169,16 +174,15 @@ export default {
           area_1: ae,
           area_2: "",
           find: "",
-          need:"checkover",
+          need: "checkover",
           cid: this.cid,
-          position:this.position
+          position: this.position
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
             this.total = res.data.count;
-            console.log(this.showlist);
-             this.loading = false;
+            this.loading = false;
           }
         })
         .catch(function(err) {
@@ -186,10 +190,10 @@ export default {
         });
     },
     filterArea2(ae) {
-       this.loading = true;
+      this.loading = true;
       //二级地区筛选功能
       if (ae == "全部") ae = "";
-        this.nowarea2 = ae;
+      this.nowarea2 = ae;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
           limit: "10",
@@ -198,16 +202,15 @@ export default {
           area_1: "",
           area_2: ae,
           find: "",
-          need:"checkover",
+          need: "checkover",
           cid: this.cid,
-          position:this.position
+          position: this.position
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
             this.total = res.data.count;
-            console.log(this.showlist);
-             this.loading = false;
+            this.loading = false;
           }
         })
         .catch(function(err) {
@@ -216,21 +219,7 @@ export default {
     }
   },
   mounted() {
-     this.loading = true;
-    console.log('当前权限'+this.position);
-    console.log({
-        limit: "10",
-        page: "1",
-        year: this.$store.state.year,
-        area_1: "",
-        area_2: "",
-        find: "",
-        need:"checkover",
-        cid: this.cid,
-        position:this.position
-        
-      });
-    
+    this.loading = true;
     this.$axios
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
         limit: "10",
@@ -239,29 +228,24 @@ export default {
         area_1: "",
         area_2: "",
         find: "",
-        need:"checkover",
+        need: "checkover",
         cid: this.cid,
-        position:this.position
-        
+        position: this.position
       })
       .then(res => {
         if (res.data != null && res.data.code == 0) {
-          
-           if(Array.isArray(res.data.area)){
-               this.area = res.data.area
+          if (Array.isArray(res.data.area)) {
+            this.area = res.data.area;
           }
           this.showlist = res.data.data;
           this.total = res.data.count;
-          console.log(this.showlist);
-           console.log('没报错了，解除动画');
-           this.loading = false;
+          this.loading = false;
         }
       })
       .catch(function(err) {
         console.log(err);
       });
-  },
-
+  }
 };
 </script>
 
