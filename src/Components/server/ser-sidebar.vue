@@ -44,11 +44,11 @@ export default {
           router: "/server/pended-protocol"
         },
         {
-          desc: "2019资料卡执行汇总",
+          desc: "资料卡执行汇总",
           router: "/server/card-exe-gather"
         },
         {
-          desc: "2019协议执行汇总",
+          desc: "协议执行汇总",
           router: "/server/cert-exe-gather"
         }
         // {

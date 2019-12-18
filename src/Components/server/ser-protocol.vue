@@ -6,6 +6,7 @@
       <!-- 确认退回按钮 -->
       <div class="button">
         <button @click="queding">确认</button>
+        <button @click="OutWord">导出Word</button>
         <button @click="showReason" v-show="flag == '0' ">退回</button>
       </div>
 
@@ -89,6 +90,111 @@ export default {
       },
   },
   methods:{
+    getExplorer() {
+      var explorer = window.navigator.userAgent;
+      //判断是否为IE浏览器
+      if (explorer.indexOf("MSIE") >= 0) {
+        return "ie";
+      }
+      //判断是否为Firefox浏览器
+      else if (explorer.indexOf("Firefox") >= 0) {
+        return "Firefox";
+      }
+      //判断是否为Chrome浏览器
+      else if (explorer.indexOf("Chrome") >= 0) {
+        return "Chrome";
+      }
+      //判断是否为Opera浏览器
+      else if (explorer.indexOf("Opera") >= 0) {
+        return "Opera";
+      }
+      //判断是否为Safari浏览器
+      else if (explorer.indexOf("Safari") >= 0) {
+        return "Safari";
+      }
+    },
+    tableExport(type) {
+      var doc = "";
+      // doc += "<table>";
+      // var html = document.getElementById("PrintDiv1").innerHTML;
+        var html= this.b2b2;
+      doc += html;
+          // doc = doc.replace(/<p></p>/g, '');
+          // doc = doc.replace(/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/g, '');
+      // doc = doc.replace(/border="0"/g, 'border="1"');全局替换
+      // doc = doc.replace(
+      //   /<th class=\"gutter\" style=\"width: 0px; display: none;\"><\/th>/g,
+      //   ""
+      // );
+
+      ////var end = doc.substring(doc.length - 1000, doc.length);
+
+      // doc = doc.replace(
+      //   '<h2 data-v-864abbe2="" style="margin: 0px;">广东玉兰集团股份有限公司对账单</h2>',
+      //   '<div style="margin: 10px auto;  width:1000px; font-size:20px;"> <table> <tr><td data-v-864abbe2="" colspan="8" align="center" class="grayTD"><h2 data-v-864abbe2="" style="margin: 0px;">广东玉兰集团股份有限公司对账单</h2></td><td data-v-864abbe2="" colspan="5" align="center"></td> </tr></table></div>'
+      // );
+      // doc += "</table>";
+
+      var docFile =
+        "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:" +
+        doc +
+        "' xmlns='http://www.w3.org/TR/REC-html40'>";
+      docFile =
+        docFile +
+        "<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>" +
+        doc +
+        "</body></html>";
+
+      var base64data =
+        "base64," + window.btoa(unescape(encodeURIComponent(docFile)));
+      if (type == "doc") {
+        window.open("data:application/msword;" + base64data);
+      } else if (type == "excel") {
+        window.open("data:application/vnd.ms-excel;" + base64data);
+      }
+    },
+      OutWord() {
+      if (this.getExplorer() == "ie") {
+        this.$alert("请换火狐或谷歌浏览器下载！", "提示", {
+          confirmButtonText: "确定",
+          type: "danger"
+        });
+        // var curTbl = document.getElementById("PrintDiv1");
+        // var oXL = new ActiveXObject("Excel.Application");
+        // //创建AX对象excel
+        //   var oWB = oXL.Workbooks.Add();
+        //   //获取workbook对象
+        //   var xlsheet = oWB.Worksheets(1);
+        //   //激活当前sheet
+        //   var sel = document.body.createTextRange();
+        //     sel.moveToElementText(curTbl);
+        //   //把表格中的内容移到TextRange中
+        //   sel.select;
+        //   //全选TextRange中内容
+        //   sel.execCommand("Copy");
+        //   //复制TextRange中内容
+        //   xlsheet.Paste();
+        //   //粘贴到活动的EXCEL中
+        //   oXL.Visible = true;
+        //   //设置excel可见属性
+        //   try {
+        //               var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");
+        //           } catch (e) {
+        //               print("Nested catch caught " + e);
+        //           } finally {
+        //               oWB.SaveAs(fname);
+        //               oWB.Close(savechanges = false);
+        //               //xls.visible = false;
+        //               oXL.Quit();
+        //               oXL = null;
+        //               //结束excel进程，退出完成
+        //               //window.setInterval("Cleanup();",1);
+        //               idTmr = window.setInterval("Cleanup();", 1);
+        //           }
+      } else {
+        this.tableExport("doc");
+      }
+    },
     showReason(){
       this.hide = true;
       // this.$refs.tuihuiBtn.scrollIntoView();
