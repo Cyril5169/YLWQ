@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.11",
+    "js-cookie": "^2.2.1",
     "v-distpicker": "^1.0.21",
     "vue": "^2.5.2",
     "vue-photo-preview": "^1.1.2",

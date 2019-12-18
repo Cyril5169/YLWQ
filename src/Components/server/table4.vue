@@ -1,80 +1,145 @@
 <template>
+
   <div class="table4">
-    <p class="title">2019网签资料卡执行汇总</p>
-    <el-table :data="showlist" stripe style="width: 100%"  @row-click="rowClick">
-      <el-table-column label="资料卡状态" :formatter="statusFormatter" prop="STATE"></el-table-column>
-      <el-table-column label="统计数" prop="COUNT(STATE)"></el-table-column>
+    <div class="wrapper-search">
+       <span class="title">年份:</span>
+    <el-select                   
+      v-model="str_year"
+      class="select"
+      @change="SelectYear"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.CYEAR"
+        :label="item.STR_YEAR"
+        :value="item.CYEAR"
+      ></el-option>
+    </el-select>
+    </div>
+    <p class="title">{{str_year}}网签资料卡执行汇总 <el-button @click="CardTotalExcel()" type="text" >xls</el-button></p>
+    <el-table 
+    :data="showlist" 
+    stripe style="width: 100%"
+     v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+     @row-click="rowClick">
+      <el-table-column label="资料卡状态" prop="STATE" :formatter="statusFormatter" ></el-table-column>
+      <el-table-column label="统计数" prop="QTY"></el-table-column>
     </el-table>
 
-    <p class="title">2019网签资料卡执行汇总(按大区)</p>
-    <el-table :data="showlist2" stripe style="width: 100%" height="450" @row-click="rowClick">
-      <el-table-column label="大区" prop="MARKETNAME"></el-table-column>
-      <el-table-column label="业务经理" prop="MARKETMANAGERNAME"></el-table-column>
-      <el-table-column label="资料卡状态"  :formatter="statusFormatter" prop="STATE"></el-table-column>
-      <el-table-column label="统计数" prop="COUNT(STATE)"></el-table-column>
+    <p class="title">{{str_year}}网签资料卡执行汇总(按大区) <el-button @click="CardExcel()" type="text" >xls</el-button></p>
+    <el-table :data="showlist2" stripe style="width: 100%" height="450" @row-click="rowClick"
+    v-loading="loading1"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
+      <el-table-column label="大区" prop="MARKETING_CENTER"></el-table-column>
+      <el-table-column label="办事处" prop="MARKETNAME"></el-table-column>
+      <el-table-column label="资料卡状态" prop="STATE" :formatter="statusFormatter"></el-table-column>
+      <el-table-column label="统计数" prop="QTY"></el-table-column>
     </el-table>
 
-  
   </div>
 </template>
-
-
 <script>
+import {
+  SearchCardList,
+  SearchCardTotal,
+  CardExcel,
+  GetCardYear,
+} from "@/api/table4ASP";
+import { downLoadFile } from "@/common/js/downLoadFile";
 import serSearch from "@/Components/server/ser-search";
 import serPagination from "@/Components/server/ser-pagination";
 
 export default {
   name: "table4",
   components: { serSearch, serPagination },
-  data(){
-    return{
-      showlist:[],
-      showlist2:[]
-    }
+
+  data() {
+    return {
+       str_year:new Date().getFullYear(),
+          // str_year:'2018年',
+        options: [],
+      showlist: [],
+      loading : false,//控制加载遮罩
+      loading1 : false,//控制加载遮罩
+      showlist2: []
+    };
   },
-  methods:{
-      rowClick(row,event,column){
-        console.log(row)
+  methods: {
+    SelectYear(){
+      this.ShowCard();
+    this.ShowCard2();
+    },
+
+      ShowCard() {
+        this.loading=true;
+      var data = {
+        year: "2019",
+      };
+      SearchCardTotal(data).then(res => {
+        this.showlist = res.data;
+        this.loading=false;
       },
-      statusFormatter(row, column) {  //状态格式化变成中文
+      );
+    },
+      ShowCard2() {
+      this.loading1=true;
+      var data = {
+        year: "2019",
+      };
+      SearchCardList(data).then(res => {
+        this.showlist2 = res.data;
+         this.loading1=false;
+      },
+      );
+    },
+     CardTotalExcel() {
+      var year = "2019";
+      downLoadFile(
+        this.Global.baseUrl + `PUR_HEAD/CardTotalExcel?year=${year}`
+      );
+    },
+      CardExcel() {
+      var year = "2019";
+      downLoadFile(
+        this.Global.baseUrl + `PUR_HEAD/CardExcel?year=${year}`
+      );
+    },
+       CardYear() {
+      var data = {
+        year: "2019",
+      };
+      GetCardYear(data).then(res => {
+        this.options=res.data; 
+        //  this.options.push(res.data);
+        // console.log(this.options);
+      },
+      );
+    },
+    rowClick(row, event, column) {
+      // console.log(row.STATE);
+    },
+    statusFormatter(row, column) {
+      //状态格式化变成中文
       let status = row.STATE;
-      if (status == "1234") return "测试专用";
-      if (status == "APPROVED") return "已通过";
-      if (status == "CUSTOMERPORCESSING") return "客户填写中";
+     if (status == "CUSTOMERPORCESSING") return "客户填写中";
       if (status == "CUSTOMERPORCESSING2") return "客户修改中";
       if (status == "BUSINESSCHECKING") return "业务员审核中";
-      if (status == "ONCREATE") return "初始状态";
-      if (status == "BIILDEPCHECKING") return "订单部审核中"
-      if (status == "SALEMANMODIFYING") return "业务员修改中";//修改协议书
-    },
+      if (status == "BIILDEPCHECKING") return "订单部审核中";
+      if (status == "APPROVED") return "已通过";
+
+    if (status == "ONCREATE") return "初始状态";
+     if (status == "1234") return "测试专用";
+      if(status == ""||status ==null)  return "未知状态";
+    }
   },
-  created(){
-     this.$axios.post("/yulan/customerInfo/getAllCustomerInfoCardState.do", {
-        year: "2018",
-      })
-      .then(res => {
-        if (res.data != null) {
-          this.showlist = res.data;
-          console.log(this.showlist); 
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-      this.$axios.post("/yulan/customerInfo/getCustomerInfoCardStateByArea.do", {
-        year: "2018",
-      })
-      .then(res => {
-        if (res.data != null) {
-          this.showlist2 = res.data;
-          // console.log(this.showlist); 
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+  created() {
+  this.CardYear();
+    this.ShowCard();
+    this.ShowCard2();
   }
-  
 };
 </script>
 
@@ -103,5 +168,8 @@ tr th {
 }
 td {
   text-align: center !important;
+}
+.title .el-button {
+    font-size: 20px;
 }
 </style>
