@@ -119,7 +119,21 @@ export default {
       // var html = document.getElementById("PrintDiv1").innerHTML;
         var html= this.b2b2;
       doc += html;
-          // doc = doc.replace(/<p></p>/g, '');
+        // doc = doc.replace('body style="','body style="font-size:30px; ');子节点设立了样式所有无效
+     
+          doc = doc.replace(/\<p\>&nbsp;\<\/p\>/g, '');
+          doc = doc.replace(/\<p\>\<\/p\>/g, '');
+          doc = doc.replace(/&nbsp;&nbsp;/g, '');
+          doc = doc.replace(/&nbsp; &nbsp;/g, '');
+          doc = doc.replace(/\<p\>/g, '<p style="font-size:14px;margin:0px">');
+          doc = doc.replace(/\<p style="text-indent: 2em;"\>/g, '<p style="font-size:14px;margin:0px">');
+          doc = doc.replace(/table width="850"/g, 'table width="550"');
+          doc = doc.replace('">内部编号：', ';text-align: left;margin-left:400px">内部编号：');
+            doc = doc.replace('">签约地点：', ';text-align: left;margin-left:400px">签约地点：');
+            doc = doc.replace('">经双方友好', ';text-align: left;text-indent: 2em;">经双方友好');
+          doc = doc.replace('<p style="text-align: center;">广东玉兰集团年度经销协议书</p>', '<p style="text-align: center;font-size:18.6px;font-weight:bold; ">广东玉兰集团年度经销协议书</p>'); 
+          //  doc = doc.replace('style=font-family: \'SimSun\'\"', 'style=\"font-family: \'SimSun\';\"font-size:\'10px\' \"\"');
+        
           // doc = doc.replace(/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/g, '');
       // doc = doc.replace(/border="0"/g, 'border="1"');全局替换
       // doc = doc.replace(
@@ -127,7 +141,7 @@ export default {
       //   ""
       // );
 
-      ////var end = doc.substring(doc.length - 1000, doc.length);
+      var end = doc.substring(doc.length - 4000, doc.length);
 
       // doc = doc.replace(
       //   '<h2 data-v-864abbe2="" style="margin: 0px;">广东玉兰集团股份有限公司对账单</h2>',
