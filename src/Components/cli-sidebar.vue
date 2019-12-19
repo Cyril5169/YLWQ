@@ -1,27 +1,17 @@
 <template>
   <div class="wrapper">
-    <!-- <div class="space"></div> -->
     <div class="wangqian" @click="show3=!show3">
-      <img src="http://14.29.221.109:10250/upload/images/wangqian.png" alt="签订年度协议" />
+      <img src="../assets/images/wangqian.png" alt="签订年度协议" />
       <p>签订年度协议</p>
     </div>
 
     <el-collapse-transition>
       <div v-show="show3">
-        <!-- <router-link
-      tag="li" 
-      v-for="(item,index) of items"
-      :key="index"
-      :to='item.router'
-       @click="handleRouter(item)"
-      >
-      <p>{{item.desc}}</p>
-        </router-link>-->
         <li
           v-for="(item,index) of items"
           :key="index"
           @click="handleRouter(item,index)"
-          v-bind:class="{ currentPage:index==current}"
+          v-bind:class="{ currentPage:index==currentUrl}"
           style="cursor:pointer;"
         >
           <p>{{item.desc}}</p>
@@ -32,11 +22,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "cli-sidebar",
   data() {
     return {
-      current: 0,
       show3: true,
       isActive: true,
       items: [
@@ -45,11 +36,11 @@ export default {
           router: "/client/tip"
         },
         {
-          desc: "2019资料卡",
+          desc: "资料卡建立",
           router: "/client/cards"
         },
         {
-          desc: "2019玉兰墙纸经销协议书",
+          desc: "玉兰墙纸经销协议书",
           router: "/client/protocol"
         },
         {
@@ -59,10 +50,13 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapState(["currentUrl"])
+  },
   methods: {
     handleRouter(item, index) {
       if (this.$store.state.user.data.userState == "1") {
-        this.current = index;
+        this.$store.commit("setCurrentUrl", index);
         this.$router.push({ path: item.router });
       }
       if (this.$store.state.user.data.userState != "1") {
@@ -93,13 +87,13 @@ export default {
   },
   mounted() {
     if (this.$store.state.user.data.userState == "1") {
-      this.current = 1;
-      this.$router.replace({ path: "/client/cards" });
+      this.$store.commit("setCurrentUrl", 1);
+      if (window.location.href.split("#/")[1] != "client/cards")
+        this.$router.replace({ path: "/client/cards" });
     }
   }
 };
 </script>
-
 
 <style scoped>
 .wrapper {
@@ -158,7 +152,6 @@ li p {
   line-height: 16px;
   color: white;
 }
-
 .currentPage {
   background-color: #151515;
 }
@@ -172,5 +165,17 @@ li p {
   left: 8px;
   border-radius: 2px;
 }
+.router-link-exact-active {
+  background-color: #151515;
+}
+.router-link-exact-active p::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 40px;
+  background-color: #a5d050;
+  top: 11px;
+  left: 8px;
+  border-radius: 2px;
+}
 </style>
-

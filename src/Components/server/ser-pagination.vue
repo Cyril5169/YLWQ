@@ -72,7 +72,7 @@ export default {
   display: flex;
   flex-direction: row;
   float: right;
-  padding-top: 15px;
+  padding: 15px 0;
   vertical-align: middle;
 }
 

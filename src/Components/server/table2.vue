@@ -1,5 +1,6 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper_inner">
+    <div class="scroll" ref="verifysLeap"></div>
     <div class="protocol">
       <serProtocol
         :cid="this.ccid"
@@ -97,6 +98,7 @@ export default {
   },
   methods: {
     verify() {
+      this.$refs.verifysLeap.scrollIntoView();
       this.showProtocol = true;
     },
     close(close) {
@@ -293,13 +295,19 @@ export default {
   font-size: 20px;
   margin-bottom: 20px;
 }
-
+.scroll {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  position: absolute;
+  top: -150px;
+}
 .protocol {
-  width: 1000px;
+  width: 180%;
   widows: 655px;
   position: absolute;
-  top: 33px;
-  left: 55px;
+  top: -20px;
+  left: 10%;
   z-index: 100;
 }
 </style>

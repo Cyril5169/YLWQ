@@ -3,7 +3,7 @@
     <div class="content">
       <div class="filesLeft">
         <div class="person">
-          <img src="http://14.29.221.109:10250/upload/images/头像.png" />
+          <img src="../assets/images/头像.png" />
           <span class="cliName">{{cardobj.cname}}</span>
         </div>
         <div class="intention">

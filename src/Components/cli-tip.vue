@@ -98,7 +98,6 @@ export default {
 <style scoped>
 .wrapper-tip {
   font-family: "微软雅黑";
-  margin-top: 4rem;
   box-sizing: border-box;
   width: 100%;
   height: 1100px;

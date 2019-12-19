@@ -5,90 +5,86 @@
       <div class="title">受委托人银行信息</div>
       <div class="input">
         <label for="name">姓名:</label>
-        <input type="text" id="name" v-model="name" readonly>
+        <input type="text" id="name" v-model="name" readonly />
       </div>
       <div class="input">
         <label for="idcardNo">身份证号:</label>
-        <input type="text" id="idcardNo" v-model="idcardNo" readonly>
+        <input type="text" id="idcardNo" v-model="idcardNo" readonly />
       </div>
       <div class="input">
         <label for="bank">开户银行:</label>
-        <input type="text" id="bank" v-model="accountBank" readonly>
+        <input type="text" id="bank" v-model="accountBank" readonly />
       </div>
       <div class="input">
         <label for="accout">银行账户:</label>
-        <input type="text" id="accout" v-model="accout" readonly>
+        <input type="text" id="accout" v-model="accout" readonly />
       </div>
       <div class="input">
         <label for="address">银行所在地:</label>
-        <input type="text" id="address" v-model="accountLocation" readonly>
+        <input type="text" id="address" v-model="accountLocation" readonly />
       </div>
       <!-- <div class="tips">
         <p>*限jpg或jpeg格式，图片大小限制在2M以内，若无法处理请联系业务员</p>
         <p>*委托人下载《授权付款委托书》后填写，并有双方的签字按印，将填写后的《授权付款委托书》扫描或拍照，在本页上传</p>
-      </div> -->
- 
-       <!-- <div class="button submit" @click="submit">提交</div> -->
+      </div>-->
 
-    
+      <!-- <div class="button submit" @click="submit">提交</div> -->
     </div>
 
     <div class="right">
       <!-- 1-授权付款委托书 -->
-       <div class="picture">
-            <p>1-《授权付款委托书》</p>
-            <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl1)">
-            <img alt="" :src="imageUrl1">
-            <!-- <input type="file" accept="image/jpg,image/jpeg" name=""  id="a1"  @change="handleUpload1"> -->
-            <!-- <label for="a1"><p v-show="!imageUrl1" class="shangchuan">上传文件</p></label> -->
-          </div>
+      <div class="picture">
+        <p>1-《授权付款委托书》</p>
+        <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl1)">
+          <img alt :src="imageUrl1" />
+          <!-- <input type="file" accept="image/jpg,image/jpeg" name=""  id="a1"  @change="handleUpload1"> -->
+          <!-- <label for="a1"><p v-show="!imageUrl1" class="shangchuan">上传文件</p></label> -->
         </div>
+      </div>
 
       <!-- 2-身份证正面 -->
       <div class="picture">
-            <p>2-身份证正面</p>
-            <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl2)">
-            <img alt="" :src="imageUrl2">
-            <!-- <input type="file" accept="image/jpg,image/jpeg" name="" id="a2"   @change="handleUpload2"> -->
-            <!-- <label for="a2"><p v-show="!imageUrl2" class="shangchuan">上传文件</p></label> -->
-          </div>
+        <p>2-身份证正面</p>
+        <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl2)">
+          <img alt :src="imageUrl2" />
+          <!-- <input type="file" accept="image/jpg,image/jpeg" name="" id="a2"   @change="handleUpload2"> -->
+          <!-- <label for="a2"><p v-show="!imageUrl2" class="shangchuan">上传文件</p></label> -->
         </div>
+      </div>
 
       <!--3-身份证背面 -->
-        <div class="picture">
-            <p>3-身份证背面</p>
-            <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl3)">
-            <img alt="" :src="imageUrl3">
-            <!-- <input type="file" accept="image/jpg,image/jpeg" name=""  id="a3"  @change="handleUpload3"> -->
-            <!-- <label for="a3"><p v-show="!imageUrl3" class="shangchuan">上传文件</p></label> -->
-          </div>
+      <div class="picture">
+        <p>3-身份证背面</p>
+        <div class="avatar-uploader pic" @click="changeOuterPhoto2(imageUrl3)">
+          <img alt :src="imageUrl3" />
+          <!-- <input type="file" accept="image/jpg,image/jpeg" name=""  id="a3"  @change="handleUpload3"> -->
+          <!-- <label for="a3"><p v-show="!imageUrl3" class="shangchuan">上传文件</p></label> -->
         </div>
+      </div>
 
-
-      <div  class="button close" @click="dispear" >关闭</div>
-
+      <div class="button close" @click="dispear">关闭</div>
     </div>
   </div>
 </template>
 
 <script>
-var remoteImageURL = "http://14.29.221.109:10250/upload"
+var remoteImageURL = "http://14.29.221.109:10250/upload";
 export default {
-name: "ser-depute",
-props:{
-    ccid:"",
-},
-data() {
+  name: "ser-depute",
+  props: {
+    ccid: ""
+  },
+  data() {
     return {
       show: true,
       name: "", //姓名
-      idcardNo:"",//身份证号
+      idcardNo: "", //身份证号
       accountBank: "", //开户银行
       accout: "", //银行账户
       accountLocation: "", //银行所在地
       imageUrl1: "", //三张图片绑定的url
       imageUrl2: "",
-      imageUrl3: "",
+      imageUrl3: ""
       // province:'',//公司-省
       // city:'',//市
       // area:'',//县
@@ -110,7 +106,7 @@ data() {
       // }
     };
   },
-  watch:{
+  watch: {
     // province(val,oldval){
     //     this.$axios.post('/yulan/areaRegion/getCity.do',this.province)
     //     .then((res)=>{
@@ -130,28 +126,29 @@ data() {
     //         console.log(err);
     //     })
     // },
-    ccid(newV){
-      console.log("拿到ccid了"+ this.ccid);
-      this.$axios.post('/yulan/customerInfo/getYLcontract.do',{
-        // "ccid":"C15056"
-        // "ccid":this.ccid,
-        "ccid":newV,
-        "ccyear":this.$store.state.year
-      })
-      .then(res=>{
-          console.log("审核时展示委托人信息",res.data.data);
+    ccid(newV) {
+      console.log("拿到ccid了" + this.ccid);
+      this.$axios
+        .post("/yulan/customerInfo/getYLcontract.do", {
+          // "ccid":"C15056"
+          // "ccid":this.ccid,
+          ccid: newV,
+          ccyear: this.$store.state.year
+        })
+        .then(res => {
+          console.log("审核时展示委托人信息", res.data.data);
           this.imageUrl1 = remoteImageURL + res.data.data.authfileIamge;
           this.imageUrl2 = remoteImageURL + res.data.data.idcardIamge1;
-          this.imageUrl3 = remoteImageURL + res.data.data.idcardIamge2;    
-          this.name = res.data.data.name, //姓名
-          this.idcardNo = res.data.data.idcardNo,//身份证号
-          this.accountBank = res.data.data.accountBank, //开户银行
-          this.accout = res.data.data.accout, //银行账户
-          this.accountLocation = res.data.data.accountLocation //银行所在地           
-      })
-      .catch(err=>{
-        console.log("审核时拿委托信息失败",err)
-      })
+          this.imageUrl3 = remoteImageURL + res.data.data.idcardIamge2;
+          (this.name = res.data.data.name), //姓名
+            (this.idcardNo = res.data.data.idcardNo), //身份证号
+            (this.accountBank = res.data.data.accountBank), //开户银行
+            (this.accout = res.data.data.accout), //银行账户
+            (this.accountLocation = res.data.data.accountLocation); //银行所在地
+        })
+        .catch(err => {
+          console.log("审核时拿委托信息失败", err);
+        });
     }
   },
   // mounted(){
@@ -163,13 +160,21 @@ data() {
   //   })
   // },
   methods: {
-    changeOuterPhoto(value){
-      this.$emit('showDeputePhoto',value);
+    changeOuterPhoto(value) {
+      this.$emit("showDeputePhoto", value);
     },
-    changeOuterPhoto2(value){
-      var l =(screen.availWidth-667)/2;
-      var t =(screen.availHeight-885)/2;        
-      window.open(value,'newWin','width=667,height=885,top='+t+',left='+l+',toolbar=no,menubar=no,location=no,status=yes');
+    changeOuterPhoto2(value) {
+      var l = (screen.availWidth - 667) / 2;
+      var t = (screen.availHeight - 885) / 2;
+      window.open(
+        value,
+        "newWin",
+        "width=667,height=885,top=" +
+          t +
+          ",left=" +
+          l +
+          ",toolbar=no,menubar=no,location=no,status=yes"
+      );
     },
     // handleUpload1(e) {
     //   let files = e.target.files || e.dataTransfer.files;
@@ -195,7 +200,7 @@ data() {
     //          this.imageUrl1 = remoteImageURL+ this.authfileIamge;
     //          console.log("第一张上传图片成功" + this.authfileIamge);
     //         // console.log("预览图片路径是"+this.imageUrl1);
-            
+
     //       }
     //     })
     //     .catch(err => {
@@ -264,7 +269,7 @@ data() {
     // },
     dispear() {
       this.$emit("dispearDepute");
-    },
+    }
     // save: function() {
     //   alert("信息提交成功");
     // },
@@ -282,15 +287,15 @@ data() {
     //       console.log("错误", err);
     //     });
     // }
-  },
+  }
   // computed:{
-    // accountLocation(){
-    //   if(!this.city.regionName)
-    //     return this.province.regionName;
-    //     else if(!this.area.regionName)
-    //     return this.province.regionName + '-' + this.city.regionName;
-    //     else return this.province.regionName + '-' + this.city.regionName + '-' + this.area.regionName;
-    // }
+  // accountLocation(){
+  //   if(!this.city.regionName)
+  //     return this.province.regionName;
+  //     else if(!this.area.regionName)
+  //     return this.province.regionName + '-' + this.city.regionName;
+  //     else return this.province.regionName + '-' + this.city.regionName + '-' + this.area.regionName;
+  // }
   // },
 };
 </script>
@@ -324,27 +329,27 @@ data() {
   margin: 20px 45px;
   font-size: 18px;
 }
-.address-wrapper{
-  padding-left:30px;
+.address-wrapper {
+  padding-left: 30px;
 }
-.address-wrapper:after{
-  content:"";
+.address-wrapper:after {
+  content: "";
   clear: both;
   display: block;
 }
-.address-wrapper select{
-  width:201px;
-  height:25px;
-  border:solid 1px #a0a0a0;
-  padding:0 10px;
+.address-wrapper select {
+  width: 201px;
+  height: 25px;
+  border: solid 1px #a0a0a0;
+  padding: 0 10px;
   font-size: 14px;
   outline: none;
-  background-color:transparent;
-  margin:4px 0;
+  background-color: transparent;
+  margin: 4px 0;
   outline: none;
 }
-.let-right{
-  float:right;
+.let-right {
+  float: right;
 }
 .tips p {
   font-size: 14px;
@@ -359,13 +364,13 @@ data() {
   /* box-sizing: border-box; */
 }
 label + input[type="text"] {
-  width:180px;
-  height:25px;
-  border:solid 1px #a0a0a0;
-  padding:0 10px;
+  width: 180px;
+  height: 25px;
+  border: solid 1px #a0a0a0;
+  padding: 0 10px;
   font-size: 14px;
   outline: none;
-  background-color:transparent;
+  background-color: transparent;
 }
 /*取消输入框默认填充样式*/
 input:-webkit-autofill,
@@ -403,7 +408,7 @@ input:-webkit-autofill:active {
 
 .button {
   position: relative;
-  left:-155px;
+  left: -155px;
   margin: 0 auto;
   width: 100px;
   outline: none;
@@ -417,8 +422,8 @@ input:-webkit-autofill:active {
   border-radius: 10px;
   cursor: pointer;
 }
-.close{
-  margin-top:58px;
+.close {
+  margin-top: 58px;
 }
 .submit {
   transform: translateY(-4px);
@@ -470,5 +475,4 @@ input:-webkit-autofill:active {
   overflow: hidden;
   background-color: #e9efea;
 }
-
 </style>

@@ -62,7 +62,7 @@ export default {
         ctx.fillText(startDate, 775, 1970);
         ctx.fillText(endDate, 1125, 1970);
       };
-      img.src = "http://14.29.221.109:10250/upload/images/newshouquan2.png";
+      img.src = "../assets/images/newshouquan2.png";
     }
   },
   created() {
@@ -133,7 +133,7 @@ export default {
   /* width: 600px; */
   /* height:100%; */
   /* background-color: #F00; */
-  /* background-image:url('http://14.29.221.109:10250/upload/images/授权书.jpg'); */
+  /* background-image:url('../assets/images/授权书.jpg'); */
   /* background-size: contain;
     background-repeat: no-repeat;
     position: relative; */

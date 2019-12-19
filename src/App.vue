@@ -39,4 +39,24 @@ body{
   width:100%;
   height:100%;
 }
+.el-dialog {
+  width: 48% !important;
+  /* height: 36%; */
+}
+/*右边确定按钮*/
+.el-button--primary {
+  border-color: rgb(160, 212, 86) !important;
+  background-color: rgb(160, 212, 86) !important;
+}
+.el-popup-parent--hidden {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+.el-dialog {
+  border-radius: 5px;
+}
+.el-table td,
+.el-table th {
+  padding: 6px 0;
+}
 </style>

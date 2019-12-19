@@ -46,18 +46,6 @@
         @postall="submit"
       ></card4>
     </div>
-
-    <!-- 按钮 -->
-    <!-- <div class="button" v-show="this.nowIndex != 3">
-      <button  @click="back" v-show="isFirst">上一步</button>
-      <button  @click='next' ref="button2">下一步</button>
-    </div>-->
-
-    <!-- <div class="button" v-show="this.nowIndex == 3">
-      <button @click="back"  >上一步</button>
-      <button @click='save' >保存</button>
-      <button @click="submit"  >保存并提交</button>
-    </div>-->
   </div>
 </template>
 
