@@ -379,8 +379,7 @@ button {
   background: linear-gradient(to right, #a1d455, #86cb7e);
 }
 .button {
-  margin: 0 auto;
-  width: 300px;
+  margin: 10px auto;
   text-align: center;
 }
 .button button {

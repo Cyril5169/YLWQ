@@ -206,9 +206,9 @@ export default {
         this.recordTitle = res.data.customerInfo;
         this.recordArr = res.data.memo.reverse();
         if (
-          this.recordTitle == "资料卡通过" ||
-          this.recordTitle == "业务员审核中" ||
-          this.recordTitle == "订单部审核中"
+          this.recordTitle == "资料卡通过" ||   //APPROVED
+          this.recordTitle == "业务员审核中" || //BUSINESSCHECKING
+          this.recordTitle == "订单部审核中"    //BIILDEPCHECKING
         ) {
           //进入填写资料卡界面出现的弹窗
           // this.$alert("当前资料卡状态为"+this.recordTitle+'，无法再次提交');

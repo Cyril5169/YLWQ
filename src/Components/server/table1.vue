@@ -460,7 +460,6 @@ export default {
   },
   mounted() {
     this.loading = true;
-    console.log(this.position);
     this.$axios
       .post("/yulan/customerInfo/getNcustomerinfo.do", {
         page: "1",
@@ -480,7 +479,6 @@ export default {
           if (Array.isArray(res.data.area)) {
             this.area = res.data.area;
           }
-
           this.showlist = res.data.data;
           this.total = res.data.count;
           this.loading = false;

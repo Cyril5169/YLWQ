@@ -16,7 +16,7 @@
           style="cursor:pointer;"
         >
           <p>{{item.desc}}</p>
-        </router-link> -->
+        </router-link>-->
         <li
           v-for="(item,index) of items"
           :key="index"
@@ -64,14 +64,16 @@ export default {
       ]
     };
   },
-  methods:{
+  methods: {
     handleRouter(item, index) {
-      this.$store.commit('setCurrentUrl',index);
-      this.$router.push({ path: item.router });
+      this.$store.commit("setCurrentUrl", index);
+      if (window.location.href.split("#")[1] != item.router) {
+        this.$router.push({ path: item.router });
+      }
     }
   },
   computed: {
-      ...mapState(["currentUrl"])
+    ...mapState(["currentUrl"])
   },
   mounted() {
     let position = this.$store.state.user.pos[0].position; //根据权限限制功能按键

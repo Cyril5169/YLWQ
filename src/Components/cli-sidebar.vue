@@ -57,7 +57,9 @@ export default {
     handleRouter(item, index) {
       if (this.$store.state.user.data.userState == "1") {
         this.$store.commit("setCurrentUrl", index);
-        this.$router.push({ path: item.router });
+        if (window.location.href.split("#")[1] != item.router) {
+          this.$router.push({ path: item.router });
+        }
       }
       if (this.$store.state.user.data.userState != "1") {
         if (this.items.indexOf(item) == 1) {
@@ -88,7 +90,7 @@ export default {
   mounted() {
     if (this.$store.state.user.data.userState == "1") {
       this.$store.commit("setCurrentUrl", 1);
-      if (window.location.href.split("#/")[1] != "client/cards")
+      if (window.location.href.split("#")[1] != "/client/cards")
         this.$router.replace({ path: "/client/cards" });
     }
   }

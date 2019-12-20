@@ -30,7 +30,7 @@
       element-loading-spinner="el-icon-loading"
     >
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
-      <el-table-column prop="CNAME" label="客户名称" width="350"></el-table-column>
+      <el-table-column prop="CNAME" label="客户名称"></el-table-column>
       <el-table-column prop="STATE" label="协议书状态" :formatter="statusFormatter" width="120"></el-table-column>
       <el-table-column label="协议" width="200">
         <template slot-scope="scope">
@@ -303,7 +303,7 @@ export default {
   top: -150px;
 }
 .protocol {
-  width: 180%;
+  width: 80%;
   widows: 655px;
   position: absolute;
   top: -20px;
