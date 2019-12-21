@@ -129,9 +129,34 @@ export default {
           doc = doc.replace(/\<p style="text-indent: 2em;"\>/g, '<p style="font-size:14px;margin:0px">');
           doc = doc.replace(/table width="850"/g, 'table width="550"');
           doc = doc.replace('">内部编号：', ';text-align: left;margin-left:400px">内部编号：');
-            doc = doc.replace('">签约地点：', ';text-align: left;margin-left:400px">签约地点：');
-            doc = doc.replace('">经双方友好', ';text-align: left;text-indent: 2em;">经双方友好');
+          doc = doc.replace('">签约地点：', ';text-align: left;margin-left:400px">签约地点：');
+          doc = doc.replace('">经双方友好', ';text-align: left;text-indent: 2em;">经双方友好');
           doc = doc.replace('<p style="text-align: center;">广东玉兰集团年度经销协议书</p>', '<p style="text-align: center;font-size:18.6px;font-weight:bold; ">广东玉兰集团年度经销协议书</p>'); 
+          doc = doc.replace(/&nbsp;1、/g, '1、');
+          doc = doc.replace(/&nbsp;2、/g, '2、');
+          doc = doc.replace(/&nbsp;3、/g, '3、');
+          doc = doc.replace(/&nbsp;4、/g, '4、');
+          doc = doc.replace(/&nbsp;5、/g, '5、');
+          doc = doc.replace(/&nbsp;6、/g, '6、');
+          doc = doc.replace(/&nbsp;7、/g, '7、');
+          doc = doc.replace(/1\)/g, '&nbsp;1)');
+          doc = doc.replace(/2\)/g, '&nbsp;2)');
+          doc = doc.replace(/3\)/g, '&nbsp;3)');
+          doc = doc.replace(/4\)/g, '&nbsp;4)');
+          doc = doc.replace(/5\)/g, '&nbsp;5)');
+          doc = doc.replace(/6\)/g, '&nbsp;6)');
+          doc = doc.replace(/7\)/g, '&nbsp;7)');
+          doc=doc.replace(/width="116"><span style="text-indent: 32px;">/g,'width="116"><span style="font-size: 14px;">');
+          doc=doc.replace(/width="116"><span style="color: rgb\(0, 176, 240\);">/g,'width="116"><span style="font-size: 14px; color: rgb\(0, 176, 240)\;">');
+          doc = doc.replace('乙方（加盖章）：', '&nbsp;&nbsp;乙方（加盖章）：');
+         doc = doc.replace('法人代表（或指定代表）：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法人代表（或指定代表）：</p>');
+           doc = doc.replace('受委托人：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 受委托人：</p>');
+          
+          doc = doc.replace('>年月日', '>&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日');
+          doc = doc.replace('年月&nbsp; 日</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</p>'); 
+           doc = doc.replace('联系电话：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 联系电话：</p>'); 
+           doc = doc.replace(/style="word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb\(0, 0, 0\);"/g, 'style=" font-size: 14px;word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0);"'); 
+          doc = doc.replace(/style="border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb\(0, 0, 0\);" align="center"/g, 'style=" font-size: 14px;border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb(0, 0, 0);" align="center"'); 
           //  doc = doc.replace('style=font-family: \'SimSun\'\"', 'style=\"font-family: \'SimSun\';\"font-size:\'10px\' \"\"');
         
           // doc = doc.replace(/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/g, '');
