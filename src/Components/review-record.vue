@@ -42,9 +42,7 @@ export default {
 <style scoped>
 .record-wrapper {
   z-index: 1;
-  /* background-color: pink; */
   font-size: 16px;
-  /* width: 280px; */
   position: fixed;
   top: 170px;
   right: 0px;

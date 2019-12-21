@@ -1,18 +1,20 @@
 <template>
   <div class="wrapper">
-    <div class="header">
-      <cli-header></cli-header>
-    </div>
-    <div class="content">
-      <div class="right">
-        <div class="right-content">
+    <el-container class="page">
+      <el-header class="header">
+        <cli-header></cli-header>
+      </el-header>
+      <el-container>
+        <el-aside class="left">
+          <ser-sidebar></ser-sidebar>
+        </el-aside>
+        <el-main class="right">
+          <div class="right-content">
           <router-view />
-        </div>
-      </div>
-      <div class="left">
-        <ser-sidebar></ser-sidebar>
-      </div>
-    </div>
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -20,7 +22,6 @@
 <script>
 import cliHeader from "@/Components/cli-header";
 import serSidebar from "@/Components/server/ser-sidebar";
-import serSearch from "@/Components/server/ser-search";
 export default {
   name: "Client",
   data() {
@@ -30,8 +31,7 @@ export default {
   },
   components: {
     cliHeader,
-    serSidebar,
-    serSearch
+    serSidebar
   },
   created() {}
 };
@@ -40,45 +40,37 @@ export default {
 <style scoped>
 .wrapper {
   width: 100%;
-  height: 100%;
+  margin: 0 auto;
+}
+.wrapper_inner{
+  background-color: white;
+}
+.page {
+  height: 100vh;
 }
 .content {
   position: relative;
-  /* width: 1000px;
-   margin: 0 auto; */
 }
 .header {
   width: 100%;
   height: 55px;
   background-color: #f9fef0;
-  min-width: 1320px;
 }
 .left {
-  width: 220px;
-  height: 100%;
+  width: 220px !important;
   background-color: #4d4d4d;
-  float: left;
-  position: absolute;
-  top: 0;
+  overflow: hidden;
 }
-
 .right {
   width: calc(100%-220px);
   display: block;
-  margin-left: 220px;
-  /* background-color: #e4e4e4; */
-  min-width: 1100px;
-  padding-bottom: 200px;
-  padding-top: 70px;
+  background-color: #e4e4e4;
+  padding: 0;
 }
-
 .right-content {
-  width: 1100px;
-  margin: 0 auto;
+  width: 90%;
+  margin: 20px auto;
   position: relative;
-
-  height: 750px;
-  /* margin-top: 80px; */
-  border-radius: 10px;
+  box-shadow: 7px 7px 3px -2px rgba(0, 0, 0, 0.05);
 }
 </style>

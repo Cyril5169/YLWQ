@@ -1,5 +1,5 @@
  <template>
-  <div class="wrapper">
+  <div class="wrapper_inner">
     <div class="scroll" ref="verifysLeap"></div>
     <div class="protocol">
       <serProtocol :cid="this.ccid" :flag="1" @close="closeProtocol" v-show="showProtocol"></serProtocol>
@@ -48,7 +48,7 @@
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
       <el-table-column prop="CNAME" label="客户名称" width="265"></el-table-column>
       <el-table-column prop="STATE" label="资料卡状态" :formatter="statusFormatter" width="120"></el-table-column>
-      <el-table-column label="资料文件" :width="185">
+      <el-table-column label="资料文件">
         <template slot-scope="scope">
           <div class="file finish" v-show="scope.row.FILE_1_IDCARD ==1">身份证</div>
           <div class="file" v-show="scope.row.FILE_1_IDCARD ==0">身份证</div>
@@ -204,7 +204,7 @@ export default {
     },
     rowClick(row, column) {
       //点击每一行将信息列出来
-      console.log(row)
+      console.log(row);
     },
     handleVerify(row) {
       this.$refs.verifysLeap.scrollIntoView();
@@ -460,7 +460,6 @@ export default {
   },
   mounted() {
     this.loading = true;
-    console.log(this.position)
     this.$axios
       .post("/yulan/customerInfo/getNcustomerinfo.do", {
         page: "1",
@@ -480,7 +479,6 @@ export default {
           if (Array.isArray(res.data.area)) {
             this.area = res.data.area;
           }
-
           this.showlist = res.data.data;
           this.total = res.data.count;
           this.loading = false;
@@ -495,13 +493,12 @@ export default {
 
 <style scoped>
 .protocol {
-  width: 1000px;
-  widows: 655px;
+  width: 80%;
+  overflow: hidden;
   position: absolute;
-  top: 33px;
-  left: 55px;
+  top: -20px;
+  left: 10%;
   z-index: 100;
-  /* border: 1px solid #86cb7e; */
 }
 .scroll {
   width: 10px;
@@ -559,13 +556,11 @@ export default {
   width: 66px;
 }
 .verify {
-  width: 1100px;
+  width: 80%;
   overflow: hidden;
   position: absolute;
-  /* top: 53px; */
-  /* left: 55px; */
-  top: -120px;
-  /* left: -100px; */
+  top: -20px;
+  left: 10%;
   z-index: 100;
 }
 </style>
@@ -589,5 +584,3 @@ td {
   text-align: center !important;
 }
 </style>
-
-  

@@ -46,18 +46,6 @@
         @postall="submit"
       ></card4>
     </div>
-
-    <!-- 按钮 -->
-    <!-- <div class="button" v-show="this.nowIndex != 3">
-      <button  @click="back" v-show="isFirst">上一步</button>
-      <button  @click='next' ref="button2">下一步</button>
-    </div>-->
-
-    <!-- <div class="button" v-show="this.nowIndex == 3">
-      <button @click="back"  >上一步</button>
-      <button @click='save' >保存</button>
-      <button @click="submit"  >保存并提交</button>
-    </div>-->
   </div>
 </template>
 
@@ -218,9 +206,9 @@ export default {
         this.recordTitle = res.data.customerInfo;
         this.recordArr = res.data.memo.reverse();
         if (
-          this.recordTitle == "资料卡通过" ||
-          this.recordTitle == "业务员审核中" ||
-          this.recordTitle == "订单部审核中"
+          this.recordTitle == "资料卡通过" ||   //APPROVED
+          this.recordTitle == "业务员审核中" || //BUSINESSCHECKING
+          this.recordTitle == "订单部审核中"    //BIILDEPCHECKING
         ) {
           //进入填写资料卡界面出现的弹窗
           // this.$alert("当前资料卡状态为"+this.recordTitle+'，无法再次提交');

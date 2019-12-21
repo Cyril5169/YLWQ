@@ -1,25 +1,8 @@
 <template>
-  <!-- <div class="wrapper">
-        <div class="mainicon"></div>
-        <div class="info-wrapper">
-            <div class="logo"></div><span class="title">玉兰·兰居尚品-订单及库存查询</span>
-            <div class="info" id="info1">
-                <div class="info-content">
-                    <span class="icons-man"></span><label for="loginName" v-bind:class="{'iactiveClass':iactiveClass1}">账号</label><input v-bind:class="{'inputactiveClass':inputactiveClass1}" @blur="changeStyle2()" @focus="changeStyle1()" v-model="loginName" id="loginName" type="text" @keydown="keyLogin">
-                </div>
-            </div>
-            <div class="info">
-                <div class="info-content">
-                    <span class="icons-lock"></span><label for="password" v-bind:class="{'iactiveClass':iactiveClass2}" id="lock">密码</label><input v-bind:class="{'inputactiveClass':inputactiveClass2}" @blur="changeStyle4()" @focus="changeStyle3()" v-model="password" id="password" type="password" @keydown="keyLogin">
-                </div>
-            </div>
-            <div @click="submit" class="tijiao">登录</div>
-        </div>
-  </div>-->
   <div class="wrapper-login">
     <div class="main-block">
       <div class="main-logo-wrapper">
-        <img class="main-logo" src="http://14.29.221.109:10250/upload/images/login3.png" alt />
+        <img class="main-logo" src="../assets/images/login3.png" alt />
       </div>
       <div class="main-info-wrapper">
         <h1 class="yulan-system">玉兰网签系统</h1>
@@ -84,7 +67,7 @@
     </div>
 
     <div class="down-words">
-      <img src="http://14.29.221.109:10250/upload/images/login2.png" alt />
+      <img src="../assets/images/login2.png" alt />
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%" :before-close="handleClose" class="dialog">
       <div class="title">
@@ -151,6 +134,7 @@ export default {
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
+            this.$store.commit("setCurrentUrl", 0);
             let info = res.data;
             //根据身份的种类跳转到不同的页面并带上token
             //这里应该要用vuex了吧，放token
@@ -170,6 +154,7 @@ export default {
                   this.$router.go(0); //刷新页面
                   break;
                 case "ADMIN":
+                case "SUPERADMIN":
                   window.location.href =
                     "http://14.29.221.109:10250/yulan/page/index.html";
                   break;
@@ -262,8 +247,8 @@ export default {
   min-height: 600px;
   width: 100%;
   height: 100%;
-  /* background-image: url('http://14.29.221.109:10250/upload/images/login1.jpg'); */
-  background-image: url("http://14.29.221.109:10250/upload/images/background.jpg");
+  /* background-image: url('../assets/images/login1.jpg'); */
+  background-image: url("../assets/images/background.jpg");
   background-size: cover;
 
   /* background-size: contain; */
@@ -331,7 +316,7 @@ input {
   width: 100%;
   height: 100%;
   min-width: 1100px;
-  background-image: url("http://14.29.221.109:10250/upload/images/loginbg.jpg");
+  background-image: url("../assets/images/loginbg.jpg");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -342,7 +327,7 @@ input {
   position: absolute;
   top: 1.6rem;
   left: 2.15rem;
-  background-image: url("http://14.29.221.109:10250/upload/images/mainicon.png");
+  background-image: url("../assets/images/mainicon.png");
   background-size: 100% 100%;
 }
 /*右边信息块*/
@@ -363,7 +348,7 @@ input {
   vertical-align: middle;
   width: 52px;
   height: 52px;
-  background-image: url("http://14.29.221.109:10250/upload/images/logo.png");
+  background-image: url("../assets/images/logo.png");
 }
 .title {
   margin: 0 20px;
@@ -444,12 +429,12 @@ input:-webkit-autofill:active {
 .icons-man {
   width: 25px;
   height: 27px;
-  background-image: url("http://14.29.221.109:10250/upload/images/man.png");
+  background-image: url("../assets/images/man.png");
 }
 .icons-lock {
   width: 21px;
   height: 27px;
-  background-image: url("http://14.29.221.109:10250/upload/images/lock.png");
+  background-image: url("../assets/images/lock.png");
   left: 24px;
 }
 
@@ -494,7 +479,7 @@ input:-webkit-autofill:active {
 }
 .tri {
   display: inline-block;
-  background-image: url("http://14.29.221.109:10250/upload/images/tri2.png");
+  background-image: url("../assets/images/tri2.png");
   width: 50px;
   height: 50px;
   background-repeat: no-repeat;
@@ -508,7 +493,7 @@ input:-webkit-autofill:active {
   cursor: pointer;
 }
 .tri:hover {
-  background-image: url("http://14.29.221.109:10250/upload/images/tri3.png");
+  background-image: url("../assets/images/tri3.png");
 }
 .version {
   position: relative;
@@ -535,7 +520,7 @@ input:-webkit-autofill:active {
 }
 #android_version span {
   display: inline-block;
-  background: url("http://14.29.221.109:10250/upload/images/android.png");
+  background: url("../assets/images/android.png");
   width: 60px;
   height: 60px;
   background-size: cover;
@@ -543,7 +528,7 @@ input:-webkit-autofill:active {
 }
 #ios_version span {
   display: inline-block;
-  background: url("http://14.29.221.109:10250/upload/images/ios.png");
+  background: url("../assets/images/ios.png");
   width: 60px;
   height: 60px;
   background-size: cover;
@@ -562,7 +547,7 @@ input:-webkit-autofill:active {
   width: 100px;
   height: 100px;
   margin: 15px auto 0px;
-  background: url("http://14.29.221.109:10250/upload/images/app.png");
+  background: url("../assets/images/app.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -574,7 +559,7 @@ input:-webkit-autofill:active {
   display: block;
 }
 #ios_version .qr_code {
-  background: url("http://14.29.221.109:10250/upload/images/please.png");
+  background: url("../assets/images/please.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -596,5 +581,9 @@ input:-webkit-autofill:active {
 }
 .el-dialog {
   border-radius: 5px;
+}
+.el-table td,
+.el-table th {
+  padding: 4px 0;
 }
 </style>

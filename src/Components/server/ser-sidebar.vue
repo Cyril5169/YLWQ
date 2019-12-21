@@ -1,14 +1,13 @@
 <template>
   <div class="wrapper">
-    <!-- <div class="space"></div> -->
     <div class="wangqian" @click="show3=!show3">
-      <img src="http://14.29.221.109:10250/upload/images/wangqian.png" alt="签订年度协议" />
+      <img src="../../assets/images/wangqian.png" alt="签订年度协议" />
       <p>签订年度协议</p>
     </div>
 
     <el-collapse-transition>
       <div v-show="show3">
-        <router-link
+        <!-- <router-link
           tag="li"
           v-for="(item,index) of items"
           :key="index"
@@ -17,13 +16,24 @@
           style="cursor:pointer;"
         >
           <p>{{item.desc}}</p>
-        </router-link>
+        </router-link>-->
+        <li
+          v-for="(item,index) of items"
+          :key="index"
+          @click="handleRouter(item,index)"
+          v-bind:class="{ currentPage:index==currentUrl}"
+          style="cursor:pointer;"
+        >
+          <p>{{item.desc}}</p>
+        </li>
       </div>
     </el-collapse-transition>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "ser-header",
   data() {
@@ -51,23 +61,19 @@ export default {
           desc: "协议执行汇总",
           router: "/server/cert-exe-gather"
         }
-        // {
-        //   desc: "待抽查资料卡",
-        //   router: "/server/checkingCards"
-        // },
-        // {
-        //   desc: "抽查过资料卡",
-        //   router: "/server/checkedCards"
-        // },{
-        //   desc: "未抽查协议",
-        //   router: "/server/checkingProtocols"
-        // },
-        // {
-        //   desc: "已抽查协议",
-        //   router: "/server/checkedProtocols"
-        // }
       ]
     };
+  },
+  methods: {
+    handleRouter(item, index) {
+      this.$store.commit("setCurrentUrl", index);
+      if (window.location.href.split("#")[1] != item.router) {
+        this.$router.push({ path: item.router });
+      }
+    }
+  },
+  computed: {
+    ...mapState(["currentUrl"])
   },
   mounted() {
     let position = this.$store.state.user.pos[0].position; //根据权限限制功能按键
@@ -78,12 +84,10 @@ export default {
     )
       this.items = this.items.slice(0, 1);
     else if (position == "VSMAPPROVEXII") this.items = this.items.slice(0, 5);
-    //  else if(position == 'LEGALCHECK') this.items = this.items.slice(3,9)
     else this.items = this.items.slice(0, 3);
   }
 };
 </script>
-
 
 <style scoped>
 .wrapper {
@@ -139,7 +143,19 @@ li p {
   line-height: 16px;
   color: white;
 }
-
+.currentPage {
+  background-color: #151515;
+}
+.currentPage p::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 40px;
+  background-color: #a5d050;
+  top: 11px;
+  left: 8px;
+  border-radius: 2px;
+}
 .router-link-exact-active {
   background-color: #151515;
 }

@@ -1,12 +1,8 @@
 <template>
   <div class="wrapper-header">
     <div class="header-left">
-      <!-- <div class="icon-flower"></div>
-      <div class="icon-word"></div>-->
       <div class="icon-new"></div>
-      <!-- <div class="title">订单及库存查询系统</div> -->
     </div>
-
     <div class="header-right">
       <div class="welcome">欢迎你，{{position}}{{realName}}</div>
       <div class="exit" @click="exitSto">
@@ -15,7 +11,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -72,7 +67,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .wrapper-header {
   width: 100%;
@@ -97,7 +91,7 @@ export default {
 .icon-flower {
   width: 35px;
   height: 35px;
-  background-image: url("http://14.29.221.109:10250/upload/images/logo.png");
+  background-image: url("../assets/images/logo.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   margin-left: 5px;
@@ -108,7 +102,7 @@ export default {
 .icon-word {
   width: 117px;
   height: 39px;
-  background-image: url("http://14.29.221.109:10250/upload/images/mainicon.png");
+  background-image: url("../assets/images/mainicon.png");
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;
@@ -118,7 +112,7 @@ export default {
 .icon-new {
   width: 160px;
   height: 68px;
-  background-image: url("http://14.29.221.109:10250/upload/images/玉兰家居logo.png");
+  background-image: url("../assets/images/玉兰家居logo.png");
   background-size: contain;
   background-repeat: no-repeat;
   position: relative;

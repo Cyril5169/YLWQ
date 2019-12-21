@@ -320,10 +320,7 @@ export default {
 
 <style scoped>
 .wrapper-search {
-  width: 1105px;
-  position: absolute;
-  left: 0px;
-  top: -50px;
+  padding: 20px;
 }
 .title {
   font-size: 16px;

@@ -1,25 +1,24 @@
 <template>
   <div class="wrapper">
-    <div class="header">
-      <cli-header></cli-header>
-    </div>
-    <div class="content">
-      <div class="right">
-        <div class="board">
-          <img
-            src="http://14.29.221.109:10250/upload/images/警告icon.png"
-            alt="小喇叭"
-          >
-          <p>公告</p>
-        </div>
-        <div class="right-content">
-          <router-view />
-        </div>
-      </div>
-      <div class="left">
-        <cli-sidebar></cli-sidebar>
-      </div>
-    </div>
+    <el-container class="page">
+      <el-header class="header">
+        <cli-header></cli-header>
+      </el-header>
+      <el-container>
+        <el-aside class="left">
+          <cli-sidebar></cli-sidebar>
+        </el-aside>
+        <el-main class="right">
+          <div class="board" v-if="identity == 'ECWEB'">
+            <img src="../assets/images/警告icon.png" alt="小喇叭" />
+            <p>公告</p>
+          </div>
+          <div class="right-content">
+            <router-view />
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -31,7 +30,8 @@ export default {
   name: "Client",
   data() {
     return {
-      announce: "登陆成功！"
+      announce: "登陆成功！",
+      identity: this.$store.state.user.data.type
     };
   },
   components: {
@@ -44,41 +44,33 @@ export default {
 <style scoped>
 .wrapper {
   width: 100%;
-  height: 100%;
+  margin: 0 auto;
+}
+.page {
+  height: 100vh;
 }
 .content {
   position: relative;
-  /* width: 1000px;
-   margin: 0 auto; */
 }
 .header {
   width: 100%;
   height: 55px;
   background-color: #f9fef0;
-  min-width: 1200px;
 }
 .left {
-  width: 220px;
-  height: 100%;
+  width: 220px !important;
   background-color: #4d4d4d;
-  float: left;
-  position: absolute;
-  top: 0;
+  overflow: hidden;
 }
-
 .right {
   width: calc(100%-220px);
   display: block;
-  margin-left: 220px;
   background-color: #e4e4e4;
-  min-width: 1000px;
-  padding-bottom: 100px;
+  padding: 0;
 }
-
 .right-content {
   width: 90%;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 20px auto;
   position: relative;
   box-shadow: 7px 7px 3px -2px rgba(0, 0, 0, 0.05);
 }
