@@ -2,7 +2,7 @@
   <div class="wrapper_inner">
     <div class="scroll" ref="verifysLeap"></div>
     <div class="protocol">
-      <serProtocol :cid="this.ccid" :flag="1" @close="close" v-show="showProtocol"></serProtocol>
+      <serProtocol :cid="this.ccid" :flag="1" :cname="this.cname" :cyear="this.cyear" @close="close" v-show="showProtocol"></serProtocol>
     </div>
     <ser-search
       :list="this.showlist"
@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column prop label="协议" width="225">
         <template slot-scope="scope">
-          <p style="font-size:14px">{{scope.row.none}}玉兰墙纸年度经销协议书-2019</p>
+          <p style="font-size:14px">{{scope.row.none}}玉兰墙纸年度经销协议书-{{scope.row.CYEAR}}</p>
         </template>
       </el-table-column>
       <el-table-column prop label="协议状态" width="65">
@@ -48,7 +48,7 @@
       <el-table-column prop="CSA" label="营销总监审批"></el-table-column>
       <el-table-column label="操作" width="60">
         <template slot-scope="scope">
-          <el-button type="text" size="large" @click="verify">{{scope.row.none}}查看</el-button>
+          <el-button type="text" size="large" @click="verify(scope.row.CNAME,scope.row.CYEAR)">{{scope.row.none}}查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,6 +80,8 @@ export default {
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
       ccid: "",
+       cname:"",
+       cyear:"",
       showProtocol: false,
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
@@ -88,6 +90,7 @@ export default {
 
       nowarea1: "" /***从筛选子组件拿到的三个筛选条件 */,
       nowarea2: "",
+     
       loading: false
     };
   },
@@ -97,9 +100,11 @@ export default {
     }
   },
   methods: {
-    verify() {
+    verify(cname,cyear) {
       this.$refs.verifysLeap.scrollIntoView();
       this.showProtocol = true;
+      this.cname=cname;
+      this.cyear=cyear;
     },
     close(close) {
       this.showProtocol = false;

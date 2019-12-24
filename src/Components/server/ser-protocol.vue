@@ -1,10 +1,12 @@
 <template>
+
   <div class="box">
     <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
     <i class="el-icon-close" @click="dispear"></i>
     <div class="show" v-html="b2b2"></div>
     <!-- 确认退回按钮 -->
     <div class="button">
+      
       <button @click="queding">确认</button>
       <button @click="OutWord">导出Word</button>
       <button @click="showReason" v-show="flag == '0' ">退回</button>
@@ -58,7 +60,9 @@ export default {
   },
   props: {
     cid: String, //父组件传递的当前选中客户cid
-    flag: Number //判断是否出现退回按钮
+    flag: Number, //判断是否出现退回按钮
+    cname:String,
+    cyear:String
   },
   computed: {
     nowMonth() {
@@ -167,23 +171,6 @@ export default {
            doc = doc.replace('联系电话：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 联系电话：</p>'); 
            doc = doc.replace(/style="word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb\(0, 0, 0\);"/g, 'style=" font-size: 14px;word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0);"'); 
           doc = doc.replace(/style="border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb\(0, 0, 0\);" align="center"/g, 'style=" font-size: 14px;border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb(0, 0, 0);" align="center"'); 
-          //  doc = doc.replace('style=font-family: \'SimSun\'\"', 'style=\"font-family: \'SimSun\';\"font-size:\'10px\' \"\"');
-        
-          // doc = doc.replace(/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/g, '');
-      // doc = doc.replace(/border="0"/g, 'border="1"');全局替换
-      // doc = doc.replace(
-      //   /<th class=\"gutter\" style=\"width: 0px; display: none;\"><\/th>/g,
-      //   ""
-      // );
-
-      var end = doc.substring(doc.length - 4000, doc.length);
-
-      // doc = doc.replace(
-      //   '<h2 data-v-864abbe2="" style="margin: 0px;">广东玉兰集团股份有限公司对账单</h2>',
-      //   '<div style="margin: 10px auto;  width:1000px; font-size:20px;"> <table> <tr><td data-v-864abbe2="" colspan="8" align="center" class="grayTD"><h2 data-v-864abbe2="" style="margin: 0px;">广东玉兰集团股份有限公司对账单</h2></td><td data-v-864abbe2="" colspan="5" align="center"></td> </tr></table></div>'
-      // );
-      // doc += "</table>";
-
       var docFile =
         "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:" +
         doc +
@@ -197,53 +184,29 @@ export default {
       var base64data =
         "base64," + window.btoa(unescape(encodeURIComponent(docFile)));
       if (type == "doc") {
-        window.open("data:application/msword;" + base64data);
+            const link=document.createElement('a');
+            link.style.display='none';
+            link.href="data:application/msword;" + base64data;
+            link.download=this.cyear+"年度"+this.cname+"协议书";
+            document.body.appendChild(link);
+            link.click();
+        // window.open("data:application/msword;" + base64data);
       } else if (type == "excel") {
         window.open("data:application/vnd.ms-excel;" + base64data);
       }
     },
-    OutWord() {
+     OutWord() {
       if (this.getExplorer() == "ie") {
         this.$alert("请换火狐或谷歌浏览器下载！", "提示", {
           confirmButtonText: "确定",
           type: "danger"
         });
-        // var curTbl = document.getElementById("PrintDiv1");
-        // var oXL = new ActiveXObject("Excel.Application");
-        // //创建AX对象excel
-        //   var oWB = oXL.Workbooks.Add();
-        //   //获取workbook对象
-        //   var xlsheet = oWB.Worksheets(1);
-        //   //激活当前sheet
-        //   var sel = document.body.createTextRange();
-        //     sel.moveToElementText(curTbl);
-        //   //把表格中的内容移到TextRange中
-        //   sel.select;
-        //   //全选TextRange中内容
-        //   sel.execCommand("Copy");
-        //   //复制TextRange中内容
-        //   xlsheet.Paste();
-        //   //粘贴到活动的EXCEL中
-        //   oXL.Visible = true;
-        //   //设置excel可见属性
-        //   try {
-        //               var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");
-        //           } catch (e) {
-        //               print("Nested catch caught " + e);
-        //           } finally {
-        //               oWB.SaveAs(fname);
-        //               oWB.Close(savechanges = false);
-        //               //xls.visible = false;
-        //               oXL.Quit();
-        //               oXL = null;
-        //               //结束excel进程，退出完成
-        //               //window.setInterval("Cleanup();",1);
-        //               idTmr = window.setInterval("Cleanup();", 1);
-        //           }
       } else {
         this.tableExport("doc");
       }
     },
+
+  
     showReason() {
       this.hide = true;
       // this.$refs.tuihuiBtn.scrollIntoView();
