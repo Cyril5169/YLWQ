@@ -2,7 +2,14 @@
   <div class="wrapper_inner">
     <div class="scroll" ref="verifysLeap"></div>
     <div class="protocol">
-      <serProtocol :cid="this.ccid" :flag="1" :cname="this.cname" :cyear="this.cyear" @close="close" v-show="showProtocol"></serProtocol>
+      <serProtocol
+        :cid="this.ccid"
+        :flag="1"
+        :cname="this.cname"
+        :cyear="this.cyear"
+        @close="close"
+        v-show="showProtocol"
+      ></serProtocol>
     </div>
     <ser-search
       :list="this.showlist"
@@ -11,6 +18,7 @@
       @search="search"
       @filterArea1="filterArea1"
       @filterArea2="filterArea2"
+      @filterYear="filterYear"
     ></ser-search>
 
     <p class="title">审核过的协议</p>
@@ -48,7 +56,11 @@
       <el-table-column prop="CSA" label="营销总监审批"></el-table-column>
       <el-table-column label="操作" width="60">
         <template slot-scope="scope">
-          <el-button type="text" size="large" @click="verify(scope.row.CNAME,scope.row.CYEAR)">{{scope.row.none}}查看</el-button>
+          <el-button
+            type="text"
+            size="large"
+            @click="verify(scope.row.CNAME,scope.row.CYEAR)"
+          >{{scope.row.none}}查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,17 +92,16 @@ export default {
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
       ccid: "",
-       cname:"",
-       cyear:"",
+      cname: "",
+      cyear: "",
       showProtocol: false,
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
-
       area: [], //当前账号所管辖的地区，大区或片区
-
+      find: "",
       nowarea1: "" /***从筛选子组件拿到的三个筛选条件 */,
       nowarea2: "",
-     
+      selYear: this.$store.state.year,
       loading: false
     };
   },
@@ -100,11 +111,11 @@ export default {
     }
   },
   methods: {
-    verify(cname,cyear) {
+    verify(cname, cyear) {
       this.$refs.verifysLeap.scrollIntoView();
       this.showProtocol = true;
-      this.cname=cname;
-      this.cyear=cyear;
+      this.cname = cname;
+      this.cyear = cyear;
     },
     close(close) {
       this.showProtocol = false;
@@ -114,19 +125,20 @@ export default {
       this.ccid = row.CID;
     },
     changeCurrentPage(data) {
-      this.loading = true;
       /**改变页数 */
       this.currentPage = data;
+      this.searchAll();
+    },
+    searchAll() {
+      this.loading = true;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
           limit: "10",
           page: this.currentPage,
-          year: this.$store.state.year,
-          // area_1: "",
-          // area_2: "",
+          year: this.selYear,
           area_1: this.nowarea1,
           area_2: this.nowarea2,
-          find: "",
+          find: this.find,
           need: "checkover",
           cid: this.cid,
           position: this.position
@@ -143,86 +155,28 @@ export default {
         });
     },
     search(ae) {
-      this.loading = true;
-      //客户搜索功能
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: this.currentPage,
-          year: this.$store.state.year,
-          area_1: "",
-          area_2: "",
-          find: ae,
-          need: "checkover",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.find = ae;
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea1(ae) {
-      this.loading = true;
       //一级地区筛选功能
       if (ae == "显示全部") ae = "";
       this.nowarea1 = ae;
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: this.currentPage,
-          year: this.$store.state.year,
-          area_1: ae,
-          area_2: "",
-          find: "",
-          need: "checkover",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea2(ae) {
-      this.loading = true;
       //二级地区筛选功能
       if (ae == "全部") ae = "";
       this.nowarea2 = ae;
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: this.currentPage,
-          year: this.$store.state.year,
-          area_1: "",
-          area_2: ae,
-          find: "",
-          need: "checkover",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
+    },
+    filterYear(year) {
+      this.selYear = year;
+      this.currentPage = 1;
+      this.searchAll();
     }
   },
   mounted() {

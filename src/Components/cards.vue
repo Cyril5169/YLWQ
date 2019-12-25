@@ -8,7 +8,8 @@
     <!-- 评审记录 -->
     <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
     <!-- 灰色提示字 -->
-    <div class="gray-word">*灰色内容只供客户核对，不允许修改。如要修改，请联系主管业务经理。</div>
+    <div class="gray-word2" style="padding-top:75px;" v-if="cardobj.contractyear">{{cardobj.contractyear}}年资料卡</div>
+    <div class="gray-word" :style="{'padding-top':(cardobj.contractyear?'0':'75px')}">*灰色内容只供客户核对，不允许修改。如要修改，请联系主管业务经理。</div>
 
     <!-- 资料卡展示 -->
     <div class="card">
@@ -204,7 +205,7 @@ export default {
       })
       .then(res => {
         this.recordTitle = res.data.customerInfo;
-        this.recordArr = res.data.memo.reverse();
+        if(res.data.memo) this.recordArr = res.data.memo.reverse();
         if (
           this.recordTitle == "资料卡通过" ||   //APPROVED
           this.recordTitle == "业务员审核中" || //BUSINESSCHECKING
@@ -246,7 +247,12 @@ export default {
   font-size: 16px;
   line-height: 18px;
   color: #8a8d8a;
-  padding: 75px 0 0 60px;
+  text-align: center;
+}
+.gray-word2{
+  height: 24px;
+  font-size: 24px;
+  line-height: 18px;
   text-align: center;
 }
 

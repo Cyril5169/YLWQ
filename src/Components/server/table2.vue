@@ -17,6 +17,7 @@
       @search="search"
       @filterArea1="filterArea1"
       @filterArea2="filterArea2"
+      @filterYear="filterYear"
     ></ser-search>
     <p class="title">待审核协议</p>
     <el-table
@@ -86,8 +87,10 @@ export default {
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
       area: [], //当前账号所管辖的地区，大区或片区
+      find: "",
       nowarea1: "" /***从筛选子组件拿到的三个筛选条件 */,
       nowarea2: "",
+      selYear: this.$store.state.year,
       loading: false
     };
   },
@@ -121,45 +124,24 @@ export default {
       if (status == "SALEMANMODIFYING") return "业务员修改中";
     },
     updatePage() {
-      //小刷新
-      // this.loading = true;
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          limit: "10",
-          page: this.currentPage,
-          year: String(this.$store.state.year),
-          cid: this.cid,
-          area_1: "",
-          area_2: "",
-          find: "",
-          need: "checking",
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          } else {
-            console.log("奇怪");
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
     },
     changeCurrentPage(data) {
       /**改变页数 */
-      this.loading = true;
       this.currentPage = data;
+      this.searchAll();
+    },
+    searchAll() {
+      this.loading = true;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
           limit: "10",
           page: this.currentPage,
-          year: this.$store.state.year,
+          year: this.selYear,
           area_1: this.nowarea1,
           area_2: this.nowarea2,
-          find: "",
+          find: this.find,
           need: "checking",
           cid: this.cid,
           position: this.position
@@ -177,85 +159,28 @@ export default {
     },
     search(ae) {
       //客户搜索功能
-      this.loading = true;
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: "1",
-          year: this.$store.state.year,
-          area_1: "",
-          area_2: "",
-          find: ae,
-          need: "checking",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.find = ae;
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea1(ae) {
       //一级地区筛选功能
-      this.loading = true;
       if (ae == "显示全部") ae = "";
       this.nowarea1 = ae;
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: "1",
-          year: this.$store.state.year,
-          area_1: ae,
-          area_2: "",
-          find: "",
-          need: "checking",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea2(ae) {
       //二级地区筛选功能
-      this.loading = true;
       if (ae == "全部") ae = "";
       this.nowarea2 = ae;
-      this.$axios
-        .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
-          page: "1",
-          year: this.$store.state.year,
-          area_1: "",
-          area_2: ae,
-          find: "",
-          need: "checking",
-          cid: this.cid,
-          position: this.position
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
+    },
+    filterYear(year) {
+      this.selYear = year;
+      this.currentPage = 1;
+      this.searchAll();
     }
   },
   mounted() {
@@ -264,7 +189,7 @@ export default {
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
         limit: "10",
         page: "1",
-        year: String(this.$store.state.year),
+        year: this.selYear,
         area_1: "",
         area_2: "",
         find: "",
@@ -331,4 +256,3 @@ td {
   text-align: center !important;
 }
 </style>
-

@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper-search">
     <span class="title">客户:</span>
-    <input type="text" list="cars" v-model="searchContent" @keydown="search" />
-    <div class="search" @click="search">查询</div>
+    <input style="width:130px;" type="text" list="cars" v-model="searchContent" @keydown="search" />
+    <!-- <div class="search" @click="search">查询</div> -->
 
     <span class="title">区域:</span>
     <!-- 第一级地址 -->
@@ -38,6 +38,10 @@
     <span class="title" id="status" v-show="flag">状态:</span>
     <el-select v-model="status" class="select" @change="filterStatus" v-show="flag">
       <el-option v-for="item in options3" :key="item.value" :value="item.value" :label="item.label"></el-option>
+    </el-select>
+    <span class="title" id="status">年份:</span>
+    <el-select v-model="selYear" @change="filterYear">
+      <el-option v-for="item in 85" :key="item+2014" :value="item+2014" :label="item+2014"></el-option>
     </el-select>
   </div>
 </template>
@@ -244,7 +248,8 @@ export default {
       status: "显示全部", //三个v-model的值
       area1: "显示全部", //
       area2: "显示全部", //
-      position: this.$store.state.user.pos[0].position
+      position: this.$store.state.user.pos[0].position,
+      selYear: this.$store.state.year
     };
   },
   computed: {
@@ -295,6 +300,9 @@ export default {
     },
     filterArea2() {
       this.$emit("filterArea2", this.area2);
+    },
+    filterYear(){
+      this.$emit("filterYear", this.selYear);
     }
   },
   watch: {
@@ -342,7 +350,6 @@ export default {
   vertical-align: -3px;
   user-select: none;
 }
-
 #status {
   margin-left: 10px;
 }
@@ -359,7 +366,7 @@ input[type="text"] {
 <style>
 .wrapper-search .el-select .el-input__inner {
   height: 30px;
-  width: 180px;
+  width: 150px;
 }
 .wrapper-search .el-select .el-input__icon {
   line-height: 0px;

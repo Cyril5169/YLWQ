@@ -2,15 +2,10 @@
   <div class="box-protocol" ref="box">
     <!-- 评审记录2 -->
     <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
-
-    <div v-html="b2b2" v-if="showProtocol" :class="{show:showProtocol}">
-     
-    </div>
-     <div class="button" v-if="showProtocol">
+    <div v-html="b2b2" v-if="showProtocol" :class="{show:showProtocol}"></div>
+    <div class="button" v-if="showProtocol">
       <button @click="OutWord">导出Word</button>
     </div>
-     <!-- 确认退回按钮 -->
-    
 
     <div class="wenxin" v-if="!showProtocol" :class="{show:showProtocol}">
       <span class="word">如资料卡已通过审批，请联系业务经理生成协议书，谢谢！</span>
@@ -83,7 +78,7 @@ export default {
     }
   },
   methods: {
-      getExplorer() {
+    getExplorer() {
       var explorer = window.navigator.userAgent;
       //判断是否为IE浏览器
       if (explorer.indexOf("MSIE") >= 0) {
@@ -110,41 +105,83 @@ export default {
       var doc = "";
       var html = this.b2b2;
       doc += html;
-          doc = doc.replace(/\<p\>&nbsp;\<\/p\>/g, '');
-          doc = doc.replace(/\<p\>\<\/p\>/g, '');
-          doc = doc.replace(/&nbsp;&nbsp;/g, '');
-          doc = doc.replace(/&nbsp; &nbsp;/g, '');
-          doc = doc.replace(/\<p\>/g, '<p style="font-size:14px;margin:0px">');
-          doc = doc.replace(/\<p style="text-indent: 2em;"\>/g, '<p style="font-size:14px;margin:0px">');
-          doc = doc.replace(/table width="850"/g, 'table width="550"');
-          doc = doc.replace('">内部编号：', ';text-align: left;margin-left:400px">内部编号：');
-          doc = doc.replace('">签约地点：', ';text-align: left;margin-left:400px">签约地点：');
-          doc = doc.replace('">经双方友好', ';text-align: left;text-indent: 2em;">经双方友好');
-          doc = doc.replace('<p style="text-align: center;">广东玉兰集团年度经销协议书</p>', '<p style="text-align: center;font-size:18.6px;font-weight:bold; ">广东玉兰集团年度经销协议书</p>'); 
-          doc = doc.replace(/&nbsp;1、/g, '1、');
-          doc = doc.replace(/&nbsp;2、/g, '2、');
-          doc = doc.replace(/&nbsp;3、/g, '3、');
-          doc = doc.replace(/&nbsp;4、/g, '4、');
-          doc = doc.replace(/&nbsp;5、/g, '5、');
-          doc = doc.replace(/&nbsp;6、/g, '6、');
-          doc = doc.replace(/&nbsp;7、/g, '7、');
-          doc = doc.replace(/1\)/g, '&nbsp;1)');
-          doc = doc.replace(/2\)/g, '&nbsp;2)');
-          doc = doc.replace(/3\)/g, '&nbsp;3)');
-          doc = doc.replace(/4\)/g, '&nbsp;4)');
-          doc = doc.replace(/5\)/g, '&nbsp;5)');
-          doc = doc.replace(/6\)/g, '&nbsp;6)');
-          doc = doc.replace(/7\)/g, '&nbsp;7)');
-          doc=doc.replace(/width="116"><span style="text-indent: 32px;">/g,'width="116"><span style="font-size: 14px;">');
-          doc=doc.replace(/width="116"><span style="color: rgb\(0, 176, 240\);">/g,'width="116"><span style="font-size: 14px; color: rgb\(0, 176, 240)\;">');
-          doc = doc.replace('乙方（加盖章）：', '&nbsp;&nbsp;乙方（加盖章）：');
-         doc = doc.replace('法人代表（或指定代表）：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法人代表（或指定代表）：</p>');
-           doc = doc.replace('受委托人：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 受委托人：</p>');
-          doc = doc.replace('>年月日', '>&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日');
-          doc = doc.replace('年月&nbsp; 日</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</p>'); 
-           doc = doc.replace('联系电话：</p>', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 联系电话：</p>'); 
-           doc = doc.replace(/style="word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb\(0, 0, 0\);"/g, 'style=" font-size: 14px;word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0);"'); 
-          doc = doc.replace(/style="border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb\(0, 0, 0\);" align="center"/g, 'style=" font-size: 14px;border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb(0, 0, 0);" align="center"'); 
+      doc = doc.replace(/\<p\>&nbsp;\<\/p\>/g, "");
+      doc = doc.replace(/\<p\>\<\/p\>/g, "");
+      doc = doc.replace(/&nbsp;&nbsp;/g, "");
+      doc = doc.replace(/&nbsp; &nbsp;/g, "");
+      doc = doc.replace(/\<p\>/g, '<p style="font-size:14px;margin:0px">');
+      doc = doc.replace(
+        /\<p style="text-indent: 2em;"\>/g,
+        '<p style="font-size:14px;margin:0px">'
+      );
+      doc = doc.replace(/table width="850"/g, 'table width="550"');
+      doc = doc.replace(
+        '">内部编号：',
+        ';text-align: left;margin-left:400px">内部编号：'
+      );
+      doc = doc.replace(
+        '">签约地点：',
+        ';text-align: left;margin-left:400px">签约地点：'
+      );
+      doc = doc.replace(
+        '">经双方友好',
+        ';text-align: left;text-indent: 2em;">经双方友好'
+      );
+      doc = doc.replace(
+        '<p style="text-align: center;">广东玉兰集团年度经销协议书</p>',
+        '<p style="text-align: center;font-size:18.6px;font-weight:bold; ">广东玉兰集团年度经销协议书</p>'
+      );
+      doc = doc.replace(/&nbsp;1、/g, "1、");
+      doc = doc.replace(/&nbsp;2、/g, "2、");
+      doc = doc.replace(/&nbsp;3、/g, "3、");
+      doc = doc.replace(/&nbsp;4、/g, "4、");
+      doc = doc.replace(/&nbsp;5、/g, "5、");
+      doc = doc.replace(/&nbsp;6、/g, "6、");
+      doc = doc.replace(/&nbsp;7、/g, "7、");
+      doc = doc.replace(/1\)/g, "&nbsp;1)");
+      doc = doc.replace(/2\)/g, "&nbsp;2)");
+      doc = doc.replace(/3\)/g, "&nbsp;3)");
+      doc = doc.replace(/4\)/g, "&nbsp;4)");
+      doc = doc.replace(/5\)/g, "&nbsp;5)");
+      doc = doc.replace(/6\)/g, "&nbsp;6)");
+      doc = doc.replace(/7\)/g, "&nbsp;7)");
+      doc = doc.replace(
+        /width="116"><span style="text-indent: 32px;">/g,
+        'width="116"><span style="font-size: 14px;">'
+      );
+      doc = doc.replace(
+        /width="116"><span style="color: rgb\(0, 176, 240\);">/g,
+        'width="116"><span style="font-size: 14px; color: rgb(0, 176, 240);">'
+      );
+      doc = doc.replace("乙方（加盖章）：", "&nbsp;&nbsp;乙方（加盖章）：");
+      doc = doc.replace(
+        "法人代表（或指定代表）：</p>",
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;法人代表（或指定代表）：</p>"
+      );
+      doc = doc.replace(
+        "受委托人：</p>",
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 受委托人：</p>"
+      );
+      doc = doc.replace(
+        ">年月日",
+        ">&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日"
+      );
+      doc = doc.replace(
+        "年月&nbsp; 日</p>",
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</p>"
+      );
+      doc = doc.replace(
+        "联系电话：</p>",
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 联系电话：</p>"
+      );
+      doc = doc.replace(
+        /style="word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb\(0, 0, 0\);"/g,
+        'style=" font-size: 14px;word-break: break-all; border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0);"'
+      );
+      doc = doc.replace(
+        /style="border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb\(0, 0, 0\);" align="center"/g,
+        'style=" font-size: 14px;border-width: 1px; border-style: solid; word-break: break-all; border-color: rgb(0, 0, 0);" align="center"'
+      );
 
       var docFile =
         "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:" +
@@ -158,14 +195,14 @@ export default {
 
       var base64data =
         "base64," + window.btoa(unescape(encodeURIComponent(docFile)));
-       if (type == "doc") {
-            const link=document.createElement('a');
-            link.style.display='none';
-            link.href="data:application/msword;" + base64data;
-            //link.download=this.$store.state.user.data.loginName+"年度经销协议书";
-            link.download="经销协议书";
-            document.body.appendChild(link);
-            link.click();
+      if (type == "doc") {
+        const link = document.createElement("a");
+        link.style.display = "none";
+        link.href = "data:application/msword;" + base64data;
+        //link.download=this.$store.state.user.data.loginName+"年度经销协议书";
+        link.download = "经销协议书";
+        document.body.appendChild(link);
+        link.click();
         // window.open("data:application/msword;" + base64data); else if (type == "excel") {
         // window.open("data:application/vnd.ms-excel;" + base64data);
       }
@@ -245,12 +282,11 @@ export default {
     this.$axios
       .post("/yulan/YLcontractentry/getYLcontractHTML.do	", {
         cid: this.$store.state.user.data.loginName
-        //  "cid":"C15056",
-        // "cid":"C01613"
       })
       .then(res => {
         if (res.data != null && res.data.code == 0) {
           this.showProtocol = true;
+          console.log(res.data)
           this.b2b2 = res.data.data;
         }
       })
@@ -266,6 +302,8 @@ export default {
       })
       .then(res => {
         this.recordTitle = res.data.yLcontractInfo;
+        console.log(res.data)
+        if(res.data.yLcontractentryMemo)
         this.recordArr = res.data.yLcontractentryMemo.reverse();
       })
       .catch(err => {
@@ -345,4 +383,3 @@ button {
   background-color: rgb(160, 212, 86) !important;
 }
 </style>
-

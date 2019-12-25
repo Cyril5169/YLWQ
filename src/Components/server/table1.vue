@@ -22,10 +22,11 @@
       @filterStatus="filterStatus"
       @filterArea1="filterArea1"
       @filterArea2="filterArea2"
+      @filterYear="filterYear"
     ></ser-search>
 
     <!-- 表格大标题 -->
-    <p class="title">2019客户资料卡查询</p>
+    <p class="title">客户资料卡查询</p>
     <xieyiblock
       v-show="showBlock"
       @hiddenBlock="hiddenBlock()"
@@ -47,6 +48,7 @@
     >
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
       <el-table-column prop="CNAME" label="客户名称" width="265"></el-table-column>
+      <el-table-column prop="CONTRACTYEAR" label="年份" width="120"></el-table-column>
       <el-table-column prop="STATE" label="资料卡状态" :formatter="statusFormatter" width="120"></el-table-column>
       <el-table-column label="资料文件">
         <template slot-scope="scope">
@@ -170,11 +172,12 @@ export default {
       cid: this.$store.state.user.data.loginName,
       loading: false, //控制加载遮罩
       area: [], //当前账号所管辖的地区，大区或片区
-
+      find: "",
       nowarea1: "" /***从筛选子组件拿到的三个筛选条件 */,
       nowarea2: "",
       nowstatus: "",
-      nowylc: ""
+      nowylc: "",
+      selYear: this.$store.state.year
     };
   },
   computed: {
@@ -197,7 +200,6 @@ export default {
       //查询资料卡
       this.$refs.verifysLeap.scrollIntoView();
       var position = this.$store.state.user.pos[0].position;
-
       this.ccid = row.CID;
       this.showBtn = false;
       this.showVerify = true;
@@ -247,47 +249,27 @@ export default {
       if (status == "BIILDEPCHECKING") return "订单部审核中";
       if (status == "SALEMANMODIFYING") return "协议书待修改"; //原业务员修改中
     },
-
     changeCurrentPage(data) {
       /**改变页数 */
       this.loading = true;
       this.currentPage = data;
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: this.currentPage,
-          limit: "10",
-          year: this.$store.state.year,
-          find: "",
-          state: this.nowstatus,
-          area_1: this.nowarea1,
-          area_2: this.nowarea2,
-          cid: this.cid,
-          position: this.position,
-          ylcstate: this.nowylc
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.searchAll();
     },
     /*子组件通过或退回资料卡，更新当前页*/
     updatePage() {
+      this.searchAll();
+    },
+    searchAll() {
       this.loading = true;
       this.$axios
         .post("/yulan/customerInfo/getNcustomerinfo.do", {
           page: this.currentPage,
           limit: "10",
-          year: this.$store.state.year,
-          state: "",
-          find: "",
-          area_1: "",
-          area_2: "",
+          year: this.selYear,
+          state: this.nowstatus,
+          find: this.find,
+          area_1: this.nowarea1,
+          area_2: this.nowarea2,
           cid: this.cid,
           position: this.position,
           ylcstate: this.nowylc
@@ -305,35 +287,12 @@ export default {
     },
     search(ae) {
       //客户搜索功能
-      this.loading = true;
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: "1",
-          limit: "10",
-          year: this.$store.state.year,
-          state: "",
-          find: ae,
-          area_1: "",
-          area_2: "",
-          cid: this.cid,
-          position: this.position,
-          ylcstate: ""
-        })
-        .then(res => {
-          this.currentPage = 1;
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.find = ae;
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterStatus(ae) {
       //状态筛选功能
-      this.loading = true;
       let aa = "",
         bb = "";
       if (ae != "显示全部" && ae != "SALEMANMODIFYING") aa = ae;
@@ -343,92 +302,29 @@ export default {
       }
       this.nowstatus = aa;
       this.nowylc = bb;
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: "1",
-          limit: "10",
-          year: this.$store.state.year,
-          state: this.nowstatus,
-          find: "",
-          area_1: this.nowarea1,
-          area_2: this.nowarea2,
-          cid: this.cid,
-          position: this.position,
-          ylcstate: this.nowylc
-        })
-        .then(res => {
-          this.currentPage = 1;
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea1(ae) {
       //一级地区筛选功能
-      this.loading = true;
       if (ae == "显示全部") ae = "";
       this.nowarea1 = ae;
       this.nowarea2 = "";
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: "1",
-          limit: "10",
-          year: this.$store.state.year,
-          state: this.nowstatus,
-          find: "",
-          area_1: this.nowarea1,
-          area_2: this.nowarea2,
-          cid: this.cid,
-          position: this.position,
-          ylcstate: this.nowylc
-        })
-        .then(res => {
-          this.currentPage = 1;
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
     },
     filterArea2(ae) {
       //二级地区筛选功能
-      this.loading = true;
       if (ae == "显示全部") ae = "";
       this.nowarea2 = ae;
       this.nowarea1 = "";
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: "1",
-          limit: "10",
-          year: this.$store.state.year,
-          state: this.nowstatus,
-          find: "",
-          area_1: this.nowarea1,
-          area_2: this.nowarea2,
-          cid: this.cid,
-          position: this.position,
-          ylcstate: this.nowylc
-        })
-        .then(res => {
-          this.currentPage = 1;
-          if (res.data != null && res.data.code == 0) {
-            this.showlist = res.data.data;
-            this.total = res.data.count;
-            this.loading = false;
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.currentPage = 1;
+      this.searchAll();
+    },
+    filterYear(year) {
+      this.selYear = year;
+      this.currentPage = 1;
+      this.searchAll();
     },
     hiddenBlock() {
       //控制创建协议书是否显示
@@ -464,7 +360,7 @@ export default {
       .post("/yulan/customerInfo/getNcustomerinfo.do", {
         page: "1",
         limit: "10",
-        year: this.$store.state.year,
+        year: this.selYear,
         state: "",
         find: "",
         area_1: "",
