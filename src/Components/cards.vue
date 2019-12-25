@@ -184,7 +184,6 @@ export default {
     this.$axios
       .post("/yulan/customerInfo/getCustomerInfo.do", {
         CID: this.$store.state.user.data.loginName
-        // "CID":"C15056"
       })
       .then(res => {
         if (res.data != null && res.data.code == 0) {

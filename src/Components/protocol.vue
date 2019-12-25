@@ -286,7 +286,6 @@ export default {
       .then(res => {
         if (res.data != null && res.data.code == 0) {
           this.showProtocol = true;
-          console.log(res.data)
           this.b2b2 = res.data.data;
         }
       })
@@ -302,9 +301,8 @@ export default {
       })
       .then(res => {
         this.recordTitle = res.data.yLcontractInfo;
-        console.log(res.data)
-        if(res.data.yLcontractentryMemo)
-        this.recordArr = res.data.yLcontractentryMemo.reverse();
+        if (res.data.yLcontractentryMemo)
+          this.recordArr = res.data.yLcontractentryMemo.reverse();
       })
       .catch(err => {
         console.log("拿评审记录数据错误" + err);
