@@ -41,7 +41,7 @@
     </el-select>
     <span class="title" id="status">年份:</span>
     <el-select v-model="selYear" @change="filterYear">
-      <el-option v-for="item in 85" :key="item+2014" :value="item+2014" :label="item+2014"></el-option>
+      <el-option v-for="item in 83" :key="item+2017" :value="item+2017" :label="item+2017"></el-option>
     </el-select>
   </div>
 </template>
@@ -301,7 +301,7 @@ export default {
     filterArea2() {
       this.$emit("filterArea2", this.area2);
     },
-    filterYear(){
+    filterYear() {
       this.$emit("filterYear", this.selYear);
     }
   },

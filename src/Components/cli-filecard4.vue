@@ -265,6 +265,8 @@
       <button @click="back">上一步</button>
       <button @click="save" v-show="!this.only">保存</button>
       <button @click="submit" v-show="!this.only">保存并提交</button>
+      <button @click="enter" v-show="this.showEnter">确认</button>
+      <button @click="change" v-show="this.showEnter">修改</button>
     </div>
   </div>
 </template>
@@ -278,7 +280,8 @@ export default {
   props: {
     cardobj: Object,
     recordTitle: "",
-    only: Boolean
+    only: Boolean,
+    showEnter: Boolean
   },
   data() {
     return {
@@ -731,6 +734,12 @@ export default {
         }
       }
       return true;
+    },
+    enter(){
+      this.$emit("enter");
+    },
+    change(){
+      this.$emit("change");
     },
     getWeiTuo() {
       this.$axios

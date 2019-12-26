@@ -192,14 +192,8 @@
             :class="{readOnly:only}"
           />
         </div>
-        <!-- <div class="owner">
-                   <p class="title">主营区域</p>
-                   <input type="text" name="area" readonly="area" class="readOnly" :value="cardobj.marketname">
-        </div>-->
         <div class="owner">
           <p class="title">店面面积 (平方米)</p>
-          <!-- <input type="number" name="space" v-model="shopArea" :readOnly='only' :class="{readOnly:only}"  onkeypress='return(((event.which||event.keyCode)==8)||(/[\d]/.test(String.fromCharCode(event.which||event.keyCode))))'> -->
-          <!-- <input type="number" name="space" v-model="shopArea" :readOnly='only' :class="{readOnly:only}"  onpaste="return false;"  onkeypress="keyPress" onkeyup="value=value.replace(/[^\d]/g,'') " > -->
           <input
             type="number"
             name="space"
@@ -355,45 +349,46 @@ export default {
       else event.returnValue = false;
     },
     next() {
-      if (!this.preferedbrand) {
-        this.$alert("请选择意向品牌");
-        return;
-      }
-      if (!this.currentProduct) {
-        this.$alert("请填写主营品牌（非玉兰）");
-        return;
-      }
-      if (!this.invoiceType) {
-        this.$alert("请选择发票开具类型");
-        return;
-      }
-      if (!this.juridicPersonHandset) {
-        this.$alert("请填写法人手机");
-        return;
-      }
-      if (this.invoiceType == "电子普通发票" && !this.recipeTargetMb) {
-        this.$alert("请填写电子普通发票接收邮箱");
-        return;
-      }
-      if (this.invoiceType == "增值税专用发票") {
-        if (!this.invAddress) {
-          this.$alert("请填写增值税专用发票地址");
+      if (!this.only) {
+        if (!this.preferedbrand) {
+          this.$alert("请选择意向品牌");
           return;
         }
-        if (!this.invTelephone) {
-          this.$alert("请填写增值税专用发票电话");
+        if (!this.currentProduct) {
+          this.$alert("请填写主营品牌（非玉兰）");
           return;
         }
-        if (!this.invBankname) {
-          this.$alert("请填写增值税专用发票开户银行");
+        if (!this.invoiceType) {
+          this.$alert("请选择发票开具类型");
           return;
         }
-        if (!this.invBanmaccount) {
-          this.$alert("请填写增值税专用发票银行账号");
+        if (!this.juridicPersonHandset) {
+          this.$alert("请填写法人手机");
           return;
+        }
+        if (this.invoiceType == "电子普通发票" && !this.recipeTargetMb) {
+          this.$alert("请填写电子普通发票接收邮箱");
+          return;
+        }
+        if (this.invoiceType == "增值税专用发票") {
+          if (!this.invAddress) {
+            this.$alert("请填写增值税专用发票地址");
+            return;
+          }
+          if (!this.invTelephone) {
+            this.$alert("请填写增值税专用发票电话");
+            return;
+          }
+          if (!this.invBankname) {
+            this.$alert("请填写增值税专用发票开户银行");
+            return;
+          }
+          if (!this.invBanmaccount) {
+            this.$alert("请填写增值税专用发票银行账号");
+            return;
+          }
         }
       }
-
       // 　　var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); // //邮箱正则
       // 　　if(this.recipeTargetMb === ""){ //输入不能为空
       // 　　　　this.$alert("邮箱输入不能为空!");
@@ -617,4 +612,3 @@ button {
   background-color: rgb(160, 212, 86) !important;
 }
 </style>
-

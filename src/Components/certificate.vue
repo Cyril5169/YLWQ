@@ -69,7 +69,7 @@ export default {
     //发送请求拿评审记录的协议书当前状态
     this.$axios
       .post("/yulan/infoState/getYLcontractentryState.do", {
-        cid: this.$store.state.user.data.loginName,
+        cid: this.$store.state.user.data.customerMainId,
         cyear: this.$store.state.year //必备
       })
       .then(res => {
@@ -80,7 +80,7 @@ export default {
           this.$axios
             .post("/yulan/customerInfo/getAuthorization.do", {
               //获取授权区域并展示canvas
-              cid: this.$store.state.user.data.loginName
+              cid: this.$store.state.user.data.customerMainId
             })
             .then(res => {
               if (res.data != null) {
@@ -104,7 +104,7 @@ export default {
     this.$axios
       .post("/yulan/YLcontractentry/getYLcontract.do", {
         //获取协议书的两个时间
-        ccid: this.$store.state.user.data.loginName
+        ccid: this.$store.state.user.data.customerMainId
       })
       .then(res => {
         let startDate = res.data.data.startDate;

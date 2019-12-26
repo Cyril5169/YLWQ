@@ -104,8 +104,7 @@ export default {
   color: #ff0000;
 }
 .record-state.title {
-  font-size: 17.8px;
-  /* font-weight: bold; */
+  font-size: 17px;
 }
 .record {
   margin: 12px 0;

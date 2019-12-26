@@ -36,7 +36,7 @@ export default {
           router: "/client/tip"
         },
         {
-          desc: "资料卡建立",
+          desc: "客户资料卡",
           router: "/client/cards"
         },
         {

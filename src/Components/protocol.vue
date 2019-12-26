@@ -199,7 +199,7 @@ export default {
         const link = document.createElement("a");
         link.style.display = "none";
         link.href = "data:application/msword;" + base64data;
-        //link.download=this.$store.state.user.data.loginName+"年度经销协议书";
+        //link.download=this.$store.state.user.data.customerMainId+"年度经销协议书";
         link.download = "经销协议书";
         document.body.appendChild(link);
         link.click();
@@ -225,7 +225,7 @@ export default {
       if (!this.check()) return;
       this.$axios
         .post("/yulan/infoState/checkYLcontractentryState.do", {
-          cid: this.$store.state.user.data.loginName,
+          cid: this.$store.state.user.data.customerMainId,
           state: "ASM_CHECKING",
           wfmemo: this.memo + "通过协议文本;",
           signed: 0,
@@ -248,7 +248,7 @@ export default {
       if (this.reason != "") {
         this.$axios
           .post("/yulan/infoState/checkYLcontractentryState.do", {
-            cid: this.$store.state.user.data.loginName,
+            cid: this.$store.state.user.data.customerMainId,
             state: "SALEMANMODIFYING",
             wfmemo: this.memo + "退回协议书，原因是 [" + this.reason + "];",
             signed: 2,
@@ -281,7 +281,7 @@ export default {
   mounted() {
     this.$axios
       .post("/yulan/YLcontractentry/getYLcontractHTML.do	", {
-        cid: this.$store.state.user.data.loginName
+        cid: this.$store.state.user.data.customerMainId
       })
       .then(res => {
         if (res.data != null && res.data.code == 0) {
@@ -296,7 +296,7 @@ export default {
     //发送请求拿评审的数据
     this.$axios
       .post("/yulan/infoState/getYLcontractentryState.do", {
-        cid: this.$store.state.user.data.loginName,
+        cid: this.$store.state.user.data.customerMainId,
         cyear: this.$store.state.year //必备
       })
       .then(res => {

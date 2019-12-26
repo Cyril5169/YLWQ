@@ -134,8 +134,16 @@ export default {
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
+             this.$axios
+        .post( 'http://14.29.223.114:10250/yulan-order/web_user/login.do', {
+          loginName: res.data.data.loginName,
+          password: this.password,
+          year: this.year
+        })
+        .then(res2 => {
             this.$store.commit("setCurrentUrl", 0);
             let info = res.data;
+            info.data.customerMainId = res2.data.data.customerMainId;
             //根据身份的种类跳转到不同的页面并带上token
             //这里应该要用vuex了吧，放token
             this.$store.commit("setStorage", info);
@@ -188,6 +196,7 @@ export default {
                 }
               }
             }
+            })
           } else {
             this.$alert("请确认账号密码正确！");
           }

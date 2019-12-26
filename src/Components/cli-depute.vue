@@ -143,7 +143,7 @@ export default {
         //发送给后台的数据
         ccyear: this.$store.state.year, //年份
         // ccyear:"1992",
-        ccid: this.$store.state.user.data.loginName, //客户编号
+        ccid: this.$store.state.user.data.customerMainId, //客户编号
         idcardNo: "", //身份证号
         name: "", //姓名
         accountBank: "", //开户银行
@@ -183,7 +183,7 @@ export default {
         //如果本来就有委托人，则填上原有的数据
         this.$axios
           .post("/yulan/customerInfo/getYLcontract.do", {
-            ccid: this.$store.state.user.data.loginName, //客户编号
+            ccid: this.$store.state.user.data.customerMainId, //客户编号
             ccyear: this.$store.state.year
           })
           .then(res => {
@@ -325,7 +325,7 @@ export default {
             fd.append("imgType", "YLcontract");
             fd.append(
               "fileName",
-              self.$store.state.user.data.loginName +
+              self.$store.state.user.data.customerMainId +
                 "-(" +
                 self.$store.state.year +
                 ")-" +
@@ -357,7 +357,7 @@ export default {
         fd.append("imgType", "YLcontract");
         fd.append(
           "fileName",
-          this.$store.state.user.data.loginName +
+          this.$store.state.user.data.customerMainId +
             "-(" +
             this.$store.state.year +
             ")-" +
@@ -405,7 +405,7 @@ export default {
             fd.append("imgType", "YLcontract");
             fd.append(
               "fileName",
-              self.$store.state.user.data.loginName +
+              self.$store.state.user.data.customerMainId +
                 "-(" +
                 self.$store.state.year +
                 ")-" +
@@ -437,7 +437,7 @@ export default {
         fd.append("imgType", "YLcontract");
         fd.append(
           "fileName",
-          this.$store.state.user.data.loginName +
+          this.$store.state.user.data.customerMainId +
             "-(" +
             this.$store.state.year +
             ")-" +
@@ -485,7 +485,7 @@ export default {
             fd.append("imgType", "YLcontract");
             fd.append(
               "fileName",
-              self.$store.state.user.data.loginName +
+              self.$store.state.user.data.customerMainId +
                 "-(" +
                 self.$store.state.year +
                 ")-" +
@@ -517,7 +517,7 @@ export default {
         fd.append("imgType", "YLcontract");
         fd.append(
           "fileName",
-          this.$store.state.user.data.loginName +
+          this.$store.state.user.data.customerMainId +
             "-(" +
             this.$store.state.year +
             ")-" +
@@ -580,7 +580,7 @@ export default {
           // .post("/yulan/customerInfo/createYLcontract.do", {
           //   ccyear: this.$store.state.year, //年份
           //   // ccyear:"1992",
-          //   ccid: this.$store.state.user.data.loginName, //客户编号
+          //   ccid: this.$store.state.user.data.customerMainId, //客户编号
           //   idcardNo:this.obj.idcardNo,
           //   name: this.obj.name, //姓名
           //   accountBank: this.obj.accountBank, //开户银行
