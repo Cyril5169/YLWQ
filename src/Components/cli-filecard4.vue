@@ -595,7 +595,7 @@ export default {
         file4Op: this.filesarr[3].date,
         file5IdcardBg: this.filesarr[1].posturl,
         file5Op: this.filesarr[1].date,
-        contractyear: this.$store.state.year, //必备
+        contractyear: this.cardobj.contractyear, //必备
         privateAccountAuthed: this.privateAccountAuthed //默认没有配偶
       });
       this.$emit("submitall");
@@ -644,7 +644,7 @@ export default {
             file4Op: this.filesarr[3].date,
             file5IdcardBg: this.filesarr[1].posturl,
             file5Op: this.filesarr[1].date,
-            contractyear: this.$store.state.year, //必备
+            contractyear: this.cardobj.contractyear, //必备
             privateAccountAuthed: this.privateAccountAuthed //默认没有配偶
           });
           this.$emit("postall");
@@ -745,7 +745,7 @@ export default {
       this.$axios
         .post("/yulan/customerInfo/getYLcontract.do", {
           ccid: this.cardobj.cid,
-          ccyear: this.$store.state.year
+          ccyear: this.cardobj.contractyear
         })
         .then(res => {
           if (res.data.code == 0) this.codeCheck = "yes";
