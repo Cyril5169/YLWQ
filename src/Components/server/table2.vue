@@ -184,6 +184,12 @@ export default {
     }
   },
   mounted() {
+    var me = this;
+    window.onkeydown = event => {
+      if (event.keyCode == 27) {
+        if (me.showProtocol) me.showProtocol = false;
+      }
+    };
     this.loading = true;
     this.$axios
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {

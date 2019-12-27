@@ -289,9 +289,9 @@
             />
             <label for="has-no">&nbsp;&nbsp;有营业执照-无对账公号&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label>
             <br />
-            <div class="add-account" v-show="isShow">
+            <!-- <div class="add-account" v-show="isShow">
               <a class="alert-block" @click="moreMessageInput">查看授权委托账号信息及附件</a>
-            </div>
+            </div> -->
             <input
               disabled
               type="radio"
@@ -700,6 +700,7 @@ export default {
           ccyear: this.$store.state.year
         })
         .then(res => {
+          console.log(res.data.code)
           if (res.data.code == 0) this.addCheck = "yes";
           else if (res.data.code == 1) this.addCheck = "no";
           if (this.addCheck == "yes") this.isShow = true;
