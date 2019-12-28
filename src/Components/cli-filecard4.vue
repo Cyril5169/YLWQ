@@ -455,7 +455,7 @@ export default {
               "fileName",
               self.cardobj.cid +
                 "-(" +
-                self.$store.state.year +
+                self.cardobj.contractyear +
                 ")-" +
                 temp[self.showImageIndex]
             );
@@ -514,7 +514,7 @@ export default {
           "fileName",
           self.cardobj.cid +
             "-(" +
-            self.$store.state.year +
+            self.cardobj.contractyear +
             ")-" +
             temp[self.showImageIndex]
         );
