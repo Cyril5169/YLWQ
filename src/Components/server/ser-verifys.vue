@@ -292,7 +292,7 @@
             <br />
             <!-- <div class="add-account" v-show="isShow">
               <a class="alert-block" @click="moreMessageInput">查看授权委托账号信息及附件</a>
-            </div> -->
+            </div>-->
             <input
               disabled
               type="radio"
@@ -475,15 +475,15 @@ var loadingInstance; //加载
 import serDepute from "@/Components/server/ser-depute";
 import reviewRecord from "@/Components/review-record";
 import { Loading } from "element-ui";
-import { UpdateState,GetCardByCustomer } from "@/api/card";
+import { UpdateState, GetCardByCustomer } from "@/api/card";
 
 export default {
   name: "ser-verifys",
-  components: { serDepute,reviewRecord },
+  components: { serDepute, reviewRecord },
   props: {
     cid: "",
     showBtn: "",
-    year:'',
+    year: ""
   },
   data() {
     return {
@@ -545,14 +545,12 @@ export default {
       cardShow: true, //身份证填框
       yingyeShow: false, //营业填框
       suiwuShow: false, //税务填框
-
       //退回理由块
       hide: false,
       reason: "",
-     
       position: this.$store.state.user.pos[0].position,
       recordTitle: "", //传给评审记录的数据
-      recordArr: [], //传给评审记录的数据
+      recordArr: [] //传给评审记录的数据
     };
   },
   methods: {
@@ -587,12 +585,6 @@ export default {
     },
     //审核资料卡红叉关闭
     dispear() {
-      // //图片清空这里也写吧？？？？
-      // this.file1Idcard="";
-      // this.file2Businesslicense="";
-      // this.file4Gtqc="";
-      // this.file5IdcardBg="";
-      // this.$alert("红叉被点了，要关闭了！！");
       this.$emit("close", false);
       this.$refs.verifysLeap.scrollIntoView();
       this.hide = false;
@@ -600,59 +592,50 @@ export default {
     // 查看附件（配偶）
     moreMessageInput() {
       this.showcliDepute = true;
-      //同时还要传个ccid？？？
     },
-
-    //修改图片
-    changepic() {
-      //我怎么知道它要改那张图片呢？又怎么上传呢？
-    },
-
     //退回，通过，这个操作后要刷新那一页的展示，调用一次ajax请求
     // BUSINESSCHECKING --- 业务员审核中
     // BIILDEPCHECKING --- 订单部审核中
     queding() {
       let position = this.$store.state.user.pos[0].position;
       if (position == "SALEMAN_M" || position == "SALEMAN_S") {
-        this.$emit("close", false);
-        this.$axios
-          .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-            cid: this.cid,
-            // "cid":"C01613",
-            state: "BIILDEPCHECKING",
-            memo: this.memo + "通过;"
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.$alert("审核成功！状态更新为：订单部审核中");
-              location.reload();
-            } else {
-              this.$alert("通过资料卡失败");
-            }
-          });
-
+        // this.$axios
+        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
+        //     cid: this.cid,
+        //     state: "BIILDEPCHECKING",
+        //     memo: this.memo + "通过;"
+        //   })
+        UpdateState({
+          cid: this.cid,
+          year: this.year,
+          state: "BIILDEPCHECKING",
+          memo: this.memo + "通过;"
+        }).then(res => {
+          this.$alert("审核成功！状态更新为：订单部审核中");
+          this.$emit("close", false);
+          //location.reload();
+          this.updatePage(); //小刷新
+        });
         this.hide = false;
-        this.updatePage(); //小刷新
       } else if (position == "BILLDEP_APPROVE") {
-        this.$emit("close", false);
-        this.$axios
-          .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-            cid: this.cid,
-            // "cid":"C01613",
-            state: "APPROVED",
-            memo: this.memo + "通过;"
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.$alert("审核成功！状态更新为：已通过");
-              location.reload();
-            } else {
-              this.$alert("通过资料卡失败");
-            }
-          });
+        // this.$axios
+        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
+        //     cid: this.cid,
+        //     state: "APPROVED",
+        //     memo: this.memo + "通过;"
+        //   })
+        UpdateState({
+          cid: this.cid,
+          year: this.year,
+          state: "APPROVED",
+          memo: this.memo + "通过;"
+        }).then(res => {
+          this.$alert("审核成功！状态更新为：已通过");
+          this.$emit("close", false);
+          //location.reload();
+          this.updatePage(); //小刷新
+        });
         this.hide = false;
-        // this.updatePage();//小刷新
-        location.reload();
       } else {
         this.$alert("对不起，您没有权限执行通过操作");
       }
@@ -668,24 +651,24 @@ export default {
         position == "SALEMAN_M" ||
         position == "SALEMAN_S"
       ) {
-        this.$emit("close", false);
-        this.$axios
-          .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-            cid: this.cid,
-            state: "CUSTOMERPORCESSING2", //正确
-            memo: this.memo + "退回，原因是 [" + this.reason + "];"
-          })
-          .then(res => {
-            if (res.data.code == 0) {
-              this.$alert("退回该客户资料卡成功");
-              // location.reload();
-            } else {
-              this.$alert("操作失败");
-            }
-          });
+        // this.$axios
+        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
+        //     cid: this.cid,
+        //     state: "CUSTOMERPORCESSING2", //正确
+        //     memo: this.memo + "退回，原因是 [" + this.reason + "];"
+        //   })
+        UpdateState({
+          cid: this.cid,
+          year: this.year,
+          state: "CUSTOMERPORCESSING2",
+          memo: this.memo + "退回，原因是 [" + this.reason + "];"
+        }).then(res => {
+          this.$alert("退回该客户资料卡成功");
+          this.$emit("close", false);
+          //location.reload();
+          this.updatePage(); //小刷新
+        });
         this.hide = false;
-        // this.updatePage();//更新
-        location.reload();
       } else {
         this.$alert("对不起，您没有权限执行退回操作");
       }
@@ -732,8 +715,9 @@ export default {
       //   .post("/yulan/customerInfo/getCustomerInfo.do", {
       //     CID: newV
       //   })
-        GetCardByCustomer({cid:newV.cid,year:newV.year}).then(res => {
-          if (res.data != null && res.data.length >0) {
+      GetCardByCustomer({ cid: newV.cid, year: newV.year })
+        .then(res => {
+          if (res.data != null && res.data.length > 0) {
             this.cardobj = res.data[0];
             // //发送请求拿评审的数据
             this.$axios
@@ -888,7 +872,6 @@ export default {
         " ";
       let memo =
         nowTime +
-        " " +
         "被" +
         ms[this.position] +
         this.$store.state.user.data.realName;
@@ -896,10 +879,10 @@ export default {
     },
     cidYear() {
       return {
-        cid:this.cid,
-        year:this.year
-      }
-  }
+        cid: this.cid,
+        year: this.year
+      };
+    }
   }
 };
 // (new Date().getMinutes() >= 10? new Date().getMinutes(): ("0" + new Date().getMinutes()))
@@ -983,7 +966,7 @@ p.title {
 }
 
 /*以下是左边的样式*/
-.person{
+.person {
   height: 40px;
 }
 .person img {

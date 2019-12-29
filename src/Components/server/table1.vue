@@ -256,7 +256,6 @@ export default {
     },
     changeCurrentPage(data) {
       /**改变页数 */
-      this.loading = true;
       this.currentPage = data;
       this.searchAll();
     },
@@ -266,6 +265,7 @@ export default {
     },
     searchAll() {
       this.loading = true;
+      this.showlist =[];
       this.$axios
         .post("/yulan/customerInfo/getNcustomerinfo.do", {
           page: this.currentPage,
@@ -282,6 +282,7 @@ export default {
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
+            console.log(this.showlist)
             this.total = res.data.count;
             this.loading = false;
           }

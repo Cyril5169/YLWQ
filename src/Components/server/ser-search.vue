@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-search">
     <span class="title">客户:</span>
-    <input style="width:130px;" type="text" list="cars" v-model="searchContent" @keydown="search" />
+    <input style="width:130px;" type="text" list="cars" v-model="searchContent" @keyup="search" />
     <!-- <div class="search" @click="search">查询</div> -->
 
     <span class="title">区域:</span>
