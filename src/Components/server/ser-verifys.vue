@@ -262,6 +262,7 @@
           <serDepute
             v-show="showcliDepute"
             :ccid="this.cardobj.cid"
+            :year="this.cardobj.contractyear"
             @dispearDepute="dispearDepute()"
             @showDeputePhoto="showPhoto"
             style="position:absolute;top:100px;"
@@ -458,6 +459,7 @@
       </div>
     </div>
     <div ref="tuihuiBtn"></div>
+    <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
   </div>
 </template>
 
@@ -471,13 +473,17 @@ var ms = {
 var remoteImageURL = "http://14.29.221.109:10250/upload";
 var loadingInstance; //加载
 import serDepute from "@/Components/server/ser-depute";
+import reviewRecord from "@/Components/review-record";
 import { Loading } from "element-ui";
+import { UpdateState,GetCardByCustomer } from "@/api/card";
+
 export default {
   name: "ser-verifys",
-  components: { serDepute },
+  components: { serDepute,reviewRecord },
   props: {
     cid: "",
-    showBtn: ""
+    showBtn: "",
+    year:'',
   },
   data() {
     return {
@@ -543,8 +549,10 @@ export default {
       //退回理由块
       hide: false,
       reason: "",
-
-      position: this.$store.state.user.pos[0].position
+     
+      position: this.$store.state.user.pos[0].position,
+      recordTitle: "", //传给评审记录的数据
+      recordArr: [], //传给评审记录的数据
     };
   },
   methods: {
@@ -697,10 +705,9 @@ export default {
       this.$axios
         .post("/yulan/customerInfo/getYLcontract.do", {
           ccid: this.cardobj.cid,
-          ccyear: this.$store.state.year
+          ccyear: this.cardobj.contractyear
         })
         .then(res => {
-          console.log(res.data.code)
           if (res.data.code == 0) this.addCheck = "yes";
           else if (res.data.code == 1) this.addCheck = "no";
           if (this.addCheck == "yes") this.isShow = true;
@@ -712,7 +719,7 @@ export default {
     }
   },
   watch: {
-    cid(newV) {
+    cidYear(newV) {
       //新进卡片图片先清空
       this.file1Idcard = "";
       this.file2Businesslicense = "";
@@ -721,14 +728,28 @@ export default {
       this.accountType = ""; //账户类型也先清空
       loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
 
-      this.$axios
-        .post("/yulan/customerInfo/getCustomerInfo.do", {
-          CID: newV
-        })
-        .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            this.cardobj = res.data.data;
-            console.log(this.cardobj);
+      // this.$axios
+      //   .post("/yulan/customerInfo/getCustomerInfo.do", {
+      //     CID: newV
+      //   })
+        GetCardByCustomer({cid:newV.cid,year:newV.year}).then(res => {
+          if (res.data != null && res.data.length >0) {
+            this.cardobj = res.data[0];
+            // //发送请求拿评审的数据
+            this.$axios
+              .post("/yulan/infoState/getCustomerInfoCardState.do", {
+                cid: newV.cid,
+                year: this.cardobj.contractyear
+              })
+              .then(res2 => {
+                this.recordTitle = res2.data.customerInfo;
+                if (this.cardobj.state == "ONCREATE")
+                  this.recordTitle = "资料卡确认中";
+                if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
+              })
+              .catch(err => {
+                console.log("拿评审记录数据错误?" + err);
+              });
           }
         })
         .catch(function(err) {
@@ -820,7 +841,6 @@ export default {
           break;
       }
     },
-
     hide: function() {
       this.$nextTick(() => {
         this.$refs.tuihuiBtn.scrollIntoView(false);
@@ -873,7 +893,13 @@ export default {
         ms[this.position] +
         this.$store.state.user.data.realName;
       return memo;
-    }
+    },
+    cidYear() {
+      return {
+        cid:this.cid,
+        year:this.year
+      }
+  }
   }
 };
 // (new Date().getMinutes() >= 10? new Date().getMinutes(): ("0" + new Date().getMinutes()))

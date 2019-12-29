@@ -7,6 +7,7 @@
     <div class="verify">
       <ser-verifys
         :cid="this.ccid"
+        :year="cyear"
         :showBtn="showBtn"
         @close="close"
         v-show="showVerify"
@@ -99,7 +100,7 @@
             type="text"
             size="large"
             style="color:blue"
-            @click="createCer(scope.row.ACCOUNT1_NAME,scope.row.CID,$event)"
+            @click="createCer(scope.row.ACCOUNT1_NAME,scope.row.CID,scope.row.CONTRACTYEAR,$event)"
             v-show=" scope.row.STATE == 'APPROVED'&& scope.row.YLCSTATE != 'SALEMANMODIFYING'&&scope.row.YLCSTATE=='SALEMANFILLING'&&(position =='SALEMAN_M'||position == 'SALEMAN_S') "
           >创建</el-button>
 
@@ -107,7 +108,7 @@
             type="text"
             size="large"
             style="color:red"
-            @click="createCer2(scope.row.ACCOUNT1_NAME,scope.row.CID,$event)"
+            @click="createCer2(scope.row.ACCOUNT1_NAME,scope.row.CID,scope.row.CONTRACTYEAR,$event)"
             v-show="scope.row.YLCSTATE == 'SALEMANMODIFYING'&&(position =='SALEMAN_M'||position == 'SALEMAN_S')"
           >修改</el-button>
 
@@ -163,6 +164,7 @@ export default {
       showlist: [], //showlist存放展示用数据
       showBlock: false, //创建协议书是否显示
       ccid: "", //当前行客户id
+      cyear:'',
       ccName: "", //当前行客户名称
       showVerify: false, //控制是否展示审核界面
       showProtocol: false,
@@ -194,6 +196,7 @@ export default {
     },
     queryProtocol(row) {
       this.ccid = row.CID;
+      this.cyear = row.CONTRACTYEAR;
       this.showProtocol = true;
     },
     handleQuery(row) {
@@ -201,12 +204,13 @@ export default {
       this.$refs.verifysLeap.scrollIntoView();
       var position = this.$store.state.user.pos[0].position;
       this.ccid = row.CID;
+      this.cyear = row.CONTRACTYEAR;
       this.showBtn = false;
       this.showVerify = true;
     },
     rowClick(row, column) {
       //点击每一行将信息列出来
-      console.log(row);
+      //console.log(row);
     },
     handleVerify(row) {
       this.$refs.verifysLeap.scrollIntoView();
@@ -224,6 +228,7 @@ export default {
       ) {
         //只有在资料卡状态是业务员审核中的时候才能审核资料卡\
         this.ccid = row.CID; //正确账号
+        this.cyear = row.CONTRACTYEAR;
         if (
           row.STATE == "APPROVED" ||
           position == "VSMAPPROVEXII" ||
@@ -330,23 +335,25 @@ export default {
       //控制创建协议书是否显示
       this.showBlock = false;
     },
-    createCer(name, id, e) {
+    createCer(name, id,year, e) {
       var evt = window.event || e;
       if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
         evt.stopPropagation();
         this.showBlock = true;
         this.ccid = id;
+        this.cyear = year;
         this.ccName = name;
       } else {
         this.$alert("权限不吻合");
       }
     },
-    createCer2(name, id, e) {
+    createCer2(name, id,year, e) {
       var evt = window.event || e;
       if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
         evt.stopPropagation();
         this.showBlock = true;
         this.ccid = id;
+        this.cyear = year;
         this.ccName = name;
         this.showReject = true;
       } else {

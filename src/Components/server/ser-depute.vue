@@ -72,7 +72,8 @@ var remoteImageURL = "http://14.29.221.109:10250/upload";
 export default {
   name: "ser-depute",
   props: {
-    ccid: ""
+    ccid: "",
+    year: ""
   },
   data() {
     return {
@@ -85,58 +86,16 @@ export default {
       imageUrl1: "", //三张图片绑定的url
       imageUrl2: "",
       imageUrl3: ""
-      // province:'',//公司-省
-      // city:'',//市
-      // area:'',//县
-      // provinces:[],
-      // citys:[],
-      // areas:[],
-      // obj: {
-      //   //发送给后台的数据
-      //   ccyear: this.$store.state.year, //年份
-      //   ccid: this.ccid, //客户编号
-      //   idcardNo: 220881198207061142, //不知道是什么
-      //   name: "", //姓名
-      //   accountBank: "", //开户银行
-      //   accout: "", //银行账户
-      //   accountLocation: "", //银行所在地
-      //   authfileIamge: "", //打印的委托书
-      //   idcardIamge1: "", //身份证正面
-      //   idcardIamge2: "" //身份证背面
-      // }
     };
   },
   watch: {
-    // province(val,oldval){
-    //     this.$axios.post('/yulan/areaRegion/getCity.do',this.province)
-    //     .then((res)=>{
-    //         this.citys = res.data.city;
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err);
-    //     })
-    //     this.areas = [];
-    // },
-    // city(val,oldval){
-    //     this.$axios.post('/yulan/areaRegion/getCountry.do',this.city)
-    //     .then((res)=>{
-    //         this.areas = res.data.country;
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err);
-    //     })
-    // },
-    ccid(newV) {
-      console.log("拿到ccid了" + this.ccid);
+    cidYear(newV) {
       this.$axios
         .post("/yulan/customerInfo/getYLcontract.do", {
-          // "ccid":"C15056"
-          // "ccid":this.ccid,
-          ccid: newV,
-          ccyear: this.$store.state.year
+          ccid: newV.ccid,
+          ccyear: newV.year
         })
         .then(res => {
-          console.log("审核时展示委托人信息", res.data.data);
           this.imageUrl1 = remoteImageURL + res.data.data.authfileIamge;
           this.imageUrl2 = remoteImageURL + res.data.data.idcardIamge1;
           this.imageUrl3 = remoteImageURL + res.data.data.idcardIamge2;
@@ -151,14 +110,6 @@ export default {
         });
     }
   },
-  // mounted(){
-  //   this.$axios.post('/yulan/areaRegion/getProvince.do')
-  //   .then((res)=>{
-  //       this.provinces = res.data.province;
-  //   }).catch((err)=>{
-  //       console.log(err);
-  //   })
-  // },
   methods: {
     changeOuterPhoto(value) {
       this.$emit("showDeputePhoto", value);
@@ -176,127 +127,18 @@ export default {
           ",toolbar=no,menubar=no,location=no,status=yes"
       );
     },
-    // handleUpload1(e) {
-    //   let files = e.target.files || e.dataTransfer.files;
-    //   let file = files[0];
-    //   var reader = new FileReader();
-    //   reader.readAsDataURL(files[0]); //读取数据
-    //   reader.onload = ev => {
-    //     // this.imageUrl1 = ev.target.result;
-    //   };
-    //   let fd = new FormData();
-    //   fd.append("file", file);
-    //   fd.append("imgType", "YLcontract");
-    //   const instance = this.$axios.create({
-    //     withCredentials: true
-    //   });
-    //   instance
-    //     .post("/yulan/customerInfo/upload.do", fd, {
-    //       headers: { "Content-Type": "multipart/form-data" }
-    //     })
-    //     .then(res => {
-    //       if (res.data != null && res.data.code == 0) {
-    //         this.authfileIamge = res.data.data.path;
-    //          this.imageUrl1 = remoteImageURL+ this.authfileIamge;
-    //          console.log("第一张上传图片成功" + this.authfileIamge);
-    //         // console.log("预览图片路径是"+this.imageUrl1);
-
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log("错误", err);
-    //     });
-    // },
-    // handleUpload2(e) {
-    //   let files = e.target.files || e.dataTransfer.files;
-    //   let file = files[0];
-    //   var reader = new FileReader();
-    //   reader.readAsDataURL(files[0]); //读取数据
-    //   reader.onload = ev => {
-    //     // console.log('本地拿到了文件的base64');
-    //     // this.imageUrl2 = ev.target.result;
-    //   };
-    //   let fd = new FormData();
-    //   fd.append("file", file);
-    //   fd.append("imgType", "YLcontract");
-    //   const instance = this.$axios.create({
-    //     withCredentials: true
-    //   });
-    //   instance
-    //     .post("/yulan/customerInfo/upload.do", fd, {
-    //       headers: { "Content-Type": "multipart/form-data" }
-    //     })
-    //     .then(res => {
-    //       if (res.data != null && res.data.code == 0) {
-    //         this.idcardIamge1 = res.data.data.path;
-    //           this.imageUrl2 = remoteImageURL+ this.idcardIamge1;
-    //         console.log("第二张上传图片成功" + this.idcardIamge1);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log("错误", err);
-    //     });
-    // },
-    // handleUpload3(e) {
-    //   let files = e.target.files || e.dataTransfer.files;
-    //   let file = files[0];
-    //   var reader = new FileReader();
-    //   reader.readAsDataURL(files[0]); //读取数据
-    //   reader.onload = ev => {
-    //     // console.log('本地拿到了文件的base64');
-    //     // this.imageUrl3 = ev.target.result;
-    //   };
-    //   let fd = new FormData();
-    //   fd.append("file", file);
-    //   fd.append("imgType", "YLcontract");
-    //   const instance = this.$axios.create({
-    //     withCredentials: true
-    //   });
-    //   instance
-    //     .post("/yulan/customerInfo/upload.do", fd, {
-    //       headers: { "Content-Type": "multipart/form-data" }
-    //     })
-    //     .then(res => {
-    //       if (res.data != null && res.data.code == 0) {
-    //         this.idcardIamge2 = res.data.data.path;
-    //            this.imageUrl3 = remoteImageURL+ this.idcardIamge2;
-    //         console.log("第三张上传图片成功" + this.idcardIamge2);
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log("错误", err);
-    //     });
-    // },
     dispear() {
       this.$emit("dispearDepute");
     }
-    // save: function() {
-    //   alert("信息提交成功");
-    // },
-    // submit() {
-    //   this.$axios
-    //     .post("/yulan/customerInfo/createYLcontract.do", Object.assign(this.obj,{"accountLocation":this.accountLocation}))
-    //     .then(res => {
-    //       console.log("成功", res.data.msg);
-    //       this.$message({
-    //         message: "保存成功",
-    //         type: "success"
-    //       });
-    //     })
-    //     .catch(err => {
-    //       console.log("错误", err);
-    //     });
-    // }
+  },
+  computed: {
+    cidYear() {
+      return {
+        ccid: this.ccid,
+        year: this.year
+      };
+    }
   }
-  // computed:{
-  // accountLocation(){
-  //   if(!this.city.regionName)
-  //     return this.province.regionName;
-  //     else if(!this.area.regionName)
-  //     return this.province.regionName + '-' + this.city.regionName;
-  //     else return this.province.regionName + '-' + this.city.regionName + '-' + this.area.regionName;
-  // }
-  // },
 };
 </script>
 
