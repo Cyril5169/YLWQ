@@ -323,7 +323,7 @@ export default {
       //二级地区筛选功能
       if (ae == "显示全部") ae = "";
       this.nowarea2 = ae;
-      this.nowarea1 = "";
+      //this.nowarea1 = "";
       this.currentPage = 1;
       this.searchAll();
     },

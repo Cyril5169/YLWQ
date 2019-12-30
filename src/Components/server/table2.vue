@@ -167,6 +167,7 @@ export default {
       //一级地区筛选功能
       if (ae == "显示全部") ae = "";
       this.nowarea1 = ae;
+      this.nowarea2 = "";
       this.currentPage = 1;
       this.searchAll();
     },
