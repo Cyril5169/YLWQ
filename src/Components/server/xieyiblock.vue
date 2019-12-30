@@ -1,326 +1,350 @@
 <template>
-    <div class="xieyi-wrapper">
-        <div class="xieyi-title">创建协议书</div>
-        <div class="xieyi-title" id="yxpp">经营品牌：<input type="checkbox" name="brand" id="WallPaper1" v-model="databool1"><label for="WallPaper1">玉兰（墙纸类产品）</label><input type="checkbox" name="brand" id="SoftProducts1" v-model="databool2"><label for="SoftProducts1">玉兰·兰居尚品（软装类产品）</label></div>
-        <div class="xieyi-items"><span class="input-blocks">销售总任务：<input type="text" class="small-block readonly" readonly v-model="totalAim"> 万元</span><span class="input-blocks">玉兰品牌：<input type="text" class="small-block" :class={readonly:!databool1} :readonly="!databool1" v-model="aRetailing"> 万元</span><span class="input-blocks">玉兰•兰居尚品：<input type="text" class="small-block" :class={readonly:!databool2} :readonly="!databool2" v-model="cMatching"> 万元</span></div>     
-        <div class="xieyi-items"><span class="input-blocks">销售任务</span></div><!--下面的数据有点放不下-->
-        <table border="1" cellspacing="0">
-            <tr>
-                <td>1月</td>
-                <td>2月</td>
-                <td>3月</td>
-                <td>4月</td>
-                <td>5月</td>
-                <td>6月</td>
-                <td>7月</td>
-                <td>8月</td>
-                <td>9月</td>
-                <td>10月</td>
-                <td>11月</td>
-                <td>12月</td> 
-                <td>总计</td>              
-            </tr>
-            <tr>
-                <td><input type="number" v-model="m1" class="readonly" readonly ></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly ></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly ></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m1" class="readonly" readonly></td>
-                <td><input type="number" v-model="m2" class="readonly" readonly></td>
-                <td><input type="number" readonly v-model="totalAim"></td>
-            </tr>
-        </table>
-        <div class="xieyi-items"><span class="input-blocks">总任务完成返点：<input type="number" v-model="rewordpercent" class="small-block">&nbsp;%</span><span class="input-blocks">兰居尚品任务返点：<input type="number" v-model="rewordpercent2" class="small-block">&nbsp;%</span></div>
-        <div class="xieyi-items"><span class="input-blocks">备货金额占比：<input type="text" class="small-block" v-model="stockpercent">&nbsp;%</span><span class="input-blocks">合人民币：<input type="text" class="small-block readonly" readonly v-model="allRMB">&nbsp;元</span></div>
-          <div class="timer-wapper">
-              <div  class="timer ">
-                 <p class="timeWord">协议生效日期：</p>
-                  <el-date-picker
-                  v-model="startDate"
-                  align="right"
-                  type="date"
-                  placeholder="协议生效日期"
-                  class="time"
-                  :picker-options="pickerOptions1"
-                  value-format="yyyy-MM-dd"
-                >
-                </el-date-picker>
-              </div>
-              <div  class="timer">
-                <p class="timeWord">协议截止日期：</p>
-                <el-date-picker
-                  v-model="endDate"
-                  align="right"
-                  type="date"
-                  placeholder="协议截止日期"
-                   class="time"
-                  :picker-options="pickerOptions1"
-                   value-format="yyyy-MM-dd"
-                  >
-                </el-date-picker>
-              </div>
-          </div>
-          
-        <div class="button">
-            <button @click="submit">创建并发送</button>
-            <button @click="exitBlock">取消</button>
-        </div>
-        <div v-show="showReject">
-            <!-- <div class="tuihuiName">*协议书被【{{ccName}}】退回</div> -->
-            <!-- <textarea></textarea>  -->
-        </div>
+  <div class="xieyi-wrapper">
+    <div class="xieyi-title">创建协议书</div>
+    <div class="xieyi-title" id="yxpp">
+      经营品牌：
+      <input type="checkbox" name="brand" id="WallPaper1" v-model="databool1" />
+      <label for="WallPaper1">玉兰（墙纸类产品）</label>
+      <input type="checkbox" name="brand" id="SoftProducts1" v-model="databool2" />
+      <label for="SoftProducts1">玉兰·兰居尚品（软装类产品）</label>
     </div>
+    <div class="xieyi-items">
+      <span class="input-blocks">
+        销售总任务：
+        <input type="text" class="small-block readonly" readonly v-model="totalAim" /> 万元
+      </span>
+      <span class="input-blocks">
+        玉兰品牌：
+        <input
+          type="text"
+          class="small-block"
+          :class="{readonly:!databool1}"
+          :readonly="!databool1"
+          v-model="aRetailing"
+        /> 万元
+      </span>
+      <span class="input-blocks">
+        玉兰•兰居尚品：
+        <input
+          type="text"
+          class="small-block"
+          :class="{readonly:!databool2}"
+          :readonly="!databool2"
+          v-model="cMatching"
+        /> 万元
+      </span>
+    </div>
+    <div class="xieyi-items">
+      <span class="input-blocks">销售任务</span>
+    </div>
+    <!--下面的数据有点放不下-->
+    <table border="1" cellspacing="0">
+      <tr>
+        <td>1月</td>
+        <td>2月</td>
+        <td>3月</td>
+        <td>4月</td>
+        <td>5月</td>
+        <td>6月</td>
+        <td>7月</td>
+        <td>8月</td>
+        <td>9月</td>
+        <td>10月</td>
+        <td>11月</td>
+        <td>12月</td>
+        <td>总计</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m1" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" v-model="m2" class="readonly" readonly />
+        </td>
+        <td>
+          <input type="number" readonly v-model="totalAim" />
+        </td>
+      </tr>
+    </table>
+    <div class="xieyi-items">
+      <span class="input-blocks">
+        总任务完成返点：
+        <input type="number" v-model="rewordpercent" class="small-block" />&nbsp;%
+      </span>
+      <span class="input-blocks">
+        兰居尚品任务返点：
+        <input type="number" v-model="rewordpercent2" class="small-block" />&nbsp;%
+      </span>
+    </div>
+    <div class="xieyi-items">
+      <span class="input-blocks">
+        备货金额占比：
+        <input type="text" class="small-block" v-model="stockpercent" />&nbsp;%
+      </span>
+      <span class="input-blocks">
+        合人民币：
+        <input type="text" class="small-block readonly" readonly v-model="allRMB" />&nbsp;元
+      </span>
+    </div>
+    <div class="timer-wapper">
+      <div class="timer">
+        <p class="timeWord">协议生效日期：</p>
+        <el-date-picker
+          v-model="startDate"
+          align="right"
+          type="date"
+          placeholder="协议生效日期"
+          class="time"
+          :picker-options="pickerOptions1"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>
+      </div>
+      <div class="timer">
+        <p class="timeWord">协议截止日期：</p>
+        <el-date-picker
+          v-model="endDate"
+          align="right"
+          type="date"
+          placeholder="协议截止日期"
+          class="time"
+          :picker-options="pickerOptions1"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>
+      </div>
+    </div>
+
+    <div class="button">
+      <button @click="submit">创建并发送</button>
+      <button @click="exitBlock">取消</button>
+    </div>
+    <div v-show="showReject">
+      <!-- <div class="tuihuiName">*协议书被【{{ccName}}】退回</div> -->
+      <!-- <textarea></textarea>  -->
+    </div>
+  </div>
 </template>
 
 <script>
-var ms = {//身份和中文翻译
-  "SALEMAN_M":"办事处经理",
-  "SALEMAN_S":"业务经理",
-}
+var ms = {
+  //身份和中文翻译
+  SALEMAN_M: "办事处经理",
+  SALEMAN_S: "业务经理"
+};
 export default {
   name: "xieyiblock",
   data() {
     return {
-      position : this.$store.state.user.pos[0].position,
-      weiTuoObj:null,
-      m1:"",
-      m2:"",
-      databool1:false,
-      databool2:false,
+      position: this.$store.state.user.pos[0].position,
+      weiTuoObj: null,
+      m1: "",
+      m2: "",
+      databool1: false,
+      databool2: false,
       aRetailing: "0", //
       cMatching: "0", //
       stockpercent: "", //备货占比
       rewordpercent: "", //
-      rewordpercent2:"",
-      startDate: "2019-01-01",//协议开始日期
-      endDate: "2019-12-31",//协议结束日期
-      preferedbrand:"",//意向品牌
-      pickerOptions1: {//快捷选择时间
-          shortcuts: [{
-            text: '今天',
+      rewordpercent2: "",
+      startDate: "2019-01-01", //协议开始日期
+      endDate: "2019-12-31", //协议结束日期
+      preferedbrand: "", //意向品牌
+      pickerOptions1: {
+        //快捷选择时间
+        shortcuts: [
+          {
+            text: "今天",
             onClick(picker) {
-              picker.$emit('pick', new Date());
+              picker.$emit("pick", new Date());
             }
-          }, {
-            text: '昨天',
+          },
+          {
+            text: "昨天",
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
+              picker.$emit("pick", date);
             }
-          }, {
-            text: '一周前',
+          },
+          {
+            text: "一周前",
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
+              picker.$emit("pick", date);
             }
-          }]
-        },
+          }
+        ]
+      }
     };
   },
   props: {
     ccid: String, //父组件传来的当前选中客户的cid
-    ccName: String,//同上名字
+    ccyear: Number,
+    ccName: String, //同上名字
     showReject: Boolean //被退回的显示，也是修改情况的判断
   },
-
   methods: {
     submit() {
       //判空↓
-      if(!this.preferedbrand){
+      if (!this.preferedbrand) {
         this.$alert("请选择意向品牌！");
-        return ;
+        return;
       }
 
-      
-      
-      if(!this.aRetailing || !this.cMatching || !this.stockpercent || !this.rewordpercent || !this.rewordpercent2||!this.startDate||!this.endDate){
+      if (
+        !this.aRetailing ||
+        !this.cMatching ||
+        !this.stockpercent ||
+        !this.rewordpercent ||
+        !this.rewordpercent2 ||
+        !this.startDate ||
+        !this.endDate
+      ) {
         this.$alert("请填写全部信息！");
-        return ;
+        return;
       }
-      //判空↑
-
-      if(this.showReject == false){
-        // console.log({
-        //   ccyear: this.$store.state.year,
-        //   ccid: this.ccid,
-        //   // ccid:'C01613',
-        //   aRetailing: this.aRetailing,
-        //   cMatching: this.cMatching,
-        //   m1: this.m1,
-        //   m2: this.m1,
-        //   m3: this.m1,
-        //   m4: this.m1,
-        //   m5: this.m1,
-        //   m6: this.m1,
-        //   m7: this.m1,
-        //   m8: this.m1,
-        //   m9: this.m1,
-        //   m10: this.m1,
-        //   m11: this.m1,
-        //   m12: this.m2,
-        //   rewordpercent: this.rewordpercent,
-        //   rewordpercent2: this.rewordpercent2, //兰居返点比例 %
-        //   stockpercent: this.stockpercent,
-        //   startDate:this.startDate,//协议开始日期
-        //   endDate:this.endDate,//协议结束日期
-        //   bEngineering: 0,//没用到
-        //   payminimum: 0, //2015年协议使用没用到
-        //   memo2: null, //补充协议内容没用到
-        //   preferedbrand: this.preferedbrand, //销售品牌
-        //   privateAccountAuthed: "N", //--X 表示无关， Y 表示客户授权配偶账号 N 无需授权
-        // });
-      this.$axios
-        .post("/yulan/YLcontractentry/createYLcontract.do", {
-          ccyear: this.$store.state.year,
-          ccid: this.ccid,
-          // ccid:'C01613',
-          aRetailing: this.aRetailing,
-          cMatching: this.cMatching,
-          m1: this.m1,
-          m2: this.m1,
-          m3: this.m1,
-          m4: this.m1,
-          m5: this.m1,
-          m6: this.m1,
-          m7: this.m1,
-          m8: this.m1,
-          m9: this.m1,
-          m10: this.m1,
-          m11: this.m1,
-          m12: this.m2,
-          rewordpercent: this.rewordpercent,
-          rewordpercent2: this.rewordpercent2, //兰居返点比例 %
-          stockpercent: this.stockpercent,
-          startDate:this.startDate,//协议开始日期
-          endDate:this.endDate,//协议结束日期
-          bEngineering: 0,//没用到
-          payminimum: 0, //2015年协议使用没用到
-          memo2: null, //补充协议内容没用到
-          preferedbrand: this.preferedbrand, //销售品牌
-          privateAccountAuthed: "N", //--X 表示无关， Y 表示客户授权配偶账号 N 无需授权
-          legalchecked:0
-        })
-        .then(res => {
-          console.log(res.data);
-          if (res.data.code == 0) {
-             this.$alert("下达协议书成功");
-           this.$axios.post('/yulan/infoState/checkYLcontractentryState.do',{
-                "cid":this.ccid,
-                "state":"CUSTOMERAFFIRM",
-                "wfmemo":this.memo + '提交;',
-                "signed":0,
-                "market":"",
-                "csa":""
-            })
-            .then((res)=>{
-            if(res.data.code == 0){
-                console.log('协议书创建完毕，给客户审核');
-                this.exitBlock();
-                this.$emit('updatePage');
-            }else{
-                console.log("创建协议书错误");
+      if (this.showReject == false) {
+        this.$axios
+          .post("/yulan/YLcontractentry/createYLcontract.do", {
+            ccyear: this.ccyear,
+            ccid: this.ccid,
+            aRetailing: this.aRetailing,
+            cMatching: this.cMatching,
+            m1: this.m1,
+            m2: this.m1,
+            m3: this.m1,
+            m4: this.m1,
+            m5: this.m1,
+            m6: this.m1,
+            m7: this.m1,
+            m8: this.m1,
+            m9: this.m1,
+            m10: this.m1,
+            m11: this.m1,
+            m12: this.m2,
+            rewordpercent: this.rewordpercent,
+            rewordpercent2: this.rewordpercent2, //兰居返点比例 %
+            stockpercent: this.stockpercent,
+            startDate: this.startDate, //协议开始日期
+            endDate: this.endDate, //协议结束日期
+            bEngineering: 0, //没用到
+            payminimum: 0, //2015年协议使用没用到
+            memo2: null, //补充协议内容没用到
+            preferedbrand: this.preferedbrand, //销售品牌
+            privateAccountAuthed: "N", //--X 表示无关， Y 表示客户授权配偶账号 N 无需授权
+            legalchecked: 0
+          })
+          .then(res => {
+            console.log(res.data);
+            if (res.data.code == 0) {
+              this.$alert("下达协议书成功");
+              this.$axios
+                .post("/yulan/infoState/checkYLcontractentryState.do", {
+                  cid: this.ccid,
+                  state: "CUSTOMERAFFIRM",
+                  wfmemo: this.memo + "提交;",
+                  signed: 0,
+                  market: "",
+                  csa: ""
+                })
+                .then(res => {
+                  if (res.data.code == 0) {
+                    console.log("协议书创建完毕，给客户审核");
+                    this.exitBlock();
+                    this.$emit("updatePage");
+                  } else {
+                    console.log("创建协议书错误");
+                  }
+                });
+            } else {
+              this.$alert("创建协议书错误");
             }
           })
-          }else{
-            this.$alert('创建协议书错误')
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }else {
-        console.log("重新下达协议书的发送对象",{
-          ccyear: this.$store.state.year,
-          ccid: this.ccid,
-          aRetailing: this.aRetailing,
-          cMatching: this.cMatching,
-          m1: this.m1,
-          m2: this.m1,
-          m3: this.m1,
-          m4: this.m1,
-          m5: this.m1,
-          m6: this.m1,
-          m7: this.m1,
-          m8: this.m1,
-          m9: this.m1,
-          m10: this.m1,
-          m11: this.m1,
-          m12: this.m2,
-          rewordpercent: this.rewordpercent,
-          rewordpercent2: this.rewordpercent2, //兰居返点比例 %          
-          stockpercent: this.stockpercent,
-          startDate:this.startDate,//协议开始日期
-          endDate:this.endDate,//协议结束日期
-          preferedbrand: this.preferedbrand, //销售品牌
-          legalchecked:0
-          // bEngineering: 0,//以下几个都没用到
-          // payminimum: 0, //2015年协议使用
-          // memo2: null, //补充协议内容
-          // privateAccountAuthed: "N", //--X 表示无关， Y 表示客户授权配偶账号 N 无需授权
-        });
-        
-         this.$axios
-        .post("/yulan/YLcontractentry/updateYLcontract.do", {
-          ccyear: this.$store.state.year,
-          ccid: this.ccid,
-          aRetailing: this.aRetailing,
-          cMatching: this.cMatching,
-          m1: this.m1,
-          m2: this.m1,
-          m3: this.m1,
-          m4: this.m1,
-          m5: this.m1,
-          m6: this.m1,
-          m7: this.m1,
-          m8: this.m1,
-          m9: this.m1,
-          m10: this.m1,
-          m11: this.m1,
-          m12: this.m2,
-          rewordpercent: this.rewordpercent,
-          rewordpercent2: this.rewordpercent2, //兰居返点比例 %          
-          stockpercent: this.stockpercent,
-          startDate:this.startDate,//协议开始日期
-          endDate:this.endDate,//协议结束日期
-          preferedbrand: this.preferedbrand, //销售品牌
-          legalchecked:0
-          // bEngineering: 0,//以下几个都没用到
-          // payminimum: 0, //2015年协议使用
-          // memo2: null, //补充协议内容
-          // privateAccountAuthed: "N", //--X 表示无关， Y 表示客户授权配偶账号 N 无需授权
-        })
-        .then(res => {
-          console.log(res.data.msg);
-          this.$alert("重新下达协议书成功");
-          this.$axios.post('/yulan/infoState/checkYLcontractentryState.do',{
-                "cid":this.ccid,
-                "state":"CUSTOMERAFFIRM",
-                "wfmemo":this.memo + '重新提交;',
-                "signed":0,
-                 "market":"",
-                 "csa":""
-            })
-            .then((res)=>{
-            if(res.data.code == 0){
-                console.log('协议书修改完毕，给客户审核');
-                this.exitBlock();
-                this.$emit('updatePage');
-            }else{
-                console.log(err);
-            }
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        this.$axios
+          .post("/yulan/YLcontractentry/updateYLcontract.do", {
+            ccyear: this.ccyear,
+            ccid: this.ccid,
+            aRetailing: this.aRetailing,
+            cMatching: this.cMatching,
+            m1: this.m1,
+            m2: this.m1,
+            m3: this.m1,
+            m4: this.m1,
+            m5: this.m1,
+            m6: this.m1,
+            m7: this.m1,
+            m8: this.m1,
+            m9: this.m1,
+            m10: this.m1,
+            m11: this.m1,
+            m12: this.m2,
+            rewordpercent: this.rewordpercent,
+            rewordpercent2: this.rewordpercent2, //兰居返点比例 %
+            stockpercent: this.stockpercent,
+            startDate: this.startDate, //协议开始日期
+            endDate: this.endDate, //协议结束日期
+            preferedbrand: this.preferedbrand, //销售品牌
+            legalchecked: 0
           })
-        })
-        .catch(err => {
-          console.log(err);
-        });
+          .then(res => {
+            console.log(res.data.msg);
+            this.$alert("重新下达协议书成功");
+            this.$axios
+              .post("/yulan/infoState/checkYLcontractentryState.do", {
+                cid: this.ccid,
+                state: "CUSTOMERAFFIRM",
+                wfmemo: this.memo + "重新提交;",
+                signed: 0,
+                market: "",
+                csa: ""
+              })
+              .then(res => {
+                if (res.data.code == 0) {
+                  console.log("协议书修改完毕，给客户审核");
+                  this.exitBlock();
+                  this.$emit("updatePage");
+                } else {
+                  console.log(err);
+                }
+              });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     exitBlock() {
@@ -329,127 +353,138 @@ export default {
       this.$emit("hiddenBlock");
     },
     //清空
-    reflesh(){
-      this.m1="",
-      this.m2="",
-      this.aRetailing="0",
-      this.cMatching="0",
-      this.stockpercent="",
-      this.rewordpercent="",
-      this.rewordpercent2="",
-      this.startDate="2019-01-01",//协议开始日期
-      this.endDate= "2019-12-31",//协议结束日期
-      this.preferedbrand="",
-      this.databool1 = false,
-      this.databool2 = false,
-      this.weiTuoObj = null
+    reflesh() {
+      (this.m1 = ""),
+        (this.m2 = ""),
+        (this.aRetailing = "0"),
+        (this.cMatching = "0"),
+        (this.stockpercent = ""),
+        (this.rewordpercent = ""),
+        (this.rewordpercent2 = ""),
+        (this.startDate = "2019-01-01"), //协议开始日期
+        (this.endDate = "2019-12-31"), //协议结束日期
+        (this.preferedbrand = ""),
+        (this.databool1 = false),
+        (this.databool2 = false),
+        (this.weiTuoObj = null);
     }
   },
   computed: {
-    nowMonth(){
-          let month = '0'+ (new Date().getMonth()+1);
-          return month.substr(month.length-2) ;
+    nowMonth() {
+      let month = "0" + (new Date().getMonth() + 1);
+      return month.substr(month.length - 2);
     },
-    nowDate(){
-        let date = '0'+ (new Date().getDate());
-        return date.substr(date.length-2) ;
+    nowDate() {
+      let date = "0" + new Date().getDate();
+      return date.substr(date.length - 2);
     },
-    nowHour(){
-        let hour = '0'+ (new Date().getHours());
-        return hour.substr(hour.length-2) ;
+    nowHour() {
+      let hour = "0" + new Date().getHours();
+      return hour.substr(hour.length - 2);
     },
-    nowMinute(){
-        let minute = '0'+ (new Date().getMinutes());
-        return minute.substr(minute.length-2) ;
+    nowMinute() {
+      let minute = "0" + new Date().getMinutes();
+      return minute.substr(minute.length - 2);
     },
-    memo(){   //评审记录
-            let nowTime = new Date().getFullYear() + "-" + this.nowMonth + "-" + this.nowDate + " " + this.nowHour + ":" + this.nowMinute + " " ;
-            let memo = nowTime + ' '+'被'+ms[this.position]+this.$store.state.user.data.realName 
-            return memo;
-        },
-   
+    memo() {
+      //评审记录
+      let nowTime =
+        new Date().getFullYear() +
+        "-" +
+        this.nowMonth +
+        "-" +
+        this.nowDate +
+        " " +
+        this.nowHour +
+        ":" +
+        this.nowMinute +
+        " ";
+      let memo =
+        nowTime +
+        " " +
+        "被" +
+        ms[this.position] +
+        this.$store.state.user.data.realName;
+      return memo;
+    },
+
     totalAim() {
       return Number(this.aRetailing) + Number(this.cMatching);
     },
-    // total(){
-    //     return Number(this.m1) + Number(this.m2) + Number(this.m3) + Number(this.m4) +Number(this.m5) + Number(this.m6) +Number(this.m7) + Number(this.m8)+Number(this.m9) + Number(this.m10)+Number(this.m11) + Number(this.m12);
-    // },
     allRMB() {
       return (this.totalAim * this.stockpercent * 100).toFixed(2);
     }
   },
   updated() {
-    // console.log("创建界面获取到客户id为"+this.ccid+'客户名称'+this.ccName)
   },
-  watch:{
-    totalAim(){
+  watch: {
+    totalAim() {
       this.m1 = Math.floor(((this.totalAim * 1.0) / 12) * 100) / 100;
       this.m2 = (this.totalAim - this.m1 * 11).toFixed(2);
     },
-    databool1(newV,oldV){
-      if(newV){
-        if(this.weiTuoObj == null)this.aRetailing = "";
+    databool1(newV, oldV) {
+      if (newV) {
+        if (this.weiTuoObj == null) this.aRetailing = "";
         else this.aRetailing = this.weiTuoObj.aRetailing;
-        if(this.databool2){
-          this.preferedbrand ="√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
-        }else{
-          this.preferedbrand ="√玉兰（墙纸类产品）";
+        if (this.databool2) {
+          this.preferedbrand =
+            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+        } else {
+          this.preferedbrand = "√玉兰（墙纸类产品）";
         }
-      }else{
+      } else {
         this.aRetailing = "0";
-        if(this.databool2){
-          this.preferedbrand ="√玉兰·兰居尚品（软装类产品）";
-        }else{
-          this.preferedbrand ="";
+        if (this.databool2) {
+          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
+        } else {
+          this.preferedbrand = "";
         }
       }
     },
-    databool2(newV,oldV){
-      if(newV){
-        if(this.weiTuoObj == null)this.cMatching = "";
+    databool2(newV, oldV) {
+      if (newV) {
+        if (this.weiTuoObj == null) this.cMatching = "";
         else this.cMatching = this.weiTuoObj.cMatching;
-        if(this.databool1){
-          this.preferedbrand ="√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
-        }else{ 
-          this.preferedbrand ="√玉兰·兰居尚品（软装类产品）";
+        if (this.databool1) {
+          this.preferedbrand =
+            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+        } else {
+          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
         }
-      }else{
+      } else {
         this.cMatching = "0";
-        if(this.databool1){
-          this.preferedbrand ="√玉兰（墙纸类产品）";
-        }else{
-          this.preferedbrand ="";
+        if (this.databool1) {
+          this.preferedbrand = "√玉兰（墙纸类产品）";
+        } else {
+          this.preferedbrand = "";
         }
       }
     },
-    ccid(){
-      if(this.showReject == true){
-        console.log("是修改协议书啊");
-        this.$axios.post('/yulan/YLcontractentry/getYLcontract.do',{
-          "ccid":this.ccid
-        })
-        .then((res)=>{
-          this.weiTuoObj = res.data.data;
-          console.log("协议书对象",this.weiTuoObj);
-          
-          if(this.weiTuoObj.preferedbrand){
-            this.preferedbrand = this.weiTuoObj.preferedbrand;
-            this.databool1 = this.preferedbrand.indexOf('墙纸') != -1;
-            this.databool2 = this.preferedbrand.indexOf('软装') != -1;
-          }else{
-            console.log("墙纸，软装都没有");
-          }
-          this.aRetailing = this.weiTuoObj.aRetailing;
-          this.cMatching = this.weiTuoObj.cMatching;          
-          this.rewordpercent = this.weiTuoObj.rewordpercent; 
-          this.rewordpercent2 = this.weiTuoObj.rewordpercent2; 
-          this.endDate = new Date(this.weiTuoObj.endDate); 
-          this.startDate = new Date(this.weiTuoObj.startDate);   
-          this.stockpercent = this.weiTuoObj.stockpercent;                                     
-        })
-        .catch((err)=>{
-            console.log("获取协议书信息失败",err);
-        })
+    ccid() {
+      if (this.showReject == true) {
+        this.$axios
+          .post("/yulan/YLcontractentry/getYLcontract.do", {
+            ccid: this.ccid
+          })
+          .then(res => {
+            this.weiTuoObj = res.data.data;
+            if (this.weiTuoObj.preferedbrand) {
+              this.preferedbrand = this.weiTuoObj.preferedbrand;
+              this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
+              this.databool2 = this.preferedbrand.indexOf("软装") != -1;
+            } else {
+            }
+            this.aRetailing = this.weiTuoObj.aRetailing;
+            this.cMatching = this.weiTuoObj.cMatching;
+            this.rewordpercent = this.weiTuoObj.rewordpercent;
+            this.rewordpercent2 = this.weiTuoObj.rewordpercent2;
+            this.endDate = new Date(this.weiTuoObj.endDate);
+            this.startDate = new Date(this.weiTuoObj.startDate);
+            this.stockpercent = this.weiTuoObj.stockpercent;
+          })
+          .catch(err => {
+            console.log("获取协议书信息失败", err)
+          });
       }
     }
   }
@@ -457,43 +492,43 @@ export default {
 </script>
 
 <style scoped>
-.timer-wapper{
-  margin-top:15px;
+.timer-wapper {
+  margin-top: 15px;
 }
-.input-blocks{
+.input-blocks {
   vertical-align: center;
   display: inline-block;
   line-height: 40px;
   margin-right: 30px;
 }
-#yxpp{
+#yxpp {
   font-size: 16px;
   text-align: left;
 }
-input[type="checkbox"]:checked + label::before{
+input[type="checkbox"]:checked + label::before {
   content: "\2714";
-    font-size: 180%;
-    color: #769b20;
+  font-size: 180%;
+  color: #769b20;
 }
-input[type="checkbox"] + label::before{
-      content: "\A0";
-    font-size: 180%;
-    display: inline-block;
-    vertical-align: .2em;
-    width: 0.8em;
-    height: 0.8em;
-    margin-right: .2em;
-    /* background-color: #e5f3cb; */
-    text-indent: .15em;
-    line-height: .65;
-    border: 1px solid #a4d041;
-    position: relative;
-    top: 8px;
+input[type="checkbox"] + label::before {
+  content: "\A0";
+  font-size: 180%;
+  display: inline-block;
+  vertical-align: 0.2em;
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.2em;
+  /* background-color: #e5f3cb; */
+  text-indent: 0.15em;
+  line-height: 0.65;
+  border: 1px solid #a4d041;
+  position: relative;
+  top: 8px;
 }
 
 input[type="checkbox"] {
-    position: absolute;
-    opacity: 0; /*完全透明*/
+  position: absolute;
+  opacity: 0; /*完全透明*/
 }
 .readonly {
   background-color: #e9eeeb;
@@ -526,7 +561,7 @@ input[type="text"] {
 }
 .small-block {
   width: 50px;
-  height:20px;
+  height: 20px;
   vertical-align: center;
 }
 button {
@@ -581,55 +616,51 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-.timer{
+.timer {
   display: inline-block;
   margin-right: 220px;
   position: relative;
-
 }
-.time{
+.time {
   position: absolute;
   top: -5px;
   left: 110px;
 }
-.timeWord{
+.timeWord {
   font-size: 14px;
 }
-.tuihuiName{
+.tuihuiName {
   padding-bottom: 20px;
 }
-
 </style>
 
 <style>
-.timer .el-input--prefix .el-input__inner{
-  width:188px;
+.timer .el-input--prefix .el-input__inner {
+  width: 188px;
   height: 28px;
-  border-color:#a0a0a0;
+  border-color: #a0a0a0;
   background-color: transparent;
-
 }
 .timer .el-input__icon {
-  line-height:28px;
+  line-height: 28px;
 }
 
-.xieyi-wrapper .el-popup-parent--hidden{
+.xieyi-wrapper .el-popup-parent--hidden {
   overflow-x: hidden !important;
   overflow-y: scroll !important;
 }
-.xieyi-wrapper .el-button--primary{
-    border-color:rgb(160, 212, 86) !important;
-    background-color:rgb(160, 212, 86) !important;
+.xieyi-wrapper .el-button--primary {
+  border-color: rgb(160, 212, 86) !important;
+  background-color: rgb(160, 212, 86) !important;
 }
-.xieyi-wrapper .el-button:hover{
-  border-color:rgb(160, 212, 86) !important;
+.xieyi-wrapper .el-button:hover {
+  border-color: rgb(160, 212, 86) !important;
   background-color: white !important;
-  color:rgb(160, 212, 86) !important;
+  color: rgb(160, 212, 86) !important;
 }
-.xieyi-wrapper .el-button--primary:hover{
-    border-color:rgb(160, 212, 86) !important;
-    background-color:rgb(160, 212, 86) !important;
-    color:white !important;
+.xieyi-wrapper .el-button--primary:hover {
+  border-color: rgb(160, 212, 86) !important;
+  background-color: rgb(160, 212, 86) !important;
+  color: white !important;
 }
 </style>
-

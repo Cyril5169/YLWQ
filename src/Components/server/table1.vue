@@ -32,6 +32,7 @@
       v-show="showBlock"
       @hiddenBlock="hiddenBlock()"
       :ccid="this.ccid"
+      :ccyear="this.cyear"
       :ccName="this.ccName"
       :showReject="showReject"
       @updatePage="updatePage"
@@ -164,7 +165,7 @@ export default {
       showlist: [], //showlist存放展示用数据
       showBlock: false, //创建协议书是否显示
       ccid: "", //当前行客户id
-      cyear:'',
+      cyear: "",
       ccName: "", //当前行客户名称
       showVerify: false, //控制是否展示审核界面
       showProtocol: false,
@@ -265,7 +266,7 @@ export default {
     },
     searchAll() {
       this.loading = true;
-      this.showlist =[];
+      this.showlist = [];
       this.$axios
         .post("/yulan/customerInfo/getNcustomerinfo.do", {
           page: this.currentPage,
@@ -282,7 +283,7 @@ export default {
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
-            console.log(this.showlist)
+            console.log(this.showlist);
             this.total = res.data.count;
             this.loading = false;
           }
@@ -336,7 +337,7 @@ export default {
       //控制创建协议书是否显示
       this.showBlock = false;
     },
-    createCer(name, id,year, e) {
+    createCer(name, id, year, e) {
       var evt = window.event || e;
       if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
         evt.stopPropagation();
@@ -348,7 +349,7 @@ export default {
         this.$alert("权限不吻合");
       }
     },
-    createCer2(name, id,year, e) {
+    createCer2(name, id, year, e) {
       var evt = window.event || e;
       if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
         evt.stopPropagation();
