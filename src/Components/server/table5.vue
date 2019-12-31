@@ -84,7 +84,7 @@ export default {
     ShowBook() {
       this.loading = true;
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       SearchBookTotal(data).then(res => {
         this.showlist = res.data;
@@ -94,7 +94,7 @@ export default {
     ShowBook2() {
       this.loading1 = true;
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       SearchBookList(data).then(res => {
         this.showlist2 = res.data;
@@ -102,18 +102,18 @@ export default {
       });
     },
     BookTotalExcel() {
-      var year = "2019";
+      var year = this.str_year;
       downLoadFile(
         this.Global.baseUrl + `PUR_HEAD/BookTotalExcel?year=${year}`
       );
     },
     BookExcel() {
-      var year = "2019";
+      var year = this.str_year;
       downLoadFile(this.Global.baseUrl + `PUR_HEAD/BookExcel?year=${year}`);
     },
     BookYear() {
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       GetBookYear(data).then(res => {
         this.options = res.data;

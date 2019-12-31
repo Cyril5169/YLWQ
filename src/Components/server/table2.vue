@@ -4,10 +4,11 @@
     <div class="protocol">
       <serProtocol
         :cid="this.ccid"
+        :cyear="this.cyear"
         :flag="0"
         @close="close"
         @updatePage="updatePage"
-        v-show="showProtocol"
+        v-if="showProtocol"
       ></serProtocol>
     </div>
     <ser-search
@@ -50,7 +51,7 @@
 
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="large" @click="verify">{{scope.row.none}}审核</el-button>
+          <el-button type="text" size="large" @click="verify(scope.row)">{{scope.row.none}}审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -83,6 +84,7 @@ export default {
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
       ccid: "",
+      cyear: "",
       showProtocol: false,
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
@@ -100,16 +102,18 @@ export default {
     }
   },
   methods: {
-    verify() {
+    verify(row) {
       this.$refs.verifysLeap.scrollIntoView();
       this.showProtocol = true;
+      this.cyear = row.CYEAR;
+      this.ccid = row.CID;
     },
     close(close) {
       this.showProtocol = false;
     },
     rowClick(row, event, column) {
       //点击行将CID传递
-      this.ccid = row.CID;
+      //this.ccid = row.CID;
     },
     statusFormatter(row, column) {
       //状态格式化变成中文
@@ -188,7 +192,7 @@ export default {
     var me = this;
     window.onkeydown = event => {
       if (event.keyCode == 27) {
-        if (me.showProtocol) me.showProtocol = false;
+        if (me.showProtocol) me.close();
       }
     };
     this.loading = true;

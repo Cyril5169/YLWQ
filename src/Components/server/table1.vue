@@ -2,7 +2,13 @@
   <div class="wrapper_inner">
     <div class="scroll" ref="verifysLeap"></div>
     <div class="protocol">
-      <serProtocol :cid="this.ccid" :flag="1" @close="closeProtocol" v-show="showProtocol"></serProtocol>
+      <serProtocol
+        :cid="this.ccid"
+        :cyear="cyear"
+        :flag="1"
+        @close="closeProtocol"
+        v-if="showProtocol"
+      ></serProtocol>
     </div>
     <div class="verify">
       <ser-verifys
@@ -10,7 +16,7 @@
         :year="cyear"
         :showBtn="showBtn"
         @close="close"
-        v-show="showVerify"
+        v-if="showVerify"
         @updatePage="updatePage"
       ></ser-verifys>
     </div>
@@ -29,10 +35,10 @@
     <!-- 表格大标题 -->
     <p class="title">客户资料卡查询</p>
     <xieyiblock
-      v-show="showBlock"
+      v-if="showBlock"
       @hiddenBlock="hiddenBlock()"
       :ccid="this.ccid"
-      :ccyear="this.cyear"
+      :cyear="this.cyear"
       :ccName="this.ccName"
       :showReject="showReject"
       @updatePage="updatePage"
@@ -169,7 +175,7 @@ export default {
       ccName: "", //当前行客户名称
       showVerify: false, //控制是否展示审核界面
       showProtocol: false,
-      showReject: false, //控制是否展示.
+      showReject: false, //false创建，true修改
       showBtn: true, //隐藏已通过的确定/退回按钮
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
@@ -283,7 +289,6 @@ export default {
         .then(res => {
           if (res.data != null && res.data.code == 0) {
             this.showlist = res.data.data;
-            console.log(this.showlist);
             this.total = res.data.count;
             this.loading = false;
           }
@@ -367,7 +372,9 @@ export default {
     var me = this;
     window.onkeydown = event => {
       if (event.keyCode == 27) {
-        if (me.showVerify) me.showVerify = false;
+        if (me.showVerify) me.close();
+        if (me.showBlock) me.hiddenBlock();
+        if(me.showProtocol) me.closeProtocol();
       }
     };
     this.loading = true;

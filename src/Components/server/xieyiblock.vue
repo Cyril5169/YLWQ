@@ -160,6 +160,8 @@ var ms = {
   SALEMAN_M: "办事处经理",
   SALEMAN_S: "业务经理"
 };
+import { GetYlContractByCustomer, UpdateContractState } from "@/api/card";
+
 export default {
   name: "xieyiblock",
   data() {
@@ -207,12 +209,7 @@ export default {
       }
     };
   },
-  props: {
-    ccid: String, //父组件传来的当前选中客户的cid
-    ccyear: Number,
-    ccName: String, //同上名字
-    showReject: Boolean //被退回的显示，也是修改情况的判断
-  },
+  props: ["ccid", "cyear", "ccName", "showReject"],
   methods: {
     submit() {
       //判空↓
@@ -220,15 +217,21 @@ export default {
         this.$alert("请选择意向品牌！");
         return;
       }
-
+      console.log(this.aRetailing,
+        this.cMatching,
+        this.stockpercent,
+        this.rewordpercent,
+        this.rewordpercent2,
+        this.startDate,
+        this.endDate)
       if (
-        !this.aRetailing ||
-        !this.cMatching ||
-        !this.stockpercent ||
-        !this.rewordpercent ||
-        !this.rewordpercent2 ||
-        !this.startDate ||
-        !this.endDate
+        this.aRetailing==null ||
+        this.cMatching==null ||
+        this.stockpercent==null ||
+        this.rewordpercent==null ||
+        this.rewordpercent2==null ||
+        this.startDate==null ||
+        this.endDate==null
       ) {
         this.$alert("请填写全部信息！");
         return;
@@ -236,7 +239,7 @@ export default {
       if (this.showReject == false) {
         this.$axios
           .post("/yulan/YLcontractentry/createYLcontract.do", {
-            ccyear: this.ccyear,
+            ccyear: this.cyear,
             ccid: this.ccid,
             aRetailing: this.aRetailing,
             cMatching: this.cMatching,
@@ -265,27 +268,29 @@ export default {
             legalchecked: 0
           })
           .then(res => {
-            console.log(res.data);
             if (res.data.code == 0) {
               this.$alert("下达协议书成功");
-              this.$axios
-                .post("/yulan/infoState/checkYLcontractentryState.do", {
-                  cid: this.ccid,
-                  state: "CUSTOMERAFFIRM",
-                  wfmemo: this.memo + "提交;",
-                  signed: 0,
-                  market: "",
-                  csa: ""
-                })
-                .then(res => {
-                  if (res.data.code == 0) {
-                    console.log("协议书创建完毕，给客户审核");
-                    this.exitBlock();
-                    this.$emit("updatePage");
-                  } else {
-                    console.log("创建协议书错误");
-                  }
-                });
+              // this.$axios
+              //   .post("/yulan/infoState/checkYLcontractentryState.do", {
+              //     cid: this.ccid,
+              //     state: "CUSTOMERAFFIRM",
+              //     wfmemo: this.memo + "提交;",
+              //     signed: 0,
+              //     market: "",
+              //     csa: ""
+              //   })
+              UpdateContractState({
+                cid: this.ccid,
+                year: this.cyear,
+                state: "CUSTOMERAFFIRM",
+                wfmemo: this.memo + "提交;",
+                signed: 0,
+                market: "",
+                csa: ""
+              }).then(res => {
+                this.exitBlock();
+                this.$emit("updatePage");
+              });
             } else {
               this.$alert("创建协议书错误");
             }
@@ -296,7 +301,7 @@ export default {
       } else {
         this.$axios
           .post("/yulan/YLcontractentry/updateYLcontract.do", {
-            ccyear: this.ccyear,
+            ccyear: this.cyear,
             ccid: this.ccid,
             aRetailing: this.aRetailing,
             cMatching: this.cMatching,
@@ -321,26 +326,28 @@ export default {
             legalchecked: 0
           })
           .then(res => {
-            console.log(res.data.msg);
             this.$alert("重新下达协议书成功");
-            this.$axios
-              .post("/yulan/infoState/checkYLcontractentryState.do", {
-                cid: this.ccid,
-                state: "CUSTOMERAFFIRM",
-                wfmemo: this.memo + "重新提交;",
-                signed: 0,
-                market: "",
-                csa: ""
-              })
-              .then(res => {
-                if (res.data.code == 0) {
-                  console.log("协议书修改完毕，给客户审核");
-                  this.exitBlock();
-                  this.$emit("updatePage");
-                } else {
-                  console.log(err);
-                }
-              });
+            // this.$axios
+            //   .post("/yulan/infoState/checkYLcontractentryState.do", {
+            //     cid: this.ccid,
+            //     state: "CUSTOMERAFFIRM",
+            //     wfmemo: this.memo + "重新提交;",
+            //     signed: 0,
+            //     market: "",
+            //     csa: ""
+            //   })
+            UpdateContractState({
+              cid: this.ccid,
+              year: this.cyear,
+              state: "CUSTOMERAFFIRM",
+              wfmemo: this.memo + "重新提交;",
+              signed: 0,
+              market: "",
+              csa: ""
+            }).then(res => {
+                this.exitBlock();
+                this.$emit("updatePage");
+            });
           })
           .catch(err => {
             console.log(err);
@@ -361,8 +368,8 @@ export default {
         (this.stockpercent = ""),
         (this.rewordpercent = ""),
         (this.rewordpercent2 = ""),
-        (this.startDate = "2019-01-01"), //协议开始日期
-        (this.endDate = "2019-12-31"), //协议结束日期
+        (this.startDate = new Date().getFullYear() + "-01-01"), //协议开始日期
+        (this.endDate = new Date().getFullYear() + "-12-31"), //协议结束日期
         (this.preferedbrand = ""),
         (this.databool1 = false),
         (this.databool2 = false),
@@ -401,22 +408,25 @@ export default {
         " ";
       let memo =
         nowTime +
-        " " +
         "被" +
         ms[this.position] +
         this.$store.state.user.data.realName;
       return memo;
     },
-
     totalAim() {
       return Number(this.aRetailing) + Number(this.cMatching);
     },
     allRMB() {
       return (this.totalAim * this.stockpercent * 100).toFixed(2);
+    },
+    cidYear() {
+      return {
+        cid: this.ccid,
+        year: this.cyear
+      };
     }
   },
-  updated() {
-  },
+  updated() {},
   watch: {
     totalAim() {
       this.m1 = Math.floor(((this.totalAim * 1.0) / 12) * 100) / 100;
@@ -459,15 +469,51 @@ export default {
           this.preferedbrand = "";
         }
       }
-    },
-    ccid() {
-      if (this.showReject == true) {
-        this.$axios
-          .post("/yulan/YLcontractentry/getYLcontract.do", {
-            ccid: this.ccid
-          })
-          .then(res => {
-            this.weiTuoObj = res.data.data;
+    }
+    // cidYear() {
+    //   if (this.showReject == true && this.ccid) {
+    //     //修改获取原来的
+    //     // this.$axios
+    //     //   .post("/yulan/YLcontractentry/getYLcontract.do", {
+    //     //     ccid: this.ccid
+    //     //   })
+    //     GetYlContractByCustomer({
+    //       cid: this.ccid,
+    //       year: this.cyear
+    //     })
+    //       .then(res => {
+    //         if (res.data != null && res.data.contract) {
+    //           this.weiTuoObj = res.data.contract;
+    //           if (this.weiTuoObj.preferedbrand) {
+    //             this.preferedbrand = this.weiTuoObj.preferedbrand;
+    //             this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
+    //             this.databool2 = this.preferedbrand.indexOf("软装") != -1;
+    //           } else {
+    //           }
+    //           this.aRetailing = this.weiTuoObj.aRetailing;
+    //           this.cMatching = this.weiTuoObj.cMatching;
+    //           this.rewordpercent = this.weiTuoObj.rewordpercent;
+    //           this.rewordpercent2 = this.weiTuoObj.rewordpercent2;
+    //           this.endDate = new Date(this.weiTuoObj.endDate);
+    //           this.startDate = new Date(this.weiTuoObj.startDate);
+    //           this.stockpercent = this.weiTuoObj.stockpercent;
+    //         }
+    //       })
+    //       .catch(err => {
+    //         console.log("获取协议书信息失败", err);
+    //       });
+    //   }
+    // }
+  },
+  mounted() {
+    if (this.showReject == true && this.ccid) {
+      GetYlContractByCustomer({
+        cid: this.ccid,
+        year: this.cyear
+      })
+        .then(res => {
+          if (res.data != null && res.data.contractInfo) {
+            this.weiTuoObj = res.data.contractInfo;
             if (this.weiTuoObj.preferedbrand) {
               this.preferedbrand = this.weiTuoObj.preferedbrand;
               this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
@@ -478,14 +524,14 @@ export default {
             this.cMatching = this.weiTuoObj.cMatching;
             this.rewordpercent = this.weiTuoObj.rewordpercent;
             this.rewordpercent2 = this.weiTuoObj.rewordpercent2;
-            this.endDate = new Date(this.weiTuoObj.endDate);
-            this.startDate = new Date(this.weiTuoObj.startDate);
+            this.endDate = new Date(res.data.contract.endDate);
+            this.startDate = new Date(res.data.contract.startDate);
             this.stockpercent = this.weiTuoObj.stockpercent;
-          })
-          .catch(err => {
-            console.log("获取协议书信息失败", err)
-          });
-      }
+          }
+        })
+        .catch(err => {
+          console.log("获取协议书信息失败", err);
+        });
     }
   }
 };
@@ -499,7 +545,7 @@ export default {
   vertical-align: center;
   display: inline-block;
   line-height: 40px;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 #yxpp {
   font-size: 16px;

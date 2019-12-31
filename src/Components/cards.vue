@@ -76,7 +76,7 @@ import card2 from "@/Components/cli-filecard2";
 import card3 from "@/Components/cli-filecard3";
 import card4 from "@/Components/cli-filecard4";
 import reviewRecord from "@/Components/review-record";
-import { UpdateState } from "@/api/card";
+import { UpdateState,GetCardByCustomer } from "@/api/card";
 
 export default {
   name: "cards",

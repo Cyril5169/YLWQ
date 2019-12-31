@@ -5,9 +5,9 @@
       <el-select v-model="str_year" class="select" @change="SelectYear">
         <el-option
           v-for="item in options"
-          :key="item.CYEAR"
+          :key="item.CONTRACTYEAR"
           :label="item.STR_YEAR"
-          :value="item.CYEAR"
+          :value="item.CONTRACTYEAR"
         ></el-option>
       </el-select>
     </div>
@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     SelectYear() {
+      console.log(this.str_year)
       this.ShowCard();
       this.ShowCard2();
     },
@@ -84,7 +85,7 @@ export default {
     ShowCard() {
       this.loading = true;
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       SearchCardTotal(data).then(res => {
         this.showlist = res.data;
@@ -94,7 +95,7 @@ export default {
     ShowCard2() {
       this.loading1 = true;
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       SearchCardList(data).then(res => {
         this.showlist2 = res.data;
@@ -102,18 +103,18 @@ export default {
       });
     },
     CardTotalExcel() {
-      var year = "2019";
+      var year = this.str_year;
       downLoadFile(
         this.Global.baseUrl + `PUR_HEAD/CardTotalExcel?year=${year}`
       );
     },
     CardExcel() {
-      var year = "2019";
+      var year = this.str_year;
       downLoadFile(this.Global.baseUrl + `PUR_HEAD/CardExcel?year=${year}`);
     },
     CardYear() {
       var data = {
-        year: "2019"
+        year: this.str_year
       };
       GetCardYear(data).then(res => {
         this.options = res.data;

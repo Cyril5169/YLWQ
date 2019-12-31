@@ -333,6 +333,7 @@ export default {
 .title {
   font-size: 16px;
   padding-right: 15px;
+  margin-left: 10px;
 }
 .search {
   cursor: pointer;

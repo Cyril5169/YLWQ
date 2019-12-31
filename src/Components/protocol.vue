@@ -2,11 +2,13 @@
   <div class="box-protocol" ref="box">
     <!-- 评审记录2 -->
     <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
-    <div v-html="b2b2" v-if="showProtocol" :class="{show:showProtocol}"></div>
-    <div class="button" v-if="showProtocol">
-      <button @click="OutWord">导出Word</button>
+    <div class="wrapper-search">
+      <span>年份:</span>
+      <el-select v-model="selYear" class="select" @change="filterYear">
+        <el-option v-for="item in 83" :key="item+2017" :value="item+2017" :label="item+2017"></el-option>
+      </el-select>
     </div>
-
+    <div v-html="b2b2" v-if="showProtocol" :class="{show:showProtocol}"></div>
     <div class="wenxin" v-if="!showProtocol" :class="{show:showProtocol}">
       <span class="word">如资料卡已通过审批，请联系业务经理生成协议书，谢谢！</span>
     </div>
@@ -14,6 +16,7 @@
     <div class="button">
       <button @click="queding" v-show="showProtocol&&recordTitle == '客户查看确认协议数据中'">确认</button>
       <button @click="tuihuiReason" v-show="showProtocol&&recordTitle == '客户查看确认协议数据中'">退回</button>
+      <button @click="OutWord" v-show="showProtocol">导出Word</button>
     </div>
     <transition name="el-fade-in-linear">
       <div class="hide" v-show="hide">
@@ -30,6 +33,8 @@
 
 <script>
 import reviewRecord from "@/Components/review-record";
+import { GetYlContractByCustomer, UpdateContractState } from "@/api/card";
+
 export default {
   components: { reviewRecord },
   name: "protocol",
@@ -40,7 +45,9 @@ export default {
       hide: false,
       b2b2: "",
       reason: "",
-      showProtocol: false
+      showProtocol: false,
+      contractData: [],
+      selYear: this.$store.state.year
     };
   },
   computed: {
@@ -200,7 +207,8 @@ export default {
         link.style.display = "none";
         link.href = "data:application/msword;" + base64data;
         //link.download=this.$store.state.user.data.customerMainId+"年度经销协议书";
-        link.download = "经销协议书";
+        link.download =
+          this.contractData.cyear + "年度" + this.contractData.cname + "协议书";
         document.body.appendChild(link);
         link.click();
         // window.open("data:application/msword;" + base64data); else if (type == "excel") {
@@ -223,22 +231,27 @@ export default {
     },
     queding() {
       if (!this.check()) return;
-      this.$axios
-        .post("/yulan/infoState/checkYLcontractentryState.do", {
-          cid: this.$store.state.user.data.customerMainId,
-          state: "ASM_CHECKING",
-          wfmemo: this.memo + "通过协议文本;",
-          signed: 0,
-          market: "",
-          csa: ""
-        })
+      // this.$axios
+      //   .post("/yulan/infoState/checkYLcontractentryState.do", {
+      //     cid: this.$store.state.user.data.customerMainId,
+      //     state: "ASM_CHECKING",
+      //     wfmemo: this.memo + "通过协议文本;",
+      //     signed: 0,
+      //     market: "",
+      //     csa: ""
+      //   })
+      UpdateContractState({
+        cid: this.$store.state.user.data.customerMainId,
+        year: this.contractData.cyear,
+        state: "ASM_CHECKING",
+        wfmemo: this.memo + "通过协议文本;",
+        signed: 0,
+        market: "",
+        csa: ""
+      })
         .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            if (res.data.code == 0) {
-              this.$alert("同意该协议书");
-              location.reload();
-            }
-          }
+          this.$alert("同意该协议书");
+          location.reload();
         })
         .catch(function(err) {
           console.log(err);
@@ -246,22 +259,27 @@ export default {
     },
     tuihui() {
       if (this.reason != "") {
-        this.$axios
-          .post("/yulan/infoState/checkYLcontractentryState.do", {
-            cid: this.$store.state.user.data.customerMainId,
-            state: "SALEMANMODIFYING",
-            wfmemo: this.memo + "退回协议书，原因是 [" + this.reason + "];",
-            signed: 2,
-            market: "",
-            csa: ""
-          })
+        // this.$axios
+        //   .post("/yulan/infoState/checkYLcontractentryState.do", {
+        //     cid: this.$store.state.user.data.customerMainId,
+        //     state: "SALEMANMODIFYING",
+        //     wfmemo: this.memo + "退回协议书，原因是 [" + this.reason + "];",
+        //     signed: 2,
+        //     market: "",
+        //     csa: ""
+        //   })
+        UpdateContractState({
+          cid: this.$store.state.user.data.customerMainId,
+          year: this.contractData.cyear,
+          state: "SALEMANMODIFYING",
+          wfmemo: this.memo + "退回协议书，原因是 [" + this.reason + "];",
+          signed: 2,
+          market: "",
+          csa: ""
+        })
           .then(res => {
-            if (res.data != null && res.data.code == 0) {
-              if (res.data.code == 0) {
-                this.$alert("退回协议书成功");
-                location.reload();
-              }
-            }
+            this.$alert("退回协议书成功");
+            location.reload();
           })
           .catch(function(err) {
             console.log(err);
@@ -276,37 +294,52 @@ export default {
         this.$alert("您已经操作过此协议书");
         return false;
       }
+    },
+    getData() {
+      // this.$axios
+      //   .post("/yulan/YLcontractentry/getYLcontractHTML.do	", {
+      //     cid: this.$store.state.user.data.customerMainId
+      //   })
+      this.b2b2 = "";
+      this.contractData = [];
+      this.showProtocol = false;
+      this.recordTitle = "";
+      this.recordArr = [];
+      GetYlContractByCustomer({
+        cid: this.$store.state.user.data.customerMainId,
+        year: this.selYear
+      })
+        .then(res => {
+          if (res.data != null && res.data.contract) {
+            this.showProtocol = true;
+            this.b2b2 = res.data.htmlText;
+            this.contractData = res.data.contract;
+            //发送请求拿评审的数据
+            this.$axios
+              .post("/yulan/infoState/getYLcontractentryState.do", {
+                cid: this.$store.state.user.data.customerMainId,
+                cyear: this.contractData.cyear
+              })
+              .then(res2 => {
+                this.recordTitle = res2.data.yLcontractInfo;
+                if (res2.data.yLcontractentryMemo)
+                  this.recordArr = res2.data.yLcontractentryMemo.reverse();
+              })
+              .catch(err => {
+                console.log("拿评审记录数据错误" + err);
+              });
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+    filterYear() {
+      this.getData();
     }
   },
   mounted() {
-    this.$axios
-      .post("/yulan/YLcontractentry/getYLcontractHTML.do	", {
-        cid: this.$store.state.user.data.customerMainId
-      })
-      .then(res => {
-        if (res.data != null && res.data.code == 0) {
-          this.showProtocol = true;
-          this.b2b2 = res.data.data;
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-
-    //发送请求拿评审的数据
-    this.$axios
-      .post("/yulan/infoState/getYLcontractentryState.do", {
-        cid: this.$store.state.user.data.customerMainId,
-        cyear: this.$store.state.year //必备
-      })
-      .then(res => {
-        this.recordTitle = res.data.yLcontractInfo;
-        if (res.data.yLcontractentryMemo)
-          this.recordArr = res.data.yLcontractentryMemo.reverse();
-      })
-      .catch(err => {
-        console.log("拿评审记录数据错误" + err);
-      });
+    this.getData();
   },
   watch: {
     hide: function() {
@@ -343,7 +376,7 @@ button {
 }
 .button {
   margin: 0 auto;
-  width: 300px;
+  width: 500px;
 }
 .button button {
   margin: 20px;
@@ -370,6 +403,9 @@ button {
   position: absolute;
   bottom: -200px;
 }
+.wrapper-search{
+  margin-bottom: 10px;
+}
 </style>
 <style>
 .box-protocol .el-popup-parent--hidden {
@@ -379,5 +415,12 @@ button {
 .box-protocol .el-button--primary {
   border-color: rgb(160, 212, 86) !important;
   background-color: rgb(160, 212, 86) !important;
+}
+.wrapper-search .el-select .el-input__inner {
+  height: 30px;
+  width: 100px;
+}
+.wrapper-search .el-select .el-input__icon {
+  line-height: 0px;
 }
 </style>

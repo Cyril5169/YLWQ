@@ -97,7 +97,6 @@ export default {
 /*表示当前状态的*/
 .record-state {
   font-size: 16px;
-  line-height: 36px;
   padding-left: 6px;
 }
 .record-state span {
@@ -107,7 +106,7 @@ export default {
   font-size: 17px;
 }
 .record {
-  margin: 12px 0;
+  margin: 5px 0;
 }
 .record > p {
   line-height: 18px;

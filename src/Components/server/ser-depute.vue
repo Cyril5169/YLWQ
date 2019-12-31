@@ -96,14 +96,16 @@ export default {
           ccyear: newV.year
         })
         .then(res => {
-          this.imageUrl1 = remoteImageURL + res.data.data.authfileIamge;
-          this.imageUrl2 = remoteImageURL + res.data.data.idcardIamge1;
-          this.imageUrl3 = remoteImageURL + res.data.data.idcardIamge2;
-          (this.name = res.data.data.name), //姓名
-            (this.idcardNo = res.data.data.idcardNo), //身份证号
-            (this.accountBank = res.data.data.accountBank), //开户银行
-            (this.accout = res.data.data.accout), //银行账户
-            (this.accountLocation = res.data.data.accountLocation); //银行所在地
+          if (res.data.data != null) {
+            this.imageUrl1 = remoteImageURL + res.data.data.authfileIamge;
+            this.imageUrl2 = remoteImageURL + res.data.data.idcardIamge1;
+            this.imageUrl3 = remoteImageURL + res.data.data.idcardIamge2;
+            (this.name = res.data.data.name), //姓名
+              (this.idcardNo = res.data.data.idcardNo), //身份证号
+              (this.accountBank = res.data.data.accountBank), //开户银行
+              (this.accout = res.data.data.accout), //银行账户
+              (this.accountLocation = res.data.data.accountLocation); //银行所在地
+          }
         })
         .catch(err => {
           console.log("审核时拿委托信息失败", err);

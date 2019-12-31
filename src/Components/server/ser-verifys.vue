@@ -702,44 +702,46 @@ export default {
     }
   },
   watch: {
-    cidYear(newV) {
-      //新进卡片图片先清空
-      this.file1Idcard = "";
-      this.file2Businesslicense = "";
-      this.file4Gtqc = "";
-      this.file5IdcardBg = "";
-      this.accountType = ""; //账户类型也先清空
-      loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
+    // cidYear(newV) {
+    //   if(newV.cid){
+    //   //新进卡片图片先清空
+    //   this.file1Idcard = "";
+    //   this.file2Businesslicense = "";
+    //   this.file4Gtqc = "";
+    //   this.file5IdcardBg = "";
+    //   this.accountType = ""; //账户类型也先清空
+    //   loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
 
-      // this.$axios
-      //   .post("/yulan/customerInfo/getCustomerInfo.do", {
-      //     CID: newV
-      //   })
-      GetCardByCustomer({ cid: newV.cid, year: newV.year })
-        .then(res => {
-          if (res.data != null && res.data.length > 0) {
-            this.cardobj = res.data[0];
-            // //发送请求拿评审的数据
-            this.$axios
-              .post("/yulan/infoState/getCustomerInfoCardState.do", {
-                cid: newV.cid,
-                year: this.cardobj.contractyear
-              })
-              .then(res2 => {
-                this.recordTitle = res2.data.customerInfo;
-                if (this.cardobj.state == "ONCREATE")
-                  this.recordTitle = "资料卡确认中";
-                if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
-              })
-              .catch(err => {
-                console.log("拿评审记录数据错误?" + err);
-              });
-          }
-        })
-        .catch(function(err) {
-          console.log("cards检查拿对象报错", err);
-        });
-    },
+    //   // this.$axios
+    //   //   .post("/yulan/customerInfo/getCustomerInfo.do", {
+    //   //     CID: newV
+    //   //   })
+    //   GetCardByCustomer({ cid: newV.cid, year: newV.year })
+    //     .then(res => {
+    //       if (res.data != null && res.data.length > 0) {
+    //         this.cardobj = res.data[0];
+    //         // //发送请求拿评审的数据
+    //         this.$axios
+    //           .post("/yulan/infoState/getCustomerInfoCardState.do", {
+    //             cid: newV.cid,
+    //             year: this.cardobj.contractyear
+    //           })
+    //           .then(res2 => {
+    //             this.recordTitle = res2.data.customerInfo;
+    //             if (this.cardobj.state == "ONCREATE")
+    //               this.recordTitle = "资料卡确认中";
+    //             if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
+    //           })
+    //           .catch(err => {
+    //             console.log("拿评审记录数据错误?" + err);
+    //           });
+    //       }
+    //     })
+    //     .catch(function(err) {
+    //       console.log("cards检查拿对象报错", err);
+    //     });
+    //   }
+    // },
     cardobj(newV) {
       this.getWeiTuo();
       if (newV.preferedbrand) {
@@ -883,9 +885,43 @@ export default {
         year: this.year
       };
     }
+  },
+  mounted() {
+    if (this.cid) {
+      //新进卡片图片先清空
+      this.file1Idcard = "";
+      this.file2Businesslicense = "";
+      this.file4Gtqc = "";
+      this.file5IdcardBg = "";
+      this.accountType = ""; //账户类型也先清空
+      loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
+      GetCardByCustomer({ cid: this.cid, year: this.year })
+        .then(res => {
+          if (res.data != null && res.data.length > 0) {
+            this.cardobj = res.data[0];
+            // //发送请求拿评审的数据
+            this.$axios
+              .post("/yulan/infoState/getCustomerInfoCardState.do", {
+                cid: this.cid,
+                year: this.cardobj.contractyear
+              })
+              .then(res2 => {
+                this.recordTitle = res2.data.customerInfo;
+                if (this.cardobj.state == "ONCREATE")
+                  this.recordTitle = "资料卡确认中";
+                if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
+              })
+              .catch(err => {
+                console.log("拿评审记录数据错误?" + err);
+              });
+          }
+        })
+        .catch(function(err) {
+          console.log("cards检查拿对象报错", err);
+        });
+    }
   }
 };
-// (new Date().getMinutes() >= 10? new Date().getMinutes(): ("0" + new Date().getMinutes()))
 </script>
 
 <style scoped>

@@ -5,10 +5,9 @@
       <serProtocol
         :cid="this.ccid"
         :flag="1"
-        :cname="this.cname"
-        :cyear="this.cyear.toString()"
+        :cyear="this.cyear"
         @close="close"
-        v-show="showProtocol"
+        v-if="showProtocol"
       ></serProtocol>
     </div>
     <ser-search
@@ -59,7 +58,7 @@
           <el-button
             type="text"
             size="large"
-            @click="verify(scope.row.CNAME,scope.row.CYEAR)"
+            @click="verify(scope.row)"
           >{{scope.row.none}}查看</el-button>
         </template>
       </el-table-column>
@@ -82,6 +81,7 @@
 import serSearch from "@/Components/server/ser-search";
 import serPagination from "@/Components/server/ser-pagination";
 import serProtocol from "@/Components/server/ser-protocol";
+
 export default {
   name: "table2",
   components: { serSearch, serPagination, serProtocol },
@@ -92,7 +92,6 @@ export default {
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
       ccid: "",
-      cname: "",
       cyear: "",
       showProtocol: false,
       position: this.$store.state.user.pos[0].position,
@@ -111,18 +110,18 @@ export default {
     }
   },
   methods: {
-    verify(cname, cyear) {
+    verify(row) {
       this.$refs.verifysLeap.scrollIntoView();
       this.showProtocol = true;
-      this.cname = cname;
-      this.cyear = cyear;
+      this.cyear = row.CYEAR;
+      this.ccid = row.CID;
     },
     close(close) {
       this.showProtocol = false;
     },
     rowClick(row, event, column) {
       //点击行将CID传递
-      this.ccid = row.CID;
+      //this.ccid = row.CID;
     },
     changeCurrentPage(data) {
       /**改变页数 */
@@ -184,7 +183,7 @@ export default {
     var me = this;
     window.onkeydown = event => {
       if (event.keyCode == 27) {
-        if (me.showProtocol) me.showProtocol = false;
+        if (me.showProtocol) me.close();
       }
     };
     this.loading = true;
@@ -192,7 +191,7 @@ export default {
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
         limit: "10",
         page: "1",
-        year: this.$store.state.year,
+        year: this.selYear,
         area_1: "",
         area_2: "",
         find: "",
