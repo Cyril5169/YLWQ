@@ -251,7 +251,7 @@ export default {
       })
         .then(res => {
           this.$alert("同意该协议书");
-          location.reload();
+          this.getData();
         })
         .catch(function(err) {
           console.log(err);
@@ -272,14 +272,15 @@ export default {
           cid: this.$store.state.user.data.customerMainId,
           year: this.contractData.cyear,
           state: "SALEMANMODIFYING",
-          wfmemo: this.memo + "退回协议书，原因是 [" + this.reason + "];",
+          wfmemo: this.memo + "退回协议书，原因是[" + this.reason + "];",
           signed: 2,
           market: "",
           csa: ""
         })
           .then(res => {
             this.$alert("退回协议书成功");
-            location.reload();
+            this.getData();
+            this.hide = false;
           })
           .catch(function(err) {
             console.log(err);

@@ -3,11 +3,13 @@
     <div class="wenxin" v-if="!showCer">
       <span>协议书暂未通过，请耐心等候</span>
     </div>
+    <div class="wenxin" v-if="showCer && imgLoading">
+      <span>正在生成授权书，请稍后...</span>
+    </div>
     <canvas class="picture" ref="picture" width="600" height="800" v-if="showCer"></canvas>
   </div>
 </template>
 
- 
 <script>
 export default {
   name: "certificate",
@@ -20,7 +22,8 @@ export default {
       startDate: "",
       endDate: "",
       recordTitle: "", //根据评审记录的上面文字来判断协议书是否已通过
-      showCer: false
+      showCer: false,
+      imgLoading:false
     };
   },
   computed: {
@@ -39,8 +42,9 @@ export default {
         return y + "." + m + "." + d;
       }
     },
-
     init() {
+      let me = this;
+      this.imgLoading = true;
       let name = this.name;
       let area = this.area;
       let startDate = this.formatDate(this.startDate);
@@ -48,7 +52,7 @@ export default {
       var picture = this.$refs.picture,
         ctx = picture.getContext("2d"),
         img = new Image();
-
+      img.src = "http://14.29.221.109:10250/upload/images/newshouquan2.png";
       img.onload = function() {
         let x = 600 / img.width;
         let y = 800 / img.height;
@@ -61,8 +65,8 @@ export default {
         ctx.fillText(area, 650, 1850);
         ctx.fillText(startDate, 775, 1970);
         ctx.fillText(endDate, 1125, 1970);
+        me.imgLoading = false;
       };
-      img.src = "../assets/images/newshouquan2.png";
     }
   },
   created() {

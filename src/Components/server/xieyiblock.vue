@@ -589,6 +589,7 @@ input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0 40px;
   background-color: rgb(237, 253, 240);
+  border:1px solid black;
 }
 .xieyi-title {
   text-align: center;
