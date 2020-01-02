@@ -48,7 +48,7 @@ export default {
       let name = this.name;
       let area = this.area;
       let startDate = this.formatDate(this.startDate);
-      let endDate = "-" + this.formatDate(this.endDate);
+      let endDate = " - " + this.formatDate(this.endDate);
       var picture = this.$refs.picture,
         ctx = picture.getContext("2d"),
         img = new Image();
