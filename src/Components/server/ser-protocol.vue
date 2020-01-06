@@ -170,6 +170,7 @@ export default {
       doc = doc.replace(/5\)/g, "&nbsp;5)");
       doc = doc.replace(/6\)/g, "&nbsp;6)");
       doc = doc.replace(/7\)/g, "&nbsp;7)");
+       doc = doc.replace(/color: rgb\(0, 176, 240\);/g, 'color: rgb\(0, 0, 0\);');
       doc = doc.replace(
         /width="116"><span style="text-indent: 32px;">/g,
         'width="116"><span style="font-size: 14px;">'
