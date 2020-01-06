@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { GetYlContractByCustomer } from "@/api/card";
+
 export default {
   name: "certificate",
   data() {
@@ -23,7 +25,7 @@ export default {
       endDate: "",
       recordTitle: "", //根据评审记录的上面文字来判断协议书是否已通过
       showCer: false,
-      imgLoading:false
+      imgLoading: false
     };
   },
   computed: {
@@ -93,7 +95,27 @@ export default {
                 this.area1 = res.data.districtText;
                 if (this.area2 == null) this.area2 = "";
                 if (this.area3 == null) this.area3 = "";
-                if (this.showCer == true) this.init();
+
+                // this.$axios
+                //   .post("/yulan/YLcontractentry/getYLcontract.do", {
+                //     //获取协议书的两个时间
+                //     ccid: this.$store.state.user.data.customerMainId
+                //   })
+                GetYlContractByCustomer({
+                  cid: this.$store.state.user.data.customerMainId,
+                  year: this.$store.state.year
+                })
+                  .then(res => {
+                    let startDate = res.data.contract.startDate;
+                    let endDate = res.data.contract.endDate;
+                    this.startDate = new Date(startDate);
+                    this.endDate = new Date(endDate);
+
+                    if (this.showCer == true) this.init();
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               }
             })
             .catch(function(err) {
@@ -104,23 +126,7 @@ export default {
       .catch(err => {
         console.log(err);
       });
-
-    this.$axios
-      .post("/yulan/YLcontractentry/getYLcontract.do", {
-        //获取协议书的两个时间
-        ccid: this.$store.state.user.data.customerMainId
-      })
-      .then(res => {
-        let startDate = res.data.data.startDate;
-        let endDate = res.data.data.endDate;
-        this.startDate = new Date(startDate);
-        this.endDate = new Date(endDate);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },
-  mounted() {}
+  }
 };
 </script>
 

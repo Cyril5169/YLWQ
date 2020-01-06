@@ -154,17 +154,11 @@ export default {
                   this.$router.go(0); //刷新页面
                   break;
                 case "SALEMAN":
-                  this.$router.push({ path: "/server" });
-                  this.$router.go(0); //刷新页面
-                  break;
                 case "USER":
-                  this.$router.push({ path: "/server" });
-                  this.$router.go(0); //刷新页面
-                  break;
                 case "ADMIN":
                 case "SUPERADMIN":
-                  window.location.href =
-                    "http://14.29.221.109:10250/yulan/page/index.html";
+                  this.$router.push({ path: "/server" });
+                  this.$router.go(0); //刷新页面
                   break;
               }
             } else {
