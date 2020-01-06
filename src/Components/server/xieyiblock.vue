@@ -62,31 +62,31 @@
           <input type="number" v-model="m1" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m1" class="readonly" readonly />
+          <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
           <input type="number" v-model="m2" class="readonly" readonly />
@@ -169,6 +169,7 @@ export default {
       position: this.$store.state.user.pos[0].position,
       weiTuoObj: null,
       m1: "",
+      m11: "",
       m2: "",
       databool1: false,
       databool2: false,
@@ -177,8 +178,8 @@ export default {
       stockpercent: "", //备货占比
       rewordpercent: "", //
       rewordpercent2: "",
-      startDate: "2019-01-01", //协议开始日期
-      endDate: "2019-12-31", //协议结束日期
+      startDate: new Date().getFullYear() + "-01-01", //协议开始日期
+      endDate: new Date().getFullYear() + "-12-31", //协议结束日期
       preferedbrand: "", //意向品牌
       pickerOptions1: {
         //快捷选择时间
@@ -217,21 +218,23 @@ export default {
         this.$alert("请选择意向品牌！");
         return;
       }
-      console.log(this.aRetailing,
+      console.log(
+        this.aRetailing,
         this.cMatching,
         this.stockpercent,
         this.rewordpercent,
         this.rewordpercent2,
         this.startDate,
-        this.endDate)
+        this.endDate
+      );
       if (
-        this.aRetailing==null ||
-        this.cMatching==null ||
-        this.stockpercent==null ||
-        this.rewordpercent==null ||
-        this.rewordpercent2==null ||
-        this.startDate==null ||
-        this.endDate==null
+        this.aRetailing == null ||
+        this.cMatching == null ||
+        this.stockpercent == null ||
+        this.rewordpercent == null ||
+        this.rewordpercent2 == null ||
+        this.startDate == null ||
+        this.endDate == null
       ) {
         this.$alert("请填写全部信息！");
         return;
@@ -245,15 +248,15 @@ export default {
             cMatching: this.cMatching,
             m1: this.m1,
             m2: this.m1,
-            m3: this.m1,
-            m4: this.m1,
-            m5: this.m1,
-            m6: this.m1,
-            m7: this.m1,
-            m8: this.m1,
-            m9: this.m1,
-            m10: this.m1,
-            m11: this.m1,
+            m3: this.m11,
+            m4: this.m11,
+            m5: this.m11,
+            m6: this.m11,
+            m7: this.m11,
+            m8: this.m11,
+            m9: this.m11,
+            m10: this.m11,
+            m11: this.m11,
             m12: this.m2,
             rewordpercent: this.rewordpercent,
             rewordpercent2: this.rewordpercent2, //兰居返点比例 %
@@ -307,15 +310,15 @@ export default {
             cMatching: this.cMatching,
             m1: this.m1,
             m2: this.m1,
-            m3: this.m1,
-            m4: this.m1,
-            m5: this.m1,
-            m6: this.m1,
-            m7: this.m1,
-            m8: this.m1,
-            m9: this.m1,
-            m10: this.m1,
-            m11: this.m1,
+            m3: this.m11,
+            m4: this.m11,
+            m5: this.m11,
+            m6: this.m11,
+            m7: this.m11,
+            m8: this.m11,
+            m9: this.m11,
+            m10: this.m11,
+            m11: this.m11,
             m12: this.m2,
             rewordpercent: this.rewordpercent,
             rewordpercent2: this.rewordpercent2, //兰居返点比例 %
@@ -345,8 +348,8 @@ export default {
               market: "",
               csa: ""
             }).then(res => {
-                this.exitBlock();
-                this.$emit("updatePage");
+              this.exitBlock();
+              this.$emit("updatePage");
             });
           })
           .catch(err => {
@@ -362,6 +365,7 @@ export default {
     //清空
     reflesh() {
       (this.m1 = ""),
+      (this.m11 = ""),
         (this.m2 = ""),
         (this.aRetailing = "0"),
         (this.cMatching = "0"),
@@ -429,8 +433,9 @@ export default {
   updated() {},
   watch: {
     totalAim() {
-      this.m1 = Math.floor(((this.totalAim * 1.0) / 12) * 100) / 100;
-      this.m2 = (this.totalAim - this.m1 * 11).toFixed(2);
+      this.m1 = Math.floor(this.totalAim * 0.05 * 100) / 100;
+      this.m11 = Math.floor(this.totalAim * 0.09 * 100) / 100;
+      this.m2 = (this.totalAim - this.m1 * 2 - this.m11 * 9).toFixed(2);
     },
     databool1(newV, oldV) {
       if (newV) {
@@ -589,7 +594,7 @@ input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0 40px;
   background-color: rgb(237, 253, 240);
-  border:1px solid black;
+  border: 1px solid black;
 }
 .xieyi-title {
   text-align: center;
