@@ -6,24 +6,18 @@
       <input type="checkbox" name="brand" id="WallPaper1" v-model="databool1" />
       <label for="WallPaper1">玉兰（墙纸类产品）</label>
       <input type="checkbox" name="brand" id="SoftProducts1" v-model="databool2" />
-      <label for="SoftProducts1">玉兰·兰居尚品（软装类产品）</label>
+      <label for="SoftProducts1">兰居尚品（布艺类产品）</label>
     </div>
     <div class="xieyi-items">
-      <span class="input-blocks">
+      <!-- <span class="input-blocks">
         销售总任务：
         <input type="text" class="small-block readonly" readonly v-model="totalAim" /> 万元
-      </span>
+      </span>-->
       <span class="input-blocks">
-        玉兰品牌：
-        <input
-          type="text"
-          class="small-block"
-          :class="{readonly:!databool1}"
-          :readonly="!databool1"
-          v-model="aRetailing"
-        /> 万元
+        销售总任务：
+        <input type="text" class="small-block" v-model="aRetailing" /> 万元
       </span>
-      <span class="input-blocks">
+      <!-- <span class="input-blocks">
         玉兰•兰居尚品：
         <input
           type="text"
@@ -32,7 +26,7 @@
           :readonly="!databool2"
           v-model="cMatching"
         /> 万元
-      </span>
+      </span>-->
     </div>
     <div class="xieyi-items">
       <span class="input-blocks">销售任务</span>
@@ -101,19 +95,25 @@
         总任务完成返点：
         <input type="number" v-model="rewordpercent" class="small-block" />&nbsp;%
       </span>
-      <span class="input-blocks">
+      <!-- <span class="input-blocks">
         兰居尚品任务返点：
         <input type="number" v-model="rewordpercent2" class="small-block" />&nbsp;%
-      </span>
+      </span>-->
     </div>
     <div class="xieyi-items">
       <span class="input-blocks">
         备货金额占比：
-        <input type="text" class="small-block" v-model="stockpercent" />&nbsp;%
+        <input type="text" class="small-block readonly" readonly v-model="stockpercent" />&nbsp;%
       </span>
       <span class="input-blocks">
         合人民币：
-        <input type="text" class="small-block readonly" readonly v-model="allRMB" />&nbsp;元
+        <input
+          type="text"
+          style="width:70px;"
+          class="small-block readonly"
+          readonly
+          v-model="allRMB"
+        />&nbsp;元
       </span>
     </div>
     <div class="timer-wapper">
@@ -175,7 +175,7 @@ export default {
       databool2: false,
       aRetailing: "0", //
       cMatching: "0", //
-      stockpercent: "", //备货占比
+      stockpercent: "10", //备货占比
       rewordpercent: "", //
       rewordpercent2: "",
       startDate: new Date().getFullYear() + "-01-01", //协议开始日期
@@ -365,7 +365,7 @@ export default {
     //清空
     reflesh() {
       (this.m1 = ""),
-      (this.m11 = ""),
+        (this.m11 = ""),
         (this.m2 = ""),
         (this.aRetailing = "0"),
         (this.cMatching = "0"),
@@ -442,15 +442,14 @@ export default {
         if (this.weiTuoObj == null) this.aRetailing = "";
         else this.aRetailing = this.weiTuoObj.aRetailing;
         if (this.databool2) {
-          this.preferedbrand =
-            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√玉兰（墙纸类产品）";
         }
       } else {
         this.aRetailing = "0";
         if (this.databool2) {
-          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "";
         }
@@ -461,10 +460,9 @@ export default {
         if (this.weiTuoObj == null) this.cMatching = "";
         else this.cMatching = this.weiTuoObj.cMatching;
         if (this.databool1) {
-          this.preferedbrand =
-            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
         } else {
-          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√兰居尚品（布艺类产品）";
         }
       } else {
         this.cMatching = "0";

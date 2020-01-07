@@ -134,63 +134,66 @@ export default {
         })
         .then(res => {
           if (res.data != null && res.data.code == 0) {
-             this.$axios
-        .post( 'http://14.29.223.114:10250/yulan-order/web_user/login.do', {
-          loginName: res.data.data.loginName,
-          password: this.password,
-          year: this.year
-        })
-        .then(res2 => {
-            this.$store.commit("setCurrentUrl", 0);
-            let info = res.data;
-            info.data.customerMainId = res2.data.data.customerMainId;
-            //根据身份的种类跳转到不同的页面并带上token
-            //这里应该要用vuex了吧，放token
-            this.$store.commit("setStorage", info);
-            if (!info.pos || info.pos.length == 1) {
-              switch (info.data.type) {
-                case "ECWEB":
-                  this.$router.push({ path: "/client" });
-                  this.$router.go(0); //刷新页面
-                  break;
-                case "SALEMAN":
-                case "USER":
-                case "ADMIN":
-                case "SUPERADMIN":
-                  this.$router.push({ path: "/server" });
-                  this.$router.go(0); //刷新页面
-                  break;
-              }
-            } else {
-              this.dialogVisible = true;
-              this.cName = this.$store.state.user.data.realName;
-              for (let i = 0; i < info.pos.length; i++) {
-                switch (info.pos[i].position) {
-                  case "SALEMAN_M":
-                    this.pos[i] = "办事处经理(审核资料卡，填写修改协议)";
-                    break;
-                  case "SALEMAN_S":
-                    this.pos[i] = "业务经理(审核资料卡，填写修改协议)";
-                    break;
-                  case "MANAGER":
-                    this.pos[i] = "中心总经理(审核协议)";
-                    break;
-                  case "MARKETCHECKER":
-                    this.pos[i] = "市场部(审核协议)";
-                    break;
-                  case "VSMAPPROVEXII":
-                    this.pos[i] = "销售总监(审核协议)";
-                    break;
-                  case "BILLDEP_APPROVE":
-                    this.pos[i] = "订单部(审核资料卡)";
-                    break;
-                  case "LEGALCHECK":
-                    this.pos[i] = "法务员(抽查审核资料卡和协议书)";
-                    break;
+            this.$axios
+              .post(
+                "http://14.29.223.114:10250/yulan-order/web_user/login.do",
+                {
+                  loginName: res.data.data.loginName,
+                  password: this.password,
+                  year: this.year
                 }
-              }
-            }
-            })
+              )
+              .then(res2 => {
+                this.$store.commit("setCurrentUrl", 0);
+                let info = res.data;
+                info.data.customerMainId = res2.data.data.customerMainId;
+                //根据身份的种类跳转到不同的页面并带上token
+                //这里应该要用vuex了吧，放token
+                this.$store.commit("setStorage", info);
+                if (!info.pos || info.pos.length == 1) {
+                  switch (info.data.type) {
+                    case "ECWEB":
+                      this.$router.push({ path: "/client" });
+                      this.$router.go(0); //刷新页面
+                      break;
+                    case "SALEMAN":
+                    case "USER":
+                    case "ADMIN":
+                    case "SUPERADMIN":
+                      this.$router.push({ path: "/server" });
+                      this.$router.go(0); //刷新页面
+                      break;
+                  }
+                } else {
+                  this.dialogVisible = true;
+                  this.cName = this.$store.state.user.data.realName;
+                  for (let i = 0; i < info.pos.length; i++) {
+                    switch (info.pos[i].position) {
+                      case "SALEMAN_M":
+                        this.pos[i] = "办事处经理(审核资料卡，填写修改协议)";
+                        break;
+                      case "SALEMAN_S":
+                        this.pos[i] = "业务经理(审核资料卡，填写修改协议)";
+                        break;
+                      case "MANAGER":
+                        this.pos[i] = "中心总经理(审核协议)";
+                        break;
+                      case "MARKETCHECKER":
+                        this.pos[i] = "市场部(审核协议)";
+                        break;
+                      case "VSMAPPROVEXII":
+                        this.pos[i] = "销售总监(审核协议)";
+                        break;
+                      case "BILLDEP_APPROVE":
+                        this.pos[i] = "订单部(审核资料卡)";
+                        break;
+                      case "LEGALCHECK":
+                        this.pos[i] = "法务员(抽查审核资料卡和协议书)";
+                        break;
+                    }
+                  }
+                }
+              });
           } else {
             this.$alert("请确认账号密码正确！");
           }
