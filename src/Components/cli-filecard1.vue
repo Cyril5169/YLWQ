@@ -22,7 +22,7 @@
               v-model="databool2"
               :disabled="only"
             />
-            <label for="SoftProducts">玉兰·兰居尚品（软装类产品）</label>
+            <label for="SoftProducts">兰居尚品（布艺类产品）</label>
           </div>
         </div>
 
@@ -286,7 +286,7 @@ export default {
         if (newV.preferedbrand) {
           this.preferedbrand = newV.preferedbrand;
           this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-          this.databool2 = this.preferedbrand.indexOf("软装") != -1;
+          this.databool2 = this.preferedbrand.indexOf("软装") != -1 || this.preferedbrand.indexOf("布") != -1;
         }
         (this.shopArea = this.cardobj.shopArea), //店面面积
           (this.invAddress = this.cardobj.invAddress), //地址
@@ -306,14 +306,13 @@ export default {
     databool1(newV, oldV) {
       if (newV) {
         if (this.databool2) {
-          this.preferedbrand =
-            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√玉兰（墙纸类产品）";
         }
       } else {
         if (this.databool2) {
-          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "";
         }
@@ -322,10 +321,9 @@ export default {
     databool2(newV, oldV) {
       if (newV) {
         if (this.databool1) {
-          this.preferedbrand =
-            "√玉兰（墙纸类产品）√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
         } else {
-          this.preferedbrand = "√玉兰·兰居尚品（软装类产品）";
+          this.preferedbrand = "√兰居尚品（布艺类产品）";
         }
       } else {
         if (this.databool1) {

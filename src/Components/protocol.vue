@@ -152,7 +152,7 @@ export default {
       doc = doc.replace(/5\)/g, "&nbsp;5)");
       doc = doc.replace(/6\)/g, "&nbsp;6)");
       doc = doc.replace(/7\)/g, "&nbsp;7)");
-       doc = doc.replace(/color: rgb\(0, 176, 240\);/g, 'color: rgb\(0, 0, 0\);');
+      doc = doc.replace(/color: rgb\(0, 176, 240\);/g, "color: rgb(0, 0, 0);");
       doc = doc.replace(
         /width="116"><span style="text-indent: 32px;">/g,
         'width="116"><span style="font-size: 14px;">'
@@ -245,7 +245,7 @@ export default {
         cid: this.$store.state.user.data.customerMainId,
         year: this.contractData.cyear,
         state: "ASM_CHECKING",
-        wfmemo: this.memo + "通过协议文本;",
+        wfmemo: this.memo + "通过协议书;",
         signed: 0,
         market: "",
         csa: ""
@@ -405,7 +405,7 @@ button {
   position: absolute;
   bottom: -200px;
 }
-.wrapper-search{
+.wrapper-search {
   margin-bottom: 10px;
 }
 </style>

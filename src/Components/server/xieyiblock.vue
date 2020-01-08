@@ -218,23 +218,12 @@ export default {
         this.$alert("请选择意向品牌！");
         return;
       }
-      console.log(
-        this.aRetailing,
-        this.cMatching,
-        this.stockpercent,
-        this.rewordpercent,
-        this.rewordpercent2,
-        this.startDate,
-        this.endDate
-      );
       if (
-        this.aRetailing == null ||
-        this.cMatching == null ||
-        this.stockpercent == null ||
-        this.rewordpercent == null ||
-        this.rewordpercent2 == null ||
-        this.startDate == null ||
-        this.endDate == null
+        !this.aRetailing||
+        this.aRetailing == "0" ||
+        !this.rewordpercent||
+        !this.startDate||
+        !this.endDate
       ) {
         this.$alert("请填写全部信息！");
         return;
@@ -520,7 +509,7 @@ export default {
             if (this.weiTuoObj.preferedbrand) {
               this.preferedbrand = this.weiTuoObj.preferedbrand;
               this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-              this.databool2 = this.preferedbrand.indexOf("软装") != -1;
+              this.databool2 = this.preferedbrand.indexOf("软装") != -1 || this.preferedbrand.indexOf("布") != -1;
             } else {
             }
             this.aRetailing = this.weiTuoObj.aRetailing;

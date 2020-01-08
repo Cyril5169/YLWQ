@@ -92,7 +92,6 @@ export default {
         " ";
       let wfmemo =
         nowTime +
-        "被" +
         pt[this.position] +
         this.$store.state.user.data.realName;
       return wfmemo;
@@ -170,7 +169,7 @@ export default {
       doc = doc.replace(/5\)/g, "&nbsp;5)");
       doc = doc.replace(/6\)/g, "&nbsp;6)");
       doc = doc.replace(/7\)/g, "&nbsp;7)");
-       doc = doc.replace(/color: rgb\(0, 176, 240\);/g, 'color: rgb\(0, 0, 0\);');
+      doc = doc.replace(/color: rgb\(0, 176, 240\);/g, "color: rgb(0, 0, 0);");
       doc = doc.replace(
         /width="116"><span style="text-indent: 32px;">/g,
         'width="116"><span style="font-size: 14px;">'
@@ -274,19 +273,15 @@ export default {
           cid: this.cid,
           year: this.cyear,
           state: ps[this.position],
-          wfmemo: this.wfmemo + " 审核批准协议文本;",
+          wfmemo: this.wfmemo + "通过协议书;",
           signed: pn[this.position],
           market: market,
           csa: csa
         })
           .then(res => {
-            if (res.data != null && res.data.code == 0) {
-              if (res.data.code == 0) {
-                this.$alert("同意该协议书");
-                location.reload();
-                this.dispear();
-              }
-            }
+            this.$alert("同意该协议书");
+            location.reload();
+            this.dispear();
           })
           .catch(function(err) {
             console.log(err);
@@ -319,13 +314,9 @@ export default {
         csa: ""
       })
         .then(res => {
-          if (res.data != null && res.data.code == 0) {
-            if (res.data.code == 0) {
-              this.$alert("退回协议书成功");
-              location.reload();
-              this.dispear();
-            }
-          }
+          this.$alert("退回协议书成功");
+          location.reload();
+          this.dispear();
         })
         .catch(function(err) {
           console.log(err);

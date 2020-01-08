@@ -735,10 +735,10 @@ export default {
       }
       return true;
     },
-    enter(){
+    enter() {
       this.$emit("enter");
     },
-    change(){
+    change() {
       this.$emit("change");
     },
     getWeiTuo() {
@@ -1546,4 +1546,3 @@ button {
   color: white !important;
 }
 </style>
-
