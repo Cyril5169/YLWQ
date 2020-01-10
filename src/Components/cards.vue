@@ -76,7 +76,7 @@ import card2 from "@/Components/cli-filecard2";
 import card3 from "@/Components/cli-filecard3";
 import card4 from "@/Components/cli-filecard4";
 import reviewRecord from "@/Components/review-record";
-import { UpdateState,GetCardByCustomer } from "@/api/card";
+import { UpdateState, GetCardByCustomer } from "@/api/card";
 
 export default {
   name: "cards",
@@ -208,6 +208,18 @@ export default {
           if (res.data != null && res.data.code == 0) {
             this.cardobj = res.data.data;
             console.log("cards得到的整个对象", this.cardobj);
+            if (this.cardobj.contractyear < this.$store.state.year) {
+              this.$alert(
+                "请联系市场部添加" + this.$store.state.year + "年客户资料卡",
+                "提示",
+                {
+                  confirmButtonText: "确定",
+                  type: "warning"
+                }
+              );
+              this.only = true;
+              return;
+            }
             if (this.cardobj.state == "ONCREATE") {
               this.only = true;
               this.showEnter = true;
@@ -236,6 +248,11 @@ export default {
               });
           } else {
             console.log("拿不到cards对象", res.data);
+            this.only = true;
+            this.$alert("请联系市场部添加客户资料卡", "提示", {
+              confirmButtonText: "确定",
+              type: "warning"
+            });
           }
         })
         .catch(function(err) {
