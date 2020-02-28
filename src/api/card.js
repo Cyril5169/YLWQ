@@ -28,3 +28,10 @@ export function UpdateContractState(data, config = {}) {
         return Promise.reject(err);
     })
 }
+export function GetCardAndContract(data, config = {}) {
+    return post('/CUSTOMERINFOCARD/GetCardAndContract', data, config).then((res) => {
+        return Promise.resolve(res);
+    }).catch((err) => {
+        return Promise.reject(err);
+    })
+}

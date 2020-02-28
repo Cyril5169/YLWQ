@@ -5,6 +5,7 @@
       <serProtocol
         :cid="this.ccid"
         :flag="1"
+        :showBtn="true"
         :cyear="this.cyear"
         @close="close"
         v-if="showProtocol"
@@ -41,7 +42,7 @@
           >{{scope.row.SUBMARKETNAME}}[{{scope.row.SUBMARKETMANAGERNAME}}]</p>
         </template>
       </el-table-column>
-      <el-table-column prop label="协议" width="225">
+      <el-table-column prop label="协议名称" width="225">
         <template slot-scope="scope">
           <p style="font-size:14px">{{scope.row.none}}玉兰墙纸年度经销协议书-{{scope.row.CYEAR}}</p>
         </template>
@@ -132,7 +133,7 @@ export default {
       this.loading = true;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
+          limit: this.pagesize,
           page: this.currentPage,
           year: this.selYear,
           area_1: this.nowarea1,
@@ -189,7 +190,7 @@ export default {
     this.loading = true;
     this.$axios
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-        limit: "10",
+        limit: this.pagesize,
         page: "1",
         year: this.selYear,
         area_1: "",

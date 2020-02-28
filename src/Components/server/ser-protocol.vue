@@ -5,15 +5,17 @@
     <div class="show" v-html="b2b2"></div>
     <!-- 确认退回按钮 -->
     <div class="button">
-      <button @click="queding">确认</button>
-      <button @click="OutWord">导出Word</button>
-      <button @click="showReason" v-show="flag == '0' ">退回</button>
+      <button @click="queding" v-show="showBtn">确认</button>
+      <button @click="OutWord" v-show="showBtn">导出Word</button>
+      <button @click="showReason" v-show="flag == '0'&& showBtn">退回</button>
+      <button @click="tongguo" v-show="checkBtn">通过</button>
+      <button @click="showReason" v-show="checkBtn">不通过</button>
     </div>
     <!-- 隐藏部分 -->
     <transition name="el-fade-in-linear">
       <div v-show="hide">
         <div class="back">
-          <p>*请说明退回协议书的理由，业务员将根据您的理由修改后再次发送:</p>
+          <p>*请说明退回协议书的理由:</p>
           <textarea name="reason" cols="30" rows="10" v-model="reason"></textarea>
         </div>
         <button @click="tuihui">提交</button>
@@ -37,7 +39,8 @@ var pt = {
   //身份和中文翻译
   MANAGER: "中心总经理",
   MARKETCHECKER: "市场部",
-  VSMAPPROVEXII: "销售总监"
+  VSMAPPROVEXII: "销售总监",
+  LEGALCHECK: "法务专员"
 };
 var pn = {
   //身份和signed变化
@@ -59,7 +62,7 @@ export default {
       contractData: []
     };
   },
-  props: ["cid", "flag", "cyear"],
+  props: ["cid", "flag", "cyear", "showBtn", "checkBtn"],
   computed: {
     nowMonth() {
       let month = "0" + (new Date().getMonth() + 1);
@@ -91,9 +94,7 @@ export default {
         this.nowMinute +
         " ";
       let wfmemo =
-        nowTime +
-        pt[this.position] +
-        this.$store.state.user.data.realName;
+        nowTime + pt[this.position] + this.$store.state.user.data.realName;
       return wfmemo;
     }
   },
@@ -279,7 +280,7 @@ export default {
           csa: csa
         })
           .then(res => {
-            this.$alert("同意该协议书");
+            this.$alert("已通过！");
             location.reload();
             this.dispear();
           })
@@ -290,37 +291,87 @@ export default {
         this.dispear();
       }
     },
+    tongguo() {
+      let position = this.$store.state.user.pos[0].position;
+      if (position == "LEGALCHECK") {
+        UpdateContractState({
+          cid: this.cid,
+          year: this.cyear,
+          state: this.contractData.state,
+          wfmemo: "",
+          signed: this.contractData.signed,
+          market: this.contractData.marketcheck,
+          csa: this.contractData.csa,
+          checkStatus: "Y"
+        }).then(res => {
+          this.$alert("同意该协议书");
+          location.reload();
+          this.dispear();
+        });
+        this.hide = false;
+      } else {
+        this.$alert("对不起，您没有权限执行通过操作");
+      }
+    },
     tuihui() {
       if (this.reason == "") {
         this.$alert("退回理由不能为空");
         return false;
       }
-      // this.$axios
-      //   .post("/yulan/infoState/checkYLcontractentryState.do", {
-      //     cid: this.cid,
-      //     state: "SALEMANMODIFYING",
-      //     wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
-      //     signed: 2,
-      //     market: "",
-      //     csa: ""
-      //   })
-      UpdateContractState({
-        cid: this.cid,
-        year: this.cyear,
-        state: "SALEMANMODIFYING",
-        wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
-        signed: 2,
-        market: "",
-        csa: ""
-      })
-        .then(res => {
-          this.$alert("退回协议书成功");
-          location.reload();
-          this.dispear();
+      if (this.position == "LEGALCHECK" && this.checkBtn) {
+        var state = this.contractData.state;
+        if (state == "APPROVED") {
+          this.$alert(
+            "该协议书已通过，如需重新签订，请联系市场部和业务员商定!"
+          );
+          return;
+        }
+        UpdateContractState({
+          cid: this.cid,
+          year: this.cyear,
+          state: "SALEMANMODIFYING",
+          wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
+          signed: this.contractData.signed,
+          market: this.contractData.marketcheck,
+          csa: this.contractData.csa,
+          checkStatus: "N"
         })
-        .catch(function(err) {
-          console.log(err);
-        });
+          .then(res => {
+            this.$alert("抽查不通过！");
+            location.reload();
+            this.dispear();
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      } else {
+        // this.$axios
+        //   .post("/yulan/infoState/checkYLcontractentryState.do", {
+        //     cid: this.cid,
+        //     state: "SALEMANMODIFYING",
+        //     wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
+        //     signed: 2,
+        //     market: "",
+        //     csa: ""
+        //   })
+        UpdateContractState({
+          cid: this.cid,
+          year: this.cyear,
+          state: "SALEMANMODIFYING",
+          wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
+          signed: 2,
+          market: "",
+          csa: ""
+        })
+          .then(res => {
+            this.$alert("退回协议书成功");
+            location.reload();
+            this.dispear();
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
     }
   },
   watch: {

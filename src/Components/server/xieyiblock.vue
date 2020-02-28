@@ -83,7 +83,7 @@
           <input type="number" v-model="m11" class="readonly" readonly />
         </td>
         <td>
-          <input type="number" v-model="m2" class="readonly" readonly />
+          <input type="number" v-model="m12" class="readonly" readonly />
         </td>
         <td>
           <input type="number" readonly v-model="totalAim" />
@@ -170,7 +170,7 @@ export default {
       weiTuoObj: null,
       m1: "",
       m11: "",
-      m2: "",
+      m12: "",
       databool1: false,
       databool2: false,
       aRetailing: "0", //
@@ -219,10 +219,10 @@ export default {
         return;
       }
       if (
-        !this.aRetailing||
+        !this.aRetailing ||
         this.aRetailing == "0" ||
-        !this.rewordpercent||
-        !this.startDate||
+        !this.rewordpercent ||
+        !this.startDate ||
         !this.endDate
       ) {
         this.$alert("请填写全部信息！");
@@ -246,7 +246,7 @@ export default {
             m9: this.m11,
             m10: this.m11,
             m11: this.m11,
-            m12: this.m2,
+            m12: this.m12,
             rewordpercent: this.rewordpercent,
             rewordpercent2: this.rewordpercent2, //兰居返点比例 %
             stockpercent: this.stockpercent,
@@ -308,7 +308,7 @@ export default {
             m9: this.m11,
             m10: this.m11,
             m11: this.m11,
-            m12: this.m2,
+            m12: this.m12,
             rewordpercent: this.rewordpercent,
             rewordpercent2: this.rewordpercent2, //兰居返点比例 %
             stockpercent: this.stockpercent,
@@ -355,7 +355,7 @@ export default {
     reflesh() {
       (this.m1 = ""),
         (this.m11 = ""),
-        (this.m2 = ""),
+        (this.m12 = ""),
         (this.aRetailing = "0"),
         (this.cMatching = "0"),
         (this.stockpercent = ""),
@@ -424,7 +424,9 @@ export default {
     totalAim() {
       this.m1 = Math.floor(this.totalAim * 0.05 * 100) / 100;
       this.m11 = Math.floor(this.totalAim * 0.09 * 100) / 100;
-      this.m2 = (this.totalAim - this.m1 * 2 - this.m11 * 9).toFixed(2);
+      this.m12 = Number(
+        (this.totalAim - this.m1 * 2 - this.m11 * 9).toFixed(2)
+      );
     },
     databool1(newV, oldV) {
       if (newV) {
@@ -509,7 +511,9 @@ export default {
             if (this.weiTuoObj.preferedbrand) {
               this.preferedbrand = this.weiTuoObj.preferedbrand;
               this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-              this.databool2 = this.preferedbrand.indexOf("软装") != -1 || this.preferedbrand.indexOf("布") != -1;
+              this.databool2 =
+                this.preferedbrand.indexOf("软装") != -1 ||
+                this.preferedbrand.indexOf("布") != -1;
             } else {
             }
             this.aRetailing = this.weiTuoObj.aRetailing;

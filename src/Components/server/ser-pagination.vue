@@ -1,22 +1,10 @@
 <template>
   <div class="pagination">
-    <div
-      class="pagination-button"
-      @click='to_firstpage'
-    >首页</div>
-    <div
-      class="pagination-button prev"
-      @click='to_prev'
-    >上一页</div>
+    <div class="pagination-button" @click="to_firstpage">首页</div>
+    <div class="pagination-button prev" @click="to_prev">上一页</div>
     <div class="number">{{currentPage}}</div>
-    <div
-      class="pagination-button next"
-      @click="to_next"
-    >下一页</div>
-    <div
-      class="pagination-button"
-      @click='to_lastpage'
-    >尾页</div>
+    <div class="pagination-button next" @click="to_next">下一页</div>
+    <div class="pagination-button" @click="to_lastpage">尾页</div>
     <div class="number">记录数:{{total}}</div>
     <div class="number">页数:{{totalPage}}</div>
   </div>
@@ -32,33 +20,31 @@ export default {
   },
   methods: {
     to_firstpage() {
-      this.$emit("bridge1", 1);
+      if (this.currentPage != 1) {
+        this.$emit("bridge1", 1);
+      } else {
+        this.$alert("当前已经是第一页了");
+      }
     },
     to_lastpage() {
-      this.$emit("bridge2", this.totalPage);
+      if (this.currentPage != this.totalPage) {
+        this.$emit("bridge2", this.totalPage);
+      } else {
+        this.$alert("当前已经是最后一页了");
+      }
     },
     to_prev() {
       if (this.currentPage != 1) {
         this.$emit("bridge3", this.currentPage - 1);
       } else {
-        // this.$message({
-        //   message: "当前已经是第一页了",
-        //   type: "warning",
-        //   duration: 500
-        // });
-        this.$alert('当前已经是第一页了')
+        this.$alert("当前已经是第一页了");
       }
     },
     to_next() {
       if (this.currentPage != this.totalPage) {
         this.$emit("bridge4", this.currentPage + 1);
       } else {
-        // this.$message({
-        //   message: "当前已经是最后一页了",
-        //   type: "warning",
-        //   duration: 500
-        // });
-         this.$alert('当前已经是最后一页了')
+        this.$alert("当前已经是最后一页了");
       }
     }
   }

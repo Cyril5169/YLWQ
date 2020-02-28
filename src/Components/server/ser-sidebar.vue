@@ -60,6 +60,18 @@ export default {
         {
           desc: "协议执行汇总",
           router: "/server/cert-exe-gather"
+        },
+        {
+          desc: "未抽查",
+          router: "/server/spotCheck"
+        },
+        {
+          desc: "已抽查未通过",
+          router: "/server/spotCheckNoPass"
+        },
+        {
+          desc: "已抽查已通过",
+          router: "/server/spotCheckPass"
         }
       ]
     };
@@ -81,10 +93,18 @@ export default {
       position == "SALEMAN_M" ||
       position == "SALEMAN_S" ||
       position == "BILLDEP_APPROVE"
-    )
+    ) {
       this.items = this.items.slice(0, 1);
-    else if (position == "VSMAPPROVEXII") this.items = this.items.slice(0, 5);
-    else this.items = this.items.slice(0, 3);
+    } else if (position == "VSMAPPROVEXII") {
+      this.items = this.items.slice(0, 5);
+    } else if (position == "LEGALCHECK") {
+      this.items = this.items.slice(5, 8);
+    } else {
+      this.items = this.items.slice(0, 3);
+    }
+    if (window.location.href.split("#")[1] != this.items[this.currentUrl].router) {
+      this.$router.push({ path: this.items[this.currentUrl].router });
+    }
   }
 };
 </script>

@@ -188,7 +188,7 @@ export default {
                         this.pos[i] = "订单部(审核资料卡)";
                         break;
                       case "LEGALCHECK":
-                        this.pos[i] = "法务员(抽查审核资料卡和协议书)";
+                        this.pos[i] = "法务专员(抽查审核资料卡和协议书)";
                         break;
                     }
                   }

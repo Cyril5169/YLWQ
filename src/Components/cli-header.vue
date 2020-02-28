@@ -59,7 +59,7 @@ export default {
           this.position = "销售总监";
           break;
         case "LEGALCHECK":
-          this.position = "法务员";
+          this.position = "法务专员";
           break;
       }
     }

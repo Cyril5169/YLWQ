@@ -6,6 +6,7 @@
         :cid="this.ccid"
         :cyear="this.cyear"
         :flag="0"
+        :showBtn="true"
         @close="close"
         @updatePage="updatePage"
         v-if="showProtocol"
@@ -33,7 +34,7 @@
     >
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
       <el-table-column prop="CNAME" label="客户名称"></el-table-column>
-      <el-table-column prop="STATE" label="协议书状态" :formatter="statusFormatter" width="120"></el-table-column>
+      <el-table-column prop="STATE" label="协议书状态" :formatter="statusFormatter" width="150"></el-table-column>
       <el-table-column label="协议" width="200">
         <template slot-scope="scope">
           <p style="font-size:14px">{{scope.row.MARKETNAME}}[{{scope.row.MARKETMANAGERNAME}}]</p>
@@ -43,9 +44,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop label="协议" width="250">
+      <el-table-column prop label="协议名称" width="250">
         <template slot-scope="scope">
-          <p>{{scope.row.none}}玉兰墙纸年度经销协议书-2019</p>
+          <p>{{scope.row.none}}玉兰墙纸年度经销协议书-{{scope.row.CYEAR}}</p>
         </template>
       </el-table-column>
 
@@ -140,7 +141,7 @@ export default {
       this.loading = true;
       this.$axios
         .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-          limit: "10",
+          limit: this.pagesize,
           page: this.currentPage,
           year: this.selYear,
           area_1: this.nowarea1,
@@ -198,7 +199,7 @@ export default {
     this.loading = true;
     this.$axios
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
-        limit: "10",
+        limit: this.pagesize,
         page: "1",
         year: this.selYear,
         area_1: "",
@@ -214,6 +215,7 @@ export default {
             this.area = res.data.area;
           }
           this.showlist = res.data.data;
+          console.log(this.showlist)
           this.total = res.data.count;
           this.loading = false;
         }

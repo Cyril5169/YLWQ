@@ -6,7 +6,8 @@
         :cid="this.ccid"
         :cyear="cyear"
         :flag="1"
-        :showBtn="true"
+        :showBtn="showBtn"
+        :checkBtn="checkBtn"
         @close="closeProtocol"
         v-if="showProtocol"
       ></serProtocol>
@@ -16,6 +17,7 @@
         :cid="this.ccid"
         :year="cyear"
         :showBtn="showBtn"
+        :checkBtn="checkBtn"
         @close="close"
         v-if="showVerify"
         @updatePage="updatePage"
@@ -34,7 +36,7 @@
     ></ser-search>
 
     <!-- 表格大标题 -->
-    <p class="title">客户资料卡查询</p>
+    <p class="title">已抽查已通过</p>
     <xieyiblock
       v-if="showBlock"
       @hiddenBlock="hiddenBlock()"
@@ -50,94 +52,45 @@
       :data="showlist"
       stripe
       style="width: 100%"
-      @row-click="rowClick"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
     >
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
-      <el-table-column prop="CNAME" label="客户名称" width="265"></el-table-column>
+      <el-table-column prop="CNAME" label="客户名称" width="310"></el-table-column>
       <el-table-column prop="CONTRACTYEAR" label="年份" width="120"></el-table-column>
-      <el-table-column prop="STATE" label="资料卡状态" :formatter="statusFormatter" width="120"></el-table-column>
-      <el-table-column label="资料文件">
+      <el-table-column prop="STATE" label="资料卡状态" :formatter="statusFormatter" width="150"></el-table-column>
+      <el-table-column prop="YLCSTATE" label="协议书状态" :formatter="YLStatusFormatter" width="150"></el-table-column>
+      <el-table-column label="通过项" width="100">
         <template slot-scope="scope">
-          <div class="file finish" v-show="scope.row.FILE_1_IDCARD ==1">身份证</div>
-          <div class="file" v-show="scope.row.FILE_1_IDCARD ==0">身份证</div>
-          <div class="file finish" v-show="scope.row.FILE_2_BUSINESSLICENSE ==1">营业执照</div>
-          <div class="file" v-show="scope.row.FILE_2_BUSINESSLICENSE ==0">营业执照</div>
-          <div class="file finish" v-show="scope.row.FILE_3_ORGCODE == 1">组织结构</div>
-          <div class="file" v-show="scope.row.FILE_3_ORGCODE == 0">组织结构</div>
-          <div class="file finish" v-show="scope.row.FILE_4_GTQC == 1">纳税资格</div>
-          <div class="file" v-show="scope.row.FILE_4_GTQC == 0">纳税资格</div>
+          <span v-if="scope.row.Y_SPOT_CHECK_STATUS == 'Y'" style="color:red;">协议书</span>
+          <span v-if="scope.row.SPOT_CHECK_STATUS == 'Y'" style="color:red;">资料卡</span>
         </template>
       </el-table-column>
-      <el-table-column label="联系人/电话" width="130">
+      <el-table-column label="所属办事处">
         <template slot-scope="scope">
-          <p style="font-size:14px">
-            <span v-show="!scope.row.WL_AGENT_NAME">[暂无]</span>
-            <span v-show="scope.row.WL_AGENT_NAME">[{{scope.row.WL_AGENT_NAME}}]</span>
-          </p>
-          <p style="font-size:14px">
-            <span v-show="!scope.row.JURIDIC_PERSON_HANDSET">[暂无]</span>
-            <span v-show="scope.row.JURIDIC_PERSON_HANDSET">[{{scope.row.JURIDIC_PERSON_HANDSET}}]</span>
-          </p>
+          <p>{{scope.row.MARKETNAME}} - {{scope.row.SUBMARKETNAME}}</p>
         </template>
       </el-table-column>
-      <el-table-column label="区域" width="140">
-        <template slot-scope="scope">
-          <p>{{scope.row.SUBMARKETNAME}}</p>
-        </template>
-      </el-table-column>
-      <el-table-column label="审核" width="60">
+      <el-table-column label="资料卡" width="80">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="large"
-            style="color:blue"
+            style="color:#85ca80"
             @click="handleVerify(scope.row)"
-            v-show="
-             (scope.row.STATE == 'BUSINESSCHECKING'&&(position == 'SALEMAN_M'||position == 'SALEMAN_S'))||
-             (scope.row.STATE == 'BIILDEPCHECKING'&&position == 'BILLDEP_APPROVE')"
-          >审核</el-button>
+          >查看</el-button>
         </template>
       </el-table-column>
-
-      <el-table-column label="协议" width="60">
+      <el-table-column label="协议书" width="80">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="large"
-            style="color:blue"
-            @click="createCer(scope.row.ACCOUNT1_NAME,scope.row.CID,scope.row.CONTRACTYEAR,$event)"
-            v-show=" scope.row.STATE == 'APPROVED'&& scope.row.YLCSTATE != 'SALEMANMODIFYING'&&scope.row.YLCSTATE=='SALEMANFILLING'&&(position =='SALEMAN_M'||position == 'SALEMAN_S') "
-          >创建</el-button>
-
-          <el-button
-            type="text"
-            size="large"
-            style="color:red"
-            @click="createCer2(scope.row.ACCOUNT1_NAME,scope.row.CID,scope.row.CONTRACTYEAR,$event)"
-            v-show="scope.row.YLCSTATE == 'SALEMANMODIFYING'&&(position =='SALEMAN_M'||position == 'SALEMAN_S')"
-          >修改</el-button>
-
           <el-button
             type="text"
             size="large"
             style="color:#85ca80"
             @click="queryProtocol(scope.row)"
-            v-show="(scope.row.YLCSTATE == 'CUSTOMERAFFIRM'||scope.row.YLCSTATE == 'ASM_CHECKING'||scope.row.YLCSTATE == 'DEP_MARKET_CHECK'||scope.row.YLCSTATE == 'CSA_CHECK')&&(position =='SALEMAN_M'||position == 'SALEMAN_S')"
+            v-if="scope.row.YLCSTATE != 'SALEMANFILLING'"
           >查看</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column label="查看" width="60">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="large"
-            style="color:#85ca80"
-            @click="handleQuery(scope.row)"
-            v-show="position == 'MARKETCHECKER'||position == 'VSMAPPROVEXII' || position == 'BILLDEP_APPROVE'||((position =='SALEMAN_M'||position == 'SALEMAN_S')&&(scope.row.STATE == 'APPROVED'||scope.row.STATE == 'BIILDEPCHECKING'||scope.row.STATE == 'CUSTOMERPORCESSING2'))"
-          >{{scope.row.abc}}查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -161,6 +114,7 @@ import serPagination from "@/Components/server/ser-pagination";
 import xieyiblock from "@/Components/server/xieyiblock";
 import serVerifys from "@/Components/server/ser-verifys";
 import serProtocol from "@/Components/server/ser-protocol";
+import { GetCardAndContract } from "@/api/card";
 export default {
   name: "table1",
   components: { serSearch, serPagination, xieyiblock, serVerifys, serProtocol },
@@ -178,6 +132,7 @@ export default {
       showProtocol: false,
       showReject: false, //false创建，true修改
       showBtn: true, //隐藏已通过的确定/退回按钮
+      checkBtn: false,
       position: this.$store.state.user.pos[0].position,
       cid: this.$store.state.user.data.loginName,
       loading: false, //控制加载遮罩
@@ -203,49 +158,26 @@ export default {
       this.showProtocol = false;
     },
     queryProtocol(row) {
-      this.ccid = row.CID;
-      this.cyear = row.CONTRACTYEAR;
-      this.showProtocol = true;
-    },
-    handleQuery(row) {
-      //查询资料卡
-      this.$refs.verifysLeap.scrollIntoView();
       var position = this.$store.state.user.pos[0].position;
-      this.ccid = row.CID;
-      this.cyear = row.CONTRACTYEAR;
-      this.showBtn = false;
-      this.showVerify = true;
-    },
-    rowClick(row, column) {
-      //点击每一行将信息列出来
-      //console.log(row);
+      if (position == "LEGALCHECK") {
+        this.ccid = row.CID;
+        this.cyear = row.CONTRACTYEAR;
+        this.showBtn = false;
+        this.checkBtn = false;
+        this.showProtocol = true;
+      } else {
+        this.$alert("权限不吻合！");
+      }
     },
     handleVerify(row) {
       this.$refs.verifysLeap.scrollIntoView();
       var position = this.$store.state.user.pos[0].position;
 
-      if (
-        (row.STATE == "BUSINESSCHECKING" &&
-          (position == "SALEMAN_M" || position == "SALEMAN_S")) || //业务员审核中，业务员
-        (row.STATE == "BIILDEPCHECKING" && position == "BILLDEP_APPROVE") || //订单部审核中，订单部
-        (row.STATE == "APPROVED" &&
-          (position == "SALEMAN_M" ||
-            position == "SALEMAN_S" ||
-            position == "VSMAPPROVEXII" ||
-            position == "MARKETCHECKER")) //已通过，业务员
-      ) {
-        //只有在资料卡状态是业务员审核中的时候才能审核资料卡\
-        this.ccid = row.CID; //正确账号
+      if (position == "LEGALCHECK") {
+        this.ccid = row.CID;
         this.cyear = row.CONTRACTYEAR;
-        if (
-          row.STATE == "APPROVED" ||
-          position == "VSMAPPROVEXII" ||
-          position == "MARKETCHECKER"
-        )
-          this.showBtn = false;
-        //如果是已通过账号，就不用展示确定退回按钮
-        else this.showBtn = true;
-
+        this.showBtn = false;
+        this.checkBtn = false;
         this.showVerify = true; //展示出审核资料卡界面
       } else {
         this.$alert("权限不吻合！");
@@ -262,6 +194,19 @@ export default {
       if (status == "BIILDEPCHECKING") return "订单部审核中";
       if (status == "SALEMANMODIFYING") return "协议书待修改"; //原业务员修改中
     },
+    YLStatusFormatter(row, column) {
+      //状态格式化变成中文
+      let status = row.YLCSTATE;
+      if (status == "SALEMANFILLING") return "业务员填写中";
+      if (status == "SALEMANMODIFYING") return "业务员修改中";
+      if (status == "CUSTOMERAFFIRM") return "客户确认中";
+      if (status == "ASM_CHECKING") return "中心总经理审核中";
+      if (status == "DEP_MARKET_CHECK") return "市场部审核中";
+      if (status == "CSA_CHECK") return "销售副总批准中";
+      if (status == "APPROVED") return "已通过";
+      if (status == "ONCREATE") return "初始状态";
+      if (status == "" || status == null) return "未知状态";
+    },
     changeCurrentPage(data) {
       /**改变页数 */
       this.currentPage = data;
@@ -274,23 +219,24 @@ export default {
     searchAll() {
       this.loading = true;
       this.showlist = [];
-      this.$axios
-        .post("/yulan/customerInfo/getNcustomerinfo.do", {
-          page: this.currentPage,
-          limit: this.pagesize,
-          year: this.selYear,
-          state: this.nowstatus,
-          find: this.find,
-          area_1: this.nowarea1,
-          area_2: this.nowarea2,
-          cid: this.cid,
-          position: this.position,
-          ylcstate: this.nowylc
-        })
+      GetCardAndContract({
+        page: this.currentPage,
+        limit: this.pagesize,
+        year: this.selYear,
+        state: this.nowstatus,
+        find: this.find,
+        area_1: this.nowarea1,
+        area_2: this.nowarea2,
+        cid: this.cid,
+        position: this.position,
+        ylcstate: this.nowylc,
+        spotCheckState: "Y",
+        area: "N"
+      })
         .then(res => {
-          if (res.data != null && res.data.code == 0) {
+          if (res.data != null) {
             this.showlist = res.data.data;
-            this.total = res.data.count;
+            this.total = res.count;
             this.loading = false;
           }
         })
@@ -342,31 +288,6 @@ export default {
     hiddenBlock() {
       //控制创建协议书是否显示
       this.showBlock = false;
-    },
-    createCer(name, id, year, e) {
-      var evt = window.event || e;
-      if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
-        evt.stopPropagation();
-        this.showBlock = true;
-        this.ccid = id;
-        this.cyear = year;
-        this.ccName = name;
-      } else {
-        this.$alert("权限不吻合");
-      }
-    },
-    createCer2(name, id, year, e) {
-      var evt = window.event || e;
-      if (this.position == "SALEMAN_M" || this.position == "SALEMAN_S") {
-        evt.stopPropagation();
-        this.showBlock = true;
-        this.ccid = id;
-        this.cyear = year;
-        this.ccName = name;
-        this.showReject = true;
-      } else {
-        this.$alert("权限不吻合");
-      }
     }
   },
   mounted() {
@@ -379,27 +300,27 @@ export default {
       }
     };
     this.loading = true;
-    this.$axios
-      .post("/yulan/customerInfo/getNcustomerinfo.do", {
-        page: this.currentPage,
-        limit: this.pagesize,
-        year: this.selYear,
-        state: "",
-        find: "",
-        area_1: "",
-        area_2: "",
-        cid: this.cid,
-        position: this.position,
-        ylcstate: ""
-      })
+    GetCardAndContract({
+      page: this.currentPage,
+      limit: this.pagesize,
+      year: this.selYear,
+      state: "",
+      find: "",
+      area_1: "",
+      area_2: "",
+      cid: this.cid,
+      position: this.position,
+      ylcstate: "",
+      spotCheckState: "Y",
+      area: "Y"
+    })
       .then(res => {
-        let data = res.data.data;
         if (res.data != null) {
           if (Array.isArray(res.data.area)) {
             this.area = res.data.area;
           }
           this.showlist = res.data.data;
-          this.total = res.data.count;
+          this.total = res.count;
           this.loading = false;
         }
       })

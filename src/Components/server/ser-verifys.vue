@@ -447,10 +447,12 @@
       <div class="button">
         <button @click="queding" v-show="showBtn">确定</button>
         <button @click="tuihuiReason" v-show="showBtn">退回</button>
+        <button @click="tongguo" v-show="checkBtn">通过</button>
+        <button @click="tuihuiReason" v-show="checkBtn">不通过</button>
       </div>
       <div class="hide" v-show="hide">
         <div class="back">
-          <p>*请说明退回资料卡的理由，客户将根据您的理由修改后再次发送:</p>
+          <p>*请说明退回资料卡的理由:</p>
           <textarea name="reason" cols="30" rows="10" v-model="reason"></textarea>
         </div>
         <div class="button">
@@ -468,7 +470,8 @@ var ms = {
   //身份和中文翻译
   SALEMAN_M: "办事处经理",
   SALEMAN_S: "业务经理",
-  BILLDEP_APPROVE: "订单部"
+  BILLDEP_APPROVE: "订单部",
+  LEGALCHECK: "法务专员"
 };
 var remoteImageURL = "http://14.29.221.109:10250/upload";
 var loadingInstance; //加载
@@ -483,6 +486,7 @@ export default {
   props: {
     cid: "",
     showBtn: "",
+    checkBtn: "",
     year: ""
   },
   data() {
@@ -640,6 +644,26 @@ export default {
         this.$alert("对不起，您没有权限执行通过操作");
       }
     },
+    tongguo() {
+      let position = this.$store.state.user.pos[0].position;
+      if (position == "LEGALCHECK") {
+        UpdateState({
+          cid: this.cid,
+          year: this.year,
+          state: this.cardobj.state,
+          memo: "",
+          checkStatus: "Y"
+        }).then(res => {
+          this.$alert("已通过！");
+          this.$emit("close", false);
+          //location.reload();
+          this.updatePage(); //小刷新if
+        });
+        this.hide = false;
+      } else {
+        this.$alert("对不起，您没有权限执行通过操作");
+      }
+    },
     tuihui() {
       if (this.reason == "") {
         this.$alert("退回理由不能为空");
@@ -666,7 +690,29 @@ export default {
           this.$alert("退回该客户资料卡成功");
           this.$emit("close", false);
           //location.reload();
-          this.updatePage(); //小刷新
+          this.updatePage(); //小刷新if
+        });
+        this.hide = false;
+      } else if (position == "LEGALCHECK" && this.checkBtn) {
+        var state = this.cardobj.state;
+        if (state == "APPROVED") {
+          this.$alert(
+            "该资料卡已通过，如需重新签订，请联系市场部和业务员商定!"
+          );
+          return;
+        } else if (state == "BIILDEPCHECKING") {
+          state = "BUSINESSCHECKING";
+        }
+        UpdateState({
+          cid: this.cid,
+          year: this.year,
+          state: state,
+          checkStatus: "N",
+          memo: this.memo + "退回，原因是 [" + this.reason + "];"
+        }).then(res => {
+          this.$alert("抽查不通过！");
+          this.$emit("close", false);
+          this.updatePage();
         });
         this.hide = false;
       } else {
@@ -747,7 +793,9 @@ export default {
       if (newV.preferedbrand) {
         this.preferedbrand = newV.preferedbrand;
         this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-        this.databool2 = this.preferedbrand.indexOf("软装") != -1 || this.preferedbrand.indexOf("布") != -1;
+        this.databool2 =
+          this.preferedbrand.indexOf("软装") != -1 ||
+          this.preferedbrand.indexOf("布") != -1;
       }
       this.invoiceType = this.cardobj.invoiceType || ""; //发票类型
       this.accountType = this.accountTypesList[newV.customerentitytypex - 1]; //账号类型
