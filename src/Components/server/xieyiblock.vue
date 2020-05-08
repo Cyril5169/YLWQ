@@ -422,10 +422,10 @@ export default {
   updated() {},
   watch: {
     totalAim() {
-      this.m1 = Math.round(this.totalAim * 0.05 * 100) / 100;
-      this.m11 = Math.round(this.totalAim * 0.09 * 100) / 100;
+      this.m1 = Math.round(this.totalAim * 0.05 * 10000) / 10000;
+      this.m11 = Math.round(this.totalAim * 0.09 * 10000) / 10000;
       this.m12 = Number(
-        (this.totalAim - this.m1 * 2 - this.m11 * 9).toFixed(2)
+        (this.totalAim - this.m1 * 2 - this.m11 * 9).toFixed(4)
       );
     },
     databool1(newV, oldV) {

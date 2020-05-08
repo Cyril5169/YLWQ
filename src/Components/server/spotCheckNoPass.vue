@@ -37,17 +37,7 @@
 
     <!-- 表格大标题 -->
     <p class="title">已抽查未通过</p>
-    <xieyiblock
-      v-if="showBlock"
-      @hiddenBlock="hiddenBlock()"
-      :ccid="this.ccid"
-      :cyear="this.cyear"
-      :ccName="this.ccName"
-      :showReject="showReject"
-      @updatePage="updatePage"
-    ></xieyiblock>
     <!-- 表格展示区 -->
-    <!-- :data="showlist.slice((currentPage-1)*pagesize,currentPage*pagesize)" -->
     <el-table
       :data="showlist"
       stripe
@@ -111,26 +101,22 @@
   <script>
 import serSearch from "@/Components/server/ser-search";
 import serPagination from "@/Components/server/ser-pagination";
-import xieyiblock from "@/Components/server/xieyiblock";
 import serVerifys from "@/Components/server/ser-verifys";
 import serProtocol from "@/Components/server/ser-protocol";
 import { GetCardAndContract } from "@/api/card";
 export default {
   name: "table1",
-  components: { serSearch, serPagination, xieyiblock, serVerifys, serProtocol },
+  components: { serSearch, serPagination, serVerifys, serProtocol },
   data() {
     return {
       pagesize: 10, //每页的数据条数,
       currentPage: 1, //当前页面所在
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
-      showBlock: false, //创建协议书是否显示
       ccid: "", //当前行客户id
       cyear: "",
-      ccName: "", //当前行客户名称
       showVerify: false, //控制是否展示审核界面
       showProtocol: false,
-      showReject: false, //false创建，true修改
       showBtn: true, //隐藏已通过的确定/退回按钮
       checkBtn: false,
       position: this.$store.state.user.pos[0].position,
@@ -284,10 +270,6 @@ export default {
       this.selYear = year;
       this.currentPage = 1;
       this.searchAll();
-    },
-    hiddenBlock() {
-      //控制创建协议书是否显示
-      this.showBlock = false;
     }
   },
   mounted() {
@@ -295,7 +277,6 @@ export default {
     window.onkeydown = event => {
       if (event.keyCode == 27) {
         if (me.showVerify) me.close();
-        if (me.showBlock) me.hiddenBlock();
         if (me.showProtocol) me.closeProtocol();
       }
     };
@@ -352,49 +333,6 @@ export default {
   text-align: center;
   font-size: 20px;
   margin-bottom: 20px;
-}
-.file {
-  width: 75px;
-  height: 25px;
-  display: inline-block;
-  border-radius: 8px;
-  text-align: center;
-  background-color: white;
-  color: grey;
-  font-size: 14px;
-  padding: 1px 1px;
-  margin: 1px 1px;
-}
-.file.finish {
-  background-image: linear-gradient(74deg, #a7d64b 1%, #82c985 100%),
-    linear-gradient(#ffffff, #ffffff);
-  color: white;
-}
-.pagination {
-  display: flex;
-  flex-direction: row;
-  float: right;
-  padding-top: 15px;
-  vertical-align: middle;
-}
-.pagination-button {
-  width: 50px;
-  height: 28px;
-  line-height: 28px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: #ffffff;
-  text-align: center;
-  background: linear-gradient(to right, #a1d455, #86cb7e);
-  margin-top: 1px;
-  margin: 0 5px;
-}
-.number {
-  padding: 3px;
-}
-.next,
-.prev {
-  width: 66px;
 }
 .verify {
   width: 80%;
