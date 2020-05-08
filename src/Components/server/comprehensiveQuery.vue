@@ -66,7 +66,7 @@
           >查看</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="协议书" width="80">
+      <el-table-column label="协议书" width="100">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -140,29 +140,16 @@ export default {
     },
     queryProtocol(row) {
       var position = this.$store.state.user.pos[0].position;
-      if (position == "LEGALCHECK") {
-        this.ccid = row.CID;
-        this.cyear = row.CONTRACTYEAR;
-        this.showBtn = false;
-        this.checkBtn = true;
-        this.showProtocol = true;
-      } else {
-        this.$alert("权限不吻合！");
-      }
+      this.ccid = row.CID;
+      this.cyear = row.CONTRACTYEAR;
+      this.showProtocol = true;
     },
     handleVerify(row) {
       this.$refs.verifysLeap.scrollIntoView();
       var position = this.$store.state.user.pos[0].position;
-
-      if (position == "LEGALCHECK") {
-        this.ccid = row.CID;
-        this.cyear = row.CONTRACTYEAR;
-        this.showBtn = false;
-        this.checkBtn = true;
-        this.showVerify = true; //展示出审核资料卡界面
-      } else {
-        this.$alert("权限不吻合！");
-      }
+      this.ccid = row.CID;
+      this.cyear = row.CONTRACTYEAR;
+      this.showVerify = true;
     },
     statusFormatter(row, column) {
       //状态格式化变成中文

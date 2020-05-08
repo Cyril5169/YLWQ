@@ -210,7 +210,7 @@ export default {
         cid: this.cid,
         position: this.position,
         ylcstate: this.nowylc,
-        spotCheckState: "",
+        spotCheckState: "none",
         area: "N"
       })
         .then(res => {
@@ -286,7 +286,7 @@ export default {
       cid: this.cid,
       position: this.position,
       ylcstate: "",
-      spotCheckState: "",
+      spotCheckState: "none",
       area: "Y"
     })
       .then(res => {
