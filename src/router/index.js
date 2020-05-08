@@ -22,6 +22,7 @@ import table5 from "@/Components/server/table5";
 import spotCheck from "@/Components/server/spotCheck";
 import spotCheckPass from "@/Components/server/spotCheckPass";
 import spotCheckNoPass from "@/Components/server/spotCheckNoPass";
+import comprehensiveQuery from "@/Components/server/comprehensiveQuery";
 
 Vue.use(Router)
 
@@ -117,6 +118,12 @@ export default new Router({
           path: 'spotCheckNoPass',
           name: 'spotCheckNoPass',
           component: spotCheckNoPass,
+          meta: { auth: true },
+        },
+        {
+          path: 'comprehensiveQuery',
+          name: 'comprehensiveQuery',
+          component: comprehensiveQuery,
           meta: { auth: true },
         },
       ]

@@ -40,9 +40,30 @@ export default {
     return {
       show3: true,
       isActive: true,
-      items: [
+      items: [],
+      item0: [
         {
-          desc: "资料卡查询",
+          desc: "资料卡审核",
+          router: "/server/card-gather"
+        },
+        {
+          desc: "待审核协议",
+          router: "/server/pending-protocol"
+        },
+        {
+          desc: "审核过的协议",
+          router: "/server/pended-protocol"
+        }
+      ],
+      item1: [
+        {
+          desc: "资料卡审核",
+          router: "/server/card-gather"
+        }
+      ],
+      item2: [
+        {
+          desc: "资料卡审核",
           router: "/server/card-gather"
         },
         {
@@ -60,7 +81,9 @@ export default {
         {
           desc: "协议执行汇总",
           router: "/server/cert-exe-gather"
-        },
+        }
+      ],
+      item3: [
         {
           desc: "未抽查",
           router: "/server/spotCheck"
@@ -94,15 +117,17 @@ export default {
       position == "SALEMAN_S" ||
       position == "BILLDEP_APPROVE"
     ) {
-      this.items = this.items.slice(0, 1);
+      this.items = this.item1; //业务经理，办事处经理，订单部
     } else if (position == "VSMAPPROVEXII") {
-      this.items = this.items.slice(0, 5);
+      this.items = this.item2;//销售总监
     } else if (position == "LEGALCHECK") {
-      this.items = this.items.slice(5, 8);
+      this.items = this.item3;//法务员
     } else {
-      this.items = this.items.slice(0, 3);
+      this.items = this.item0; //其他
     }
-    if (window.location.href.split("#")[1] != this.items[this.currentUrl].router) {
+    if (
+      window.location.href.split("#")[1] != this.items[this.currentUrl].router
+    ) {
       this.$router.push({ path: this.items[this.currentUrl].router });
     }
   }
