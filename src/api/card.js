@@ -35,3 +35,10 @@ export function GetCardAndContract(data, config = {}) {
         return Promise.reject(err);
     })
 }
+export function QueryWebMenuByUserId(data, config = {}) {
+    return post('/WEB_MENU/QueryWebMenuByUserId', data, config).then((res) => {
+        return Promise.resolve(res);
+    }).catch((err) => {
+        return Promise.reject(err);
+    })
+}

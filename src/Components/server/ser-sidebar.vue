@@ -33,6 +33,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { QueryWebMenuByUserId } from "@/api/card";
 
 export default {
   name: "ser-header",
@@ -96,7 +97,11 @@ export default {
           desc: "已抽查已通过",
           router: "/server/spotCheckPass"
         }
-      ]
+      ],
+      item4: {
+        desc: "资料卡协议书综合查询",
+        router: "/server/comprehensiveQuery"
+      }
     };
   },
   methods: {
@@ -119,12 +124,26 @@ export default {
     ) {
       this.items = this.item1; //业务经理，办事处经理，订单部
     } else if (position == "VSMAPPROVEXII") {
-      this.items = this.item2;//销售总监
+      this.items = this.item2; //销售总监
     } else if (position == "LEGALCHECK") {
-      this.items = this.item3;//法务员
+      this.items = this.item3; //法务员
     } else {
       this.items = this.item0; //其他
     }
+    QueryWebMenuByUserId({
+      userid: this.$store.state.user.data.userId
+    }).then(res => {
+      if (res.data.children.length > 0) {
+        var contain = res.data.children.filter(
+          item => item.MENU_LINK == this.item4.router
+        );
+        if (contain.length > 0) {
+          //有权限
+          this.item4.desc = contain[0].MENU_NAME;
+          this.items.push(this.item4);
+        }
+      }
+    });
     if (
       window.location.href.split("#")[1] != this.items[this.currentUrl].router
     ) {

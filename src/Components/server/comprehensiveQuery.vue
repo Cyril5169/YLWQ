@@ -36,7 +36,7 @@
     ></ser-search>
 
     <!-- 表格大标题 -->
-    <p class="title">资料卡及协议综合查询</p>
+    <p class="title">资料卡及协议书综合查询</p>
     <!-- 表格展示区 -->
     <el-table
       :data="showlist"
