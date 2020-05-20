@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper_inner">
-    <div class="wrapper-search">
+    <div class="table5-search">
       <span class="title">年份:</span>
       <el-select v-model="str_year" class="select" @change="SelectYear">
         <el-option
@@ -154,7 +154,7 @@ export default {
   font-size: 20px;
   margin-bottom: 20px;
 }
-.wrapper-search {
+.table5-search {
   padding: 20px;
 }
 </style>
@@ -177,11 +177,11 @@ tr th {
 td {
   text-align: center !important;
 }
-.wrapper-search .el-select .el-input__inner {
+.table5-search .el-select .el-input__inner {
   height: 30px;
   width: 180px;
 }
-.wrapper-search .el-select .el-input__icon {
+.table5-search .el-select .el-input__icon {
   line-height: 0px;
 }
 </style>

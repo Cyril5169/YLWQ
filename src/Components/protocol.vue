@@ -2,7 +2,7 @@
   <div class="box-protocol" ref="box">
     <!-- 评审记录2 -->
     <review-record :recordTitle="recordTitle" :recordArr="recordArr"></review-record>
-    <div class="wrapper-search">
+    <div class="pro-search">
       <span>年份:</span>
       <el-select v-model="selYear" class="select" @change="filterYear">
         <el-option v-for="item in 83" :key="item+2017" :value="item+2017" :label="item+2017"></el-option>
@@ -405,7 +405,7 @@ button {
   position: absolute;
   bottom: -200px;
 }
-.wrapper-search {
+.pro-search {
   margin-bottom: 10px;
 }
 </style>
@@ -418,11 +418,11 @@ button {
   border-color: rgb(160, 212, 86) !important;
   background-color: rgb(160, 212, 86) !important;
 }
-.wrapper-search .el-select .el-input__inner {
+.pro-search .el-select .el-input__inner {
   height: 30px;
   width: 100px;
 }
-.wrapper-search .el-select .el-input__icon {
+.pro-search .el-select .el-input__icon {
   line-height: 0px;
 }
 </style>
