@@ -6,7 +6,7 @@
     <!-- 确认退回按钮 -->
     <div class="button">
       <button @click="queding" v-show="showBtn">确认</button>
-      <button @click="OutWord" v-show="showBtn">导出Word</button>
+      <button @click="OutWord" v-show="showBtn | showExport">导出Word</button>
       <button @click="showReason" v-show="flag == '0'&& showBtn">退回</button>
       <button @click="tongguo" v-show="checkBtn">通过</button>
       <button @click="showReason" v-show="checkBtn">不通过</button>
@@ -62,7 +62,7 @@ export default {
       contractData: []
     };
   },
-  props: ["cid", "flag", "cyear", "showBtn", "checkBtn"],
+  props: ["cid", "flag", "cyear", "showBtn", "checkBtn","showExport"],
   computed: {
     nowMonth() {
       let month = "0" + (new Date().getMonth() + 1);

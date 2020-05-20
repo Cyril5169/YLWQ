@@ -32,15 +32,18 @@
       @change="filterArea2"
       v-show="this.position=='SALEMAN_S'"
     >
-      <el-option v-for="item in options4" :key="item.sname" :label="item.sname" :value="item.sname"></el-option>
+      <el-option v-for="item in options2" :key="item.sname" :label="item.sname" :value="item.sname"></el-option>
     </el-select>
     <!--  -->
-    <span class="title" id="status" v-show="flag">状态:</span>
+    <span class="title" v-show="flag | xyflag">状态:</span>
     <el-select v-model="status" class="select" @change="filterStatus" v-show="flag">
       <el-option v-for="item in options3" :key="item.value" :value="item.value" :label="item.label"></el-option>
     </el-select>
-    <span class="title" id="status">年份:</span>
-    <el-select v-model="selYear" @change="filterYear">
+    <el-select v-model="xystatus" class="select" @change="filterStatus2" v-show="xyflag">
+      <el-option v-for="item in options4" :key="item.value" :value="item.value" :label="item.label"></el-option>
+    </el-select>
+    <span class="title">年份:</span>
+    <el-select v-model="selYear" style="width:100px;" @change="filterYear">
       <el-option v-for="item in 83" :key="item+2017" :value="item+2017" :label="item+2017"></el-option>
     </el-select>
   </div>
@@ -51,6 +54,7 @@ var timer;
 export default {
   props: {
     flag: Boolean, //判断是否出现状态筛选框
+    xyflag: Boolean,
     list: Array, //接受父组件传过来的showlist
     area: Array
   },
@@ -234,7 +238,7 @@ export default {
           Sarea: [{ sname: "显示全部" }, { sname: "贵州省" }]
         }
       ],
-      options4: [], //专门给片区经理地区显示
+      options2: [], //专门给片区经理地区显示
       options3: [
         //状态选择栏
         { value: "显示全部", label: "显示全部" },
@@ -246,7 +250,20 @@ export default {
         { value: "APPROVED", label: "已通过" },
         { value: "SALEMANMODIFYING", label: "待修改协议书" }
       ],
+      options4: [
+        //状态选择栏
+        { value: "显示全部", label: "显示全部" },
+        { value: "ONCREATE", label: "初始状态" },
+        { value: "SALEMANFILLING", label: "业务员填写中" },
+        { value: "SALEMANMODIFYING", label: "业务员修改中" },
+        { value: "CUSTOMERAFFIRM", label: "客户确认中" },
+        { value: "ASM_CHECKING", label: "中心总经理审核中" },
+        { value: "DEP_MARKET_CHECK", label: "市场部审核中" },
+        { value: "CSA_CHECK", label: "销售副总批准中" },
+        { value: "APPROVED", label: "已通过" }
+      ],
       status: "显示全部", //三个v-model的值
+      xystatus: "显示全部",
       area1: "显示全部", //
       area2: "显示全部", //
       position: this.$store.state.user.pos[0].position,
@@ -262,6 +279,11 @@ export default {
           return this.options1[i].Sarea;
         }
       }
+    }
+  },
+  mounted(){
+    if(this.xyflag){
+      this.options3.pop();
     }
   },
   methods: {
@@ -320,6 +342,9 @@ export default {
     filterStatus() {
       this.$emit("filterStatus", this.status);
     },
+    filterStatus2() {
+      this.$emit("filterStatus2", this.xystatus);
+    },
     filterArea1() {
       this.$emit("filterArea1", this.area1);
     },
@@ -343,13 +368,12 @@ export default {
         let newnewV = arr.concat(newV);
         this.options1 = newnewV;
       } else {
-        this.options4 = newV;
+        this.options2 = newV;
       }
     }
   }
 };
 </script>
-
 
 <style scoped>
 .wrapper-search {
@@ -387,12 +411,15 @@ input[type="text"] {
   box-sizing: border-box;
   padding-left: 10px;
 }
+.select {
+  height: 30px;
+  width: 140px;
+}
 </style>
 
 <style>
 .wrapper-search .el-select .el-input__inner {
   height: 30px;
-  width: 150px;
 }
 .wrapper-search .el-select .el-input__icon {
   line-height: 0px;

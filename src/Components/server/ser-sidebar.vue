@@ -74,14 +74,6 @@ export default {
         {
           desc: "审核过的协议",
           router: "/server/pended-protocol"
-        },
-        {
-          desc: "资料卡执行汇总",
-          router: "/server/card-exe-gather"
-        },
-        {
-          desc: "协议执行汇总",
-          router: "/server/cert-exe-gather"
         }
       ],
       item3: [
@@ -98,10 +90,20 @@ export default {
           router: "/server/spotCheckPass"
         }
       ],
-      item4: {
-        desc: "资料卡协议书综合查询",
-        router: "/server/comprehensiveQuery"
-      }
+      item4: [
+        {
+          desc: "资料卡协议书综合查询",
+          router: "/server/comprehensiveQuery"
+        },
+        {
+          desc: "资料卡执行汇总",
+          router: "/server/card-exe-gather"
+        },
+        {
+          desc: "协议执行汇总",
+          router: "/server/cert-exe-gather"
+        }
+      ]
     };
   },
   methods: {
@@ -134,13 +136,15 @@ export default {
       userid: this.$store.state.user.data.userId
     }).then(res => {
       if (res.data.children.length > 0) {
-        var contain = res.data.children.filter(
-          item => item.MENU_LINK == this.item4.router
-        );
-        if (contain.length > 0) {
-          //有权限
-          this.item4.desc = contain[0].MENU_NAME;
-          this.items.push(this.item4);
+        for (var i = 0; i < this.item4.length; i++) {
+          var contain = res.data.children.filter(
+            item => item.MENU_LINK == this.item4[i].router
+          );
+          if (contain.length > 0) {
+            //有权限
+            this.item4[i].desc = contain[0].MENU_NAME;
+            this.items.push(this.item4[i]);
+          }
         }
       }
     });

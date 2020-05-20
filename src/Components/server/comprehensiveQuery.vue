@@ -7,6 +7,7 @@
         :cyear="cyear"
         :flag="1"
         :showBtn="showBtn"
+        :showExport="true"
         :checkBtn="checkBtn"
         @close="closeProtocol"
         v-if="showProtocol"
@@ -27,9 +28,11 @@
     <ser-search
       :list="this.showlist"
       :flag="true"
+      :xyflag="true"
       :area="area"
       @search="search"
       @filterStatus="filterStatus"
+      @filterStatus2="filterStatus2"
       @filterArea1="filterArea1"
       @filterArea2="filterArea2"
       @filterYear="filterYear"
@@ -154,13 +157,13 @@ export default {
     statusFormatter(row, column) {
       //状态格式化变成中文
       let status = row.STATE;
-      if (status == "APPROVED") return "已通过";
       if (status == "ONCREATE") return "初始状态";
       if (status == "CUSTOMERPORCESSING") return "客户填写中";
       if (status == "CUSTOMERPORCESSING2") return "客户修改中";
       if (status == "BUSINESSCHECKING") return "业务员审核中";
       if (status == "BIILDEPCHECKING") return "订单部审核中";
       if (status == "SALEMANMODIFYING") return "协议书待修改"; //原业务员修改中
+      if (status == "APPROVED") return "已通过";
     },
     YLStatusFormatter(row, column) {
       //状态格式化变成中文
@@ -220,15 +223,17 @@ export default {
     },
     filterStatus(ae) {
       //状态筛选功能
-      let aa = "",
-        bb = "";
-      if (ae != "显示全部" && ae != "SALEMANMODIFYING") aa = ae;
-      if (ae == "SALEMANMODIFYING") {
-        aa = "";
-        bb = "SALEMANMODIFYING";
-      }
+      let aa = ""
+      if (ae != "显示全部") aa = ae;
       this.nowstatus = aa;
-      this.nowylc = bb;
+      this.currentPage = 1;
+      this.searchAll();
+    },
+    filterStatus2(ae) {
+      //状态筛选功能
+      let aa = ""
+      if (ae != "显示全部") aa = ae;
+      this.nowylc = aa;
       this.currentPage = 1;
       this.searchAll();
     },

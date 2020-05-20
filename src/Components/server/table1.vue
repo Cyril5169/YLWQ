@@ -370,6 +370,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.position)
     var me = this;
     window.onkeydown = event => {
       if (event.keyCode == 27) {
