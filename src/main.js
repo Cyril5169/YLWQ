@@ -27,7 +27,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 // Axios.defaults.baseURL = 'http://119.23.17.111:8081';//原服务器
-Axios.defaults.baseURL = 'http://14.29.221.109:10250';//玉兰服务器
+Axios.defaults.baseURL = 'http://14.29.221.4:10250';//玉兰服务器
 Vue.prototype.$axios = Axios
 Vue.component('v-distpicker', VDistpicker)
 Vue.use(ElementUI);
