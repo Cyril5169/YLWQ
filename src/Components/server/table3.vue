@@ -58,7 +58,6 @@
         <template slot-scope="scope">
           <el-button
             type="text"
-            size="large"
             @click="verify(scope.row)"
           >{{scope.row.none}}查看</el-button>
         </template>
@@ -88,7 +87,7 @@ export default {
   components: { serSearch, serPagination, serProtocol },
   data() {
     return {
-      pagesize: 10, //每页的数据条数,
+      pagesize: 8, //每页的数据条数,
       currentPage: 1, //当前页面所在
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据

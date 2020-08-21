@@ -272,7 +272,7 @@
 </template>
 
 <script>
-var remoteImageURL = "http://14.29.221.109:10250/upload";
+var remoteImageURL = "http://14.29.221.4:10250/upload";
 import cliDepute from "@/Components/cli-depute";
 export default {
   name: "cli-filecard4",
@@ -544,7 +544,7 @@ export default {
     },
     // 下载《授权付款委托书》
     downLoad(e) {
-      location.href = "http://14.29.221.109:10250/yulan/file/down.do";
+      location.href = "http://14.29.221.4:10250/yulan/file/down.do";
     },
     // 填写附件
     moreMessageInput() {

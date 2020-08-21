@@ -26,10 +26,10 @@
     <!-- 搜索栏和过滤器 -->
     <ser-search
       :list="this.showlist"
-      :flag="true"
       :area="area"
       @search="search"
       @filterStatus="filterStatus"
+      @filterStatus2="filterStatus2"
       @filterArea1="filterArea1"
       @filterArea2="filterArea2"
       @filterYear="filterYear"
@@ -64,19 +64,13 @@
       </el-table-column>
       <el-table-column label="资料卡" width="80">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="large"
-            style="color:#85ca80"
-            @click="handleVerify(scope.row)"
-          >查看</el-button>
+          <el-button type="text" style="color:#85ca80" @click="handleVerify(scope.row)">查看</el-button>
         </template>
       </el-table-column>
       <el-table-column label="协议书" width="80">
         <template slot-scope="scope">
           <el-button
             type="text"
-            size="large"
             style="color:#85ca80"
             @click="queryProtocol(scope.row)"
             v-if="scope.row.YLCSTATE != 'SALEMANFILLING'"
@@ -109,7 +103,7 @@ export default {
   components: { serSearch, serPagination, serVerifys, serProtocol },
   data() {
     return {
-      pagesize: 10, //每页的数据条数,
+      pagesize: 8, //每页的数据条数,
       currentPage: 1, //当前页面所在
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
@@ -128,13 +122,13 @@ export default {
       nowarea2: "",
       nowstatus: "",
       nowylc: "",
-      selYear: this.$store.state.year
+      selYear: this.$store.state.year,
     };
   },
   computed: {
-    totalPage: function() {
+    totalPage: function () {
       return Math.floor((this.total * 1.0) / this.pagesize) + 1;
-    }
+    },
   },
   methods: {
     close() {
@@ -217,16 +211,14 @@ export default {
         position: this.position,
         ylcstate: this.nowylc,
         spotCheckState: "Y",
-        area: "N"
       })
-        .then(res => {
-          if (res.data != null) {
-            this.showlist = res.data.data;
-            this.total = res.count;
-            this.loading = false;
-          }
+        .then((res) => {
+          this.area = res.data.area;
+          this.showlist = res.data.data;
+          this.total = res.count;
+          this.loading = false;
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
     },
@@ -238,15 +230,17 @@ export default {
     },
     filterStatus(ae) {
       //状态筛选功能
-      let aa = "",
-        bb = "";
-      if (ae != "显示全部" && ae != "SALEMANMODIFYING") aa = ae;
-      if (ae == "SALEMANMODIFYING") {
-        aa = "";
-        bb = "SALEMANMODIFYING";
-      }
+      let aa = "";
+      if (ae != "显示全部") aa = ae;
       this.nowstatus = aa;
-      this.nowylc = bb;
+      this.currentPage = 1;
+      this.searchAll();
+    },
+    filterStatus2(ae) {
+      //状态筛选功能
+      let aa = "";
+      if (ae != "显示全部") aa = ae;
+      this.nowylc = aa;
       this.currentPage = 1;
       this.searchAll();
     },
@@ -270,45 +264,18 @@ export default {
       this.selYear = year;
       this.currentPage = 1;
       this.searchAll();
-    }
+    },
   },
   mounted() {
     var me = this;
-    window.onkeydown = event => {
+    window.onkeydown = (event) => {
       if (event.keyCode == 27) {
         if (me.showVerify) me.close();
         if (me.showProtocol) me.closeProtocol();
       }
     };
-    this.loading = true;
-    GetCardAndContract({
-      page: this.currentPage,
-      limit: this.pagesize,
-      year: this.selYear,
-      state: "",
-      find: "",
-      area_1: "",
-      area_2: "",
-      cid: this.cid,
-      position: this.position,
-      ylcstate: "",
-      spotCheckState: "Y",
-      area: "Y"
-    })
-      .then(res => {
-        if (res.data != null) {
-          if (Array.isArray(res.data.area)) {
-            this.area = res.data.area;
-          }
-          this.showlist = res.data.data;
-          this.total = res.count;
-          this.loading = false;
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-  }
+    this.searchAll();
+  },
 };
 </script>
 

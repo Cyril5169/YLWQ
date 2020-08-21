@@ -58,12 +58,11 @@ import {
   GetBookYear
 } from "@/api/table4ASP";
 import { downLoadFile } from "@/common/js/downLoadFile";
-import serSearch from "@/Components/server/ser-search";
 import serPagination from "@/Components/server/ser-pagination";
 
 export default {
   name: "table4",
-  components: { serSearch, serPagination },
+  components: { serPagination },
 
   data() {
     return {

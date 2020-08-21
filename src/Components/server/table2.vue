@@ -52,7 +52,7 @@
 
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="large" @click="verify(scope.row)">{{scope.row.none}}审核</el-button>
+          <el-button type="text" @click="verify(scope.row)">{{scope.row.none}}审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,7 +80,7 @@ export default {
   components: { serSearch, serPagination, serProtocol },
   data() {
     return {
-      pagesize: 10, //每页的数据条数,
+      pagesize: 8, //每页的数据条数,
       currentPage: 1, //当前页面所在
       total: 1, //总条数，created时被赋值为后台传输的总条数
       showlist: [], //showlist存放展示用数据
@@ -215,7 +215,6 @@ export default {
             this.area = res.data.area;
           }
           this.showlist = res.data.data;
-          console.log(this.showlist)
           this.total = res.data.count;
           this.loading = false;
         }

@@ -7,16 +7,6 @@
 
     <el-collapse-transition>
       <div v-show="show3">
-        <!-- <router-link
-          tag="li"
-          v-for="(item,index) of items"
-          :key="index"
-          :to="item.router"
-          @click="handleRouter(item)"
-          style="cursor:pointer;"
-        >
-          <p>{{item.desc}}</p>
-        </router-link>-->
         <li
           v-for="(item,index) of items"
           :key="index"
@@ -45,65 +35,65 @@ export default {
       item0: [
         {
           desc: "资料卡审核",
-          router: "/server/card-gather"
+          router: "/server/card-gather",
         },
         {
           desc: "待审核协议",
-          router: "/server/pending-protocol"
+          router: "/server/pending-protocol",
         },
         {
           desc: "审核过的协议",
-          router: "/server/pended-protocol"
-        }
+          router: "/server/pended-protocol",
+        },
       ],
       item1: [
         {
           desc: "资料卡审核",
-          router: "/server/card-gather"
-        }
+          router: "/server/card-gather",
+        },
       ],
       item2: [
         {
           desc: "资料卡审核",
-          router: "/server/card-gather"
+          router: "/server/card-gather",
         },
         {
           desc: "待审核协议",
-          router: "/server/pending-protocol"
+          router: "/server/pending-protocol",
         },
         {
           desc: "审核过的协议",
-          router: "/server/pended-protocol"
-        }
+          router: "/server/pended-protocol",
+        },
       ],
       item3: [
         {
           desc: "未抽查",
-          router: "/server/spotCheck"
+          router: "/server/spotCheck",
         },
         {
           desc: "已抽查未通过",
-          router: "/server/spotCheckNoPass"
+          router: "/server/spotCheckNoPass",
         },
         {
           desc: "已抽查已通过",
-          router: "/server/spotCheckPass"
-        }
+          router: "/server/spotCheckPass",
+        },
       ],
       item4: [
         {
           desc: "资料卡协议书综合查询",
-          router: "/server/comprehensiveQuery"
+          router: "/server/comprehensiveQuery",
         },
         {
           desc: "资料卡执行汇总",
-          router: "/server/card-exe-gather"
+          router: "/server/card-exe-gather",
         },
         {
           desc: "协议执行汇总",
-          router: "/server/cert-exe-gather"
-        }
-      ]
+          router: "/server/cert-exe-gather",
+        },
+      ],
     };
   },
   methods: {
@@ -112,10 +102,10 @@ export default {
       if (window.location.href.split("#")[1] != item.router) {
         this.$router.push({ path: item.router });
       }
-    }
+    },
   },
   computed: {
-    ...mapState(["currentUrl"])
+    ...mapState(["currentUrl"]),
   },
   mounted() {
     let position = this.$store.state.user.pos[0].position; //根据权限限制功能按键
@@ -133,12 +123,12 @@ export default {
       this.items = this.item0; //其他
     }
     QueryWebMenuByUserId({
-      userid: this.$store.state.user.data.userId
-    }).then(res => {
+      userid: this.$store.state.user.data.userId,
+    }).then((res) => {
       if (res.data.children.length > 0) {
         for (var i = 0; i < this.item4.length; i++) {
           var contain = res.data.children.filter(
-            item => item.MENU_LINK == this.item4[i].router
+            (item) => item.MENU_LINK == this.item4[i].router
           );
           if (contain.length > 0) {
             //有权限
@@ -147,13 +137,13 @@ export default {
           }
         }
       }
+      if (
+        window.location.href.split("#")[1] != this.items[this.currentUrl].router
+      ) {
+        this.$router.push({ path: this.items[this.currentUrl].router });
+      }
     });
-    if (
-      window.location.href.split("#")[1] != this.items[this.currentUrl].router
-    ) {
-      this.$router.push({ path: this.items[this.currentUrl].router });
-    }
-  }
+  },
 };
 </script>
 
@@ -167,6 +157,9 @@ export default {
   height: 55px;
   width: 100%;
 }
+.wangqian {
+  cursor: pointer;
+}
 .wangqian img {
   display: inline-block;
   width: 25px;
@@ -177,10 +170,7 @@ export default {
   display: inline-block;
   font-size: 18px;
   color: white;
-  /* margin-left: 20px; */
-  /* transform: translateX(-20px); */
 }
-
 .wangqian {
   width: 100%;
   height: 63px;

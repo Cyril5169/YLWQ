@@ -473,7 +473,7 @@ var ms = {
   BILLDEP_APPROVE: "订单部",
   LEGALCHECK: "法务专员"
 };
-var remoteImageURL = "http://14.29.221.109:10250/upload";
+var remoteImageURL = "http://14.29.221.4:10250/upload";
 var loadingInstance; //加载
 import serDepute from "@/Components/server/ser-depute";
 import reviewRecord from "@/Components/review-record";

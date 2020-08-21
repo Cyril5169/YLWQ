@@ -33,25 +33,25 @@ export default {
       items: [
         {
           desc: "网络订单交易提示",
-          router: "/client/tip"
+          router: "/client/tip",
         },
         {
           desc: "客户资料卡",
-          router: "/client/cards"
+          router: "/client/cards",
         },
         {
           desc: "玉兰墙纸经销协议书",
-          router: "/client/protocol"
+          router: "/client/protocol",
         },
         {
           desc: "授权书(支持另存为)",
-          router: "/client/certificate"
-        }
-      ]
+          router: "/client/certificate",
+        },
+      ],
     };
   },
   computed: {
-    ...mapState(["currentUrl"])
+    ...mapState(["currentUrl"]),
   },
   methods: {
     handleRouter(item, index) {
@@ -67,25 +67,25 @@ export default {
             showClose: true,
             message:
               "如您未勾选[我已知悉上述条款...],系统将不显示相关资料卡文本！",
-            type: "error"
+            type: "error",
           });
         } else if (this.items.indexOf(item) == 2) {
           this.$message({
             showClose: true,
             message:
               "如您未勾选[我已知悉上述条款...],系统将不显示相关协议书文本！",
-            type: "error"
+            type: "error",
           });
         } else if (this.items.indexOf(item) == 3) {
           this.$message({
             showClose: true,
             message:
               "如您未勾选[我已知悉上述条款...],系统将不显示相关授权书文本！",
-            type: "error"
+            type: "error",
           });
         }
       }
-    }
+    },
   },
   mounted() {
     if (this.$store.state.user.data.userState == "1") {
@@ -93,7 +93,7 @@ export default {
       if (window.location.href.split("#")[1] != "/client/cards")
         this.$router.replace({ path: "/client/cards" });
     }
-  }
+  },
 };
 </script>
 
@@ -120,10 +120,7 @@ export default {
   display: inline-block;
   font-size: 18px;
   color: white;
-  /* margin-left: 20px; */
-  /* transform: translateX(-10px); */
 }
-
 .wangqian {
   width: 100%;
   height: 63px;

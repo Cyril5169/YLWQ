@@ -5,7 +5,7 @@
     <div class="show" v-html="b2b2"></div>
     <!-- 确认退回按钮 -->
     <div class="button">
-      <button @click="queding" v-show="showBtn">确认</button>
+      <button @click="queding" v-show="flag == '0'&&showBtn">确认</button>
       <button @click="OutWord" v-show="showBtn | showExport">导出Word</button>
       <button @click="showReason" v-show="flag == '0'&& showBtn">退回</button>
       <button @click="tongguo" v-show="checkBtn">通过</button>
@@ -33,20 +33,20 @@ var ps = {
   //身份和审核后变成的状态
   MANAGER: "DEP_MARKET_CHECK",
   MARKETCHECKER: "CSA_CHECK",
-  VSMAPPROVEXII: "APPROVED"
+  VSMAPPROVEXII: "APPROVED",
 };
 var pt = {
   //身份和中文翻译
   MANAGER: "中心总经理",
   MARKETCHECKER: "市场部",
   VSMAPPROVEXII: "销售总监",
-  LEGALCHECK: "法务专员"
+  LEGALCHECK: "法务专员",
 };
 var pn = {
   //身份和signed变化
   MANAGER: 0,
   MARKETCHECKER: 0,
-  VSMAPPROVEXII: 1
+  VSMAPPROVEXII: 1,
 };
 export default {
   name: "ser-protocol",
@@ -59,10 +59,10 @@ export default {
       position: this.$store.state.user.pos[0].position,
       recordTitle: "", //传给评审记录的数据
       recordArr: [], //传给评审记录的数据
-      contractData: []
+      contractData: [],
     };
   },
-  props: ["cid", "flag", "cyear", "showBtn", "checkBtn","showExport"],
+  props: ["cid", "flag", "cyear", "showBtn", "checkBtn", "showExport"],
   computed: {
     nowMonth() {
       let month = "0" + (new Date().getMonth() + 1);
@@ -96,7 +96,7 @@ export default {
       let wfmemo =
         nowTime + pt[this.position] + this.$store.state.user.data.realName;
       return wfmemo;
-    }
+    },
   },
   methods: {
     getExplorer() {
@@ -238,7 +238,7 @@ export default {
       if (this.getExplorer() == "ie") {
         this.$alert("请换火狐或谷歌浏览器下载！", "提示", {
           confirmButtonText: "确定",
-          type: "danger"
+          type: "danger",
         });
       } else {
         this.tableExport("doc");
@@ -277,14 +277,14 @@ export default {
           wfmemo: this.wfmemo + "通过协议书;",
           signed: pn[this.position],
           market: market,
-          csa: csa
+          csa: csa,
         })
-          .then(res => {
+          .then((res) => {
             this.$alert("已通过！");
             location.reload();
             this.dispear();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       } else {
@@ -302,8 +302,8 @@ export default {
           signed: this.contractData.signed,
           market: this.contractData.marketcheck,
           csa: this.contractData.csa,
-          checkStatus: "Y"
-        }).then(res => {
+          checkStatus: "Y",
+        }).then((res) => {
           this.$alert("同意该协议书");
           location.reload();
           this.dispear();
@@ -334,14 +334,14 @@ export default {
           signed: this.contractData.signed,
           market: this.contractData.marketcheck,
           csa: this.contractData.csa,
-          checkStatus: "N"
+          checkStatus: "N",
         })
-          .then(res => {
+          .then((res) => {
             this.$alert("抽查不通过！");
             location.reload();
             this.dispear();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       } else {
@@ -361,18 +361,18 @@ export default {
           wfmemo: this.wfmemo + "退回协议书，原因是 [" + this.reason + "];",
           signed: 2,
           market: "",
-          csa: ""
+          csa: "",
         })
-          .then(res => {
+          .then((res) => {
             this.$alert("退回协议书成功");
             location.reload();
             this.dispear();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
-    }
+    },
   },
   watch: {
     // cid(newvalue) {
@@ -402,11 +402,11 @@ export default {
     //       console.log("拿评审记录数据错误" + err);
     //     });
     // },
-    hide: function() {
+    hide: function () {
       this.$nextTick(() => {
         this.$refs.tuihuiBtn.scrollIntoView(false);
       });
-    }
+    },
   },
   mounted() {
     if (this.cid) {
@@ -416,32 +416,32 @@ export default {
       //     })
       GetYlContractByCustomer({
         cid: this.cid,
-        year: this.cyear
+        year: this.cyear,
       })
-        .then(res => {
+        .then((res) => {
           if (res.data != null && res.data.contract) {
             this.b2b2 = res.data.htmlText;
             this.contractData = res.data.contract;
             this.$axios
               .post("/yulan/infoState/getYLcontractentryState.do", {
                 cid: this.cid,
-                cyear: Number(this.cyear)
+                cyear: Number(this.cyear),
               })
-              .then(res => {
+              .then((res) => {
                 this.recordTitle = res.data.yLcontractInfo;
                 if (res.data.yLcontractentryMemo)
                   this.recordArr = res.data.yLcontractentryMemo.reverse();
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log("拿评审记录数据错误" + err);
               });
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
     }
-  }
+  },
 };
 </script>
 
