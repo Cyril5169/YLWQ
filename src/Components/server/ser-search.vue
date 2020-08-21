@@ -33,7 +33,7 @@
     >
       <el-option v-for="item in options4" :key="item.sname" :label="item.sname" :value="item.sname"></el-option>
     </el-select>
-    
+
     <span class="title" v-show="flag">资料卡状态:</span>
     <el-select v-model="status" class="select" @change="filterStatus" v-show="flag">
       <el-option v-for="item in options3" :key="item.value" :value="item.value" :label="item.label"></el-option>
@@ -43,7 +43,7 @@
     <el-select v-model="xystatus" class="select" @change="filterStatus2" v-show="flag">
       <el-option v-for="item in options5" :key="item.value" :value="item.value" :label="item.label"></el-option>
     </el-select>
-    
+
     <span class="title">年份:</span>
     <el-select v-model="selYear" style="width:100px;" @change="filterYear">
       <el-option v-for="item in 83" :key="item+2017" :value="item+2017" :label="item+2017"></el-option>
@@ -57,7 +57,7 @@ export default {
   props: {
     flag: {
       type: Boolean,
-      default: true
+      default: true,
     }, //判断是否出现状态筛选框
     list: Array, //接受父组件传过来的showlist
     area: Array,
@@ -76,7 +76,7 @@ export default {
         { value: "CUSTOMERPORCESSING2", label: "客户修改中" },
         { value: "BUSINESSCHECKING", label: "业务员审核中" },
         { value: "BIILDEPCHECKING", label: "订单部审核中" },
-        { value: "APPROVED", label: "已通过" }
+        { value: "APPROVED", label: "已通过" },
       ],
       options5: [
         //状态选择栏
@@ -88,7 +88,7 @@ export default {
         { value: "ASM_CHECKING", label: "中心总经理审核中" },
         { value: "DEP_MARKET_CHECK", label: "市场部审核中" },
         { value: "CSA_CHECK", label: "销售副总批准中" },
-        { value: "APPROVED", label: "已通过" }
+        { value: "APPROVED", label: "已通过" },
       ],
       status: "显示全部", //三个v-model的值
       xystatus: "显示全部",
@@ -196,7 +196,14 @@ export default {
         let newnewV = arr.concat(newV);
         this.options1 = newnewV;
       } else {
-        this.options4 = newV;
+        let arr = [
+          {
+            sname: "显示全部",
+            sid: "0",
+          },
+        ];
+        let newnewV = arr.concat(newV);
+        this.options4 = newnewV;
       }
     },
   },
@@ -227,9 +234,6 @@ export default {
   margin: 0 10px;
   vertical-align: -3px;
   user-select: none;
-}
-#status {
-  margin-left: 10px;
 }
 input[type="text"] {
   width: 180px;

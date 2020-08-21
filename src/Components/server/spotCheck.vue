@@ -202,7 +202,7 @@ export default {
         area_1: this.nowarea1,
         area_2: this.nowarea2,
         cid: this.cid,
-        position: this.position,
+        position: "",
         ylcstate: this.nowylc,
         spotCheckState: "none",
       })
