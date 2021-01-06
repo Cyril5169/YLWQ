@@ -69,6 +69,7 @@
               :disabled="isDisable"
               :readOnly="only"
               :class="{readonly:only}"
+              oninput="value=value.replace(/[^\d]/g,'')"
             />
           </div>
           <div>
