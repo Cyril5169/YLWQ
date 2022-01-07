@@ -18,17 +18,21 @@
           name="bussiness-way"
           :disabled="only"
         />
-        <label for="has-has">&nbsp;&nbsp;有营业执照-有对账公号&nbsp;&nbsp;&nbsp;（请仅填公司汇款账号信息）</label>
+        <label for="has-has"
+          >&nbsp;&nbsp;有营业执照-有对账公号&nbsp;&nbsp;&nbsp;（请仅填公司汇款账号信息）</label
+        >
         <br />
         <input
           type="radio"
-          :disabled="faPiaoDisable||only"
+          :disabled="faPiaoDisable || only"
           v-model="pickWay"
           value="has-no"
           id="has-no"
           name="bussiness-way"
         />
-        <label for="has-no">&nbsp;&nbsp;有营业执照-无对账公号&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label>
+        <label for="has-no"
+          >&nbsp;&nbsp;有营业执照-无对账公号&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label
+        >
         <br />
         <transition name="fade">
           <!-- <div class="add-account" v-show="isShow">
@@ -38,13 +42,15 @@
         </transition>
         <input
           type="radio"
-          :disabled="faPiaoDisable||only"
+          :disabled="faPiaoDisable || only"
           v-model="pickWay"
           value="no-no"
           id="no-no"
           name="bussiness-way"
         />
-        <label for="no-no">&nbsp;&nbsp;无营业执照&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label>
+        <label for="no-no"
+          >&nbsp;&nbsp;无营业执照&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label
+        >
         <br />
       </form>
       <div class="gray-word">*请选择经营类型后填写对应的账号</div>
@@ -68,8 +74,7 @@
               v-model="account1Bank"
               :disabled="isDisable"
               :readOnly="only"
-              :class="{readonly:only}"
-              oninput="value=value.replace(/[^\d]/g,'')"
+              :class="{ readonly: only }"
             />
           </div>
           <div>
@@ -79,35 +84,42 @@
               v-model="account1"
               :disabled="isDisable"
               :readOnly="only"
-              :class="{readonly:only}"
+              :class="{ readonly: only }"
+              oninput="value=value.replace(/[^\d]/g,'')"
             />
           </div>
           <!-- <div><span>银行所在地</span><v-distpicker @selected="onSelected1" :disabled = "isDisable" class="address"></v-distpicker></div> -->
           <div class="loc-wrapper">
             <span>银行所在地</span>
-            <select :disabled="isDisable||only" v-model="province1">
-              <option value disabled selected>{{dataProvince1}}</option>
+            <select :disabled="isDisable || only" v-model="province1">
+              <option value disabled selected>{{ dataProvince1 }}</option>
               <option
-                v-for="(item,index) in provinces1"
+                v-for="(item, index) in provinces1"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
-            <select :disabled="isDisable||only" v-model="city1">
-              <option value disabled selected>{{dataCity1}}</option>
+            <select :disabled="isDisable || only" v-model="city1">
+              <option value disabled selected>{{ dataCity1 }}</option>
               <option
-                v-for="(item,index) in citys1"
+                v-for="(item, index) in citys1"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
-            <select :disabled="isDisable||only" v-model="area1">
-              <option value disabled selected>{{dataArea1}}</option>
+            <select :disabled="isDisable || only" v-model="area1">
+              <option value disabled selected>{{ dataArea1 }}</option>
               <option
-                v-for="(item,index) in areas1"
+                v-for="(item, index) in areas1"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
           </div>
           <!-- <div>{{ province + city + area}}123</div>  为什么这里的city不会显示啊，巨坑 -->
@@ -131,7 +143,7 @@
               :disabled="!isDisable"
               v-model="account2Bank"
               :readOnly="only"
-              :class="{readonly:only}"
+              :class="{ readonly: only }"
             />
           </div>
           <div>
@@ -141,35 +153,42 @@
               :disabled="!isDisable"
               v-model="account2"
               :readOnly="only"
-              :class="{readonly:only}"
+              :class="{ readonly: only }"
+              oninput="value=value.replace(/[^\d]/g,'')"
             />
           </div>
           <!-- <div><span>银行所在地</span><v-distpicker :disabled = "!isDisable" class="address"></v-distpicker></div> -->
           <div class="loc-wrapper">
             <span>银行所在地</span>
-            <select :disabled="!isDisable||only" v-model="province2">
-              <option value disabled selected>{{dataProvince2}}</option>
+            <select :disabled="!isDisable || only" v-model="province2">
+              <option value disabled selected>{{ dataProvince2 }}</option>
               <option
-                v-for="(item,index) in provinces2"
+                v-for="(item, index) in provinces2"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
-            <select :disabled="!isDisable||only" v-model="city2">
-              <option value disabled selected>{{dataCity2}}</option>
+            <select :disabled="!isDisable || only" v-model="city2">
+              <option value disabled selected>{{ dataCity2 }}</option>
               <option
-                v-for="(item,index) in citys2"
+                v-for="(item, index) in citys2"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
-            <select :disabled="!isDisable||only" v-model="area2">
-              <option value disabled selected>{{dataArea2}}</option>
+            <select :disabled="!isDisable || only" v-model="area2">
+              <option value disabled selected>{{ dataArea2 }}</option>
               <option
-                v-for="(item,index) in areas2"
+                v-for="(item, index) in areas2"
                 :value="item"
                 :key="index"
-              >{{ item.regionName }}</option>
+              >
+                {{ item.regionName }}
+              </option>
             </select>
           </div>
         </div>
@@ -188,13 +207,17 @@
       <div class="photo-wrapper-left">
         <select class="acount-type" v-model="accountType" :disabled="only">
           <!-- <option disabled selected value="">请选择账号实体对应的类型</option> -->
-          <option v-for="(list,index) in accountTypesList" :key="index">{{ list }}</option>
+          <option v-for="(list, index) in accountTypesList" :key="index">
+            {{ list }}
+          </option>
         </select>
         <img id="show" alt @click="showPhoto" />
       </div>
       <div class="photo-wrapper-right">
         <select class="license-type" v-model="photoType">
-          <option v-for="(list,index) in photoTypesList" :key="index">{{ list }}</option>
+          <option v-for="(list, index) in photoTypesList" :key="index">
+            {{ list }}
+          </option>
         </select>
         <a href="javascript:;" class="a-upload">
           <input
@@ -207,7 +230,7 @@
           />上传文件
         </a>
         <h1>{{ photoType }}</h1>
-        <div>{{operateMessage}}</div>
+        <div>{{ operateMessage }}</div>
         <div class="number-wrapper" v-show="cardShow">
           身份证号：
           <input
@@ -216,7 +239,7 @@
             class="IDcard"
             v-model="file1IdcardNo"
             :readOnly="only"
-            :class="{readonly:only}"
+            :class="{ readonly: only }"
           />
         </div>
         <div class="number-wrapper" v-show="yingyeShow">
@@ -227,7 +250,7 @@
             class="IDcard"
             v-model="file2BusinesslicenseNo"
             :readOnly="only"
-            :class="{readonly:only}"
+            :class="{ readonly: only }"
           />
           <div>
             营业执照有效期：
@@ -237,14 +260,17 @@
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择日期"
-              :disabled="noEnd || (this.only == true)"
+              :disabled="noEnd || this.only == true"
             ></el-date-picker>
             <input
               type="checkbox"
               id="longdate"
               v-model="noEnd"
               :disabled="only"
-              @click="noEnd=!noEnd;file2BusinesslicenseEnd=''"
+              @click="
+                noEnd = !noEnd;
+                file2BusinesslicenseEnd = '';
+              "
             />
             <label for="longdate">长期有效</label>
           </div>
@@ -257,7 +283,7 @@
             name="IDcard"
             class="IDcard"
             :readOnly="only"
-            :class="{readonly:only}"
+            :class="{ readonly: only }"
           />
         </div>
       </div>
@@ -282,7 +308,7 @@ export default {
     cardobj: Object,
     recordTitle: "",
     only: Boolean,
-    showEnter: Boolean
+    showEnter: Boolean,
   },
   data() {
     return {
@@ -343,7 +369,7 @@ export default {
         "1-身份证头像面",
         "2-身份证国徽面",
         "3-营业执照",
-        "4-税务登记证（国税）"
+        "4-税务登记证（国税）",
       ],
       photoTypesList: ["1-身份证头像面", "2-身份证国徽面", "3-营业执照"], //真正渲染上选择列表的数组
       photoType: "1-身份证头像面",
@@ -352,7 +378,7 @@ export default {
       noEnd: false, //是否无限期
       cardShow: true, //身份证填框
       yingyeShow: false, //营业填框
-      suiwuShow: false //税务填框
+      suiwuShow: false, //税务填框
 
       // showPost:true;
     };
@@ -382,10 +408,7 @@ export default {
       if (base64Data.split(",")[0].indexOf("base64") >= 0)
         byteString = atob(base64Data.split(",")[1]);
       else byteString = unescape(base64Data.split(",")[1]);
-      var mimeString = base64Data
-        .split(",")[0]
-        .split(":")[1]
-        .split(";")[0];
+      var mimeString = base64Data.split(",")[0].split(":")[1].split(";")[0];
       var ia = new Uint8Array(byteString.length);
       for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
@@ -419,12 +442,12 @@ export default {
       reader.readAsDataURL(picavalue); //读取数据
       if (picavalue.size / 1024 > 500) {
         //如果图片大于500K则执行以下程序
-        reader.onloadend = function() {
+        reader.onloadend = function () {
           let result = this.result;
           let img = new Image();
           img.src = result;
           let fate = 500 / (picavalue.size / 1024);
-          img.onload = function() {
+          img.onload = function () {
             let data = self.compress(img, fate);
             let blob = self.dataURItoBlob(data);
             console.log("压缩后上传");
@@ -444,10 +467,10 @@ export default {
               self.cardobj.cid;
             self.filesarr[self.showImageIndex].date = self.operateMessage; //拿到每一张照片的时间并赋值给对象数组
             let temp = {
-              "0": "IDCARD",
-              "1": "IDCARD_BG",
-              "2": "BUSSINESSLICENSE",
-              "3": "GTQC"
+              0: "IDCARD",
+              1: "IDCARD_BG",
+              2: "BUSSINESSLICENSE",
+              3: "GTQC",
             };
             let fd = new FormData();
             fd.append("file", blob);
@@ -461,13 +484,13 @@ export default {
                 temp[self.showImageIndex]
             );
             let instance = self.$axios.create({
-              withCredentials: true
+              withCredentials: true,
             });
             instance
               .post("/yulan/customerInfo/upload.do", fd, {
-                headers: { "Content-Type": "multipart/form-data" }
+                headers: { "Content-Type": "multipart/form-data" },
               })
-              .then(res => {
+              .then((res) => {
                 if (res.data != null && res.data.code == 0) {
                   let url = (self.filesarr[self.showImageIndex].url =
                     remoteImageURL +
@@ -480,7 +503,7 @@ export default {
                     url + "?t=" + Math.random().toFixed(4);
                 }
               })
-              .catch(res => {
+              .catch((res) => {
                 console.log("4张图片之一发送失败", err);
               });
           };
@@ -503,10 +526,10 @@ export default {
           self.cardobj.cid;
         self.filesarr[self.showImageIndex].date = self.operateMessage; //拿到每一张照片的时间并赋值给对象数组
         let temp = {
-          "0": "IDCARD",
-          "1": "IDCARD_BG",
-          "2": "BUSSINESSLICENSE",
-          "3": "GTQC"
+          0: "IDCARD",
+          1: "IDCARD_BG",
+          2: "BUSSINESSLICENSE",
+          3: "GTQC",
         };
         let fd = new FormData();
         fd.append("file", picavalue);
@@ -520,13 +543,13 @@ export default {
             temp[self.showImageIndex]
         );
         let instance = self.$axios.create({
-          withCredentials: true
+          withCredentials: true,
         });
         instance
           .post("/yulan/customerInfo/upload.do", fd, {
-            headers: { "Content-Type": "multipart/form-data" }
+            headers: { "Content-Type": "multipart/form-data" },
           })
-          .then(res => {
+          .then((res) => {
             if (res.data != null && res.data.code == 0) {
               let url = (self.filesarr[self.showImageIndex].url =
                 remoteImageURL +
@@ -538,7 +561,7 @@ export default {
                 url + "?t=" + Math.random().toFixed(4);
             }
           })
-          .catch(res => {
+          .catch((res) => {
             console.log("4张图片之一发送失败", err);
           });
       }
@@ -597,7 +620,7 @@ export default {
         file5IdcardBg: this.filesarr[1].posturl,
         file5Op: this.filesarr[1].date,
         contractyear: this.cardobj.contractyear, //必备
-        privateAccountAuthed: this.privateAccountAuthed //默认没有配偶
+        privateAccountAuthed: this.privateAccountAuthed, //默认没有配偶
       });
       this.$emit("submitall");
     },
@@ -608,7 +631,7 @@ export default {
       this.$confirm("此提交操作只能执行一次，是否继续？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.$emit("mergeMessage", {
@@ -646,7 +669,7 @@ export default {
             file5IdcardBg: this.filesarr[1].posturl,
             file5Op: this.filesarr[1].date,
             contractyear: this.cardobj.contractyear, //必备
-            privateAccountAuthed: this.privateAccountAuthed //默认没有配偶
+            privateAccountAuthed: this.privateAccountAuthed, //默认没有配偶
           });
           this.$emit("postall");
         })
@@ -746,16 +769,16 @@ export default {
       this.$axios
         .post("/yulan/customerInfo/getYLcontract.do", {
           ccid: this.cardobj.cid,
-          ccyear: this.cardobj.contractyear
+          ccyear: this.cardobj.contractyear,
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.code == 0) this.codeCheck = "yes";
           else if (res.data.code == 1) this.codeCheck = "no";
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("拿委托状态错误呀");
         });
-    }
+    },
   },
   watch: {
     pickWay() {
@@ -799,11 +822,11 @@ export default {
     province1(val, oldval) {
       this.$axios
         .post("/yulan/areaRegion/getCity.do", this.province1)
-        .then(res => {
+        .then((res) => {
           this.citys1 = res.data.city;
           // this.city1 = this.citys1[0];
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
       this.areas1 = [];
@@ -811,20 +834,20 @@ export default {
     city1(val, oldval) {
       this.$axios
         .post("/yulan/areaRegion/getCountry.do", this.city1)
-        .then(res => {
+        .then((res) => {
           this.areas1 = res.data.country;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     province2(val, oldval) {
       this.$axios
         .post("/yulan/areaRegion/getCity.do", this.province2)
-        .then(res => {
+        .then((res) => {
           this.citys2 = res.data.city;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
       this.areas2 = [];
@@ -832,10 +855,10 @@ export default {
     city2(val, oldval) {
       this.$axios
         .post("/yulan/areaRegion/getCountry.do", this.city2)
-        .then(res => {
+        .then((res) => {
           this.areas2 = res.data.country;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -923,7 +946,7 @@ export default {
       ) {
         // this.account1Location = this.cardobj.account1Location;//赋初始值，不了，只是展示就好了
         let bankarr1 = this.cardobj.account1Location.split("-");
-        this.provinces1.forEach(x => {
+        this.provinces1.forEach((x) => {
           if (x.regionName == bankarr1[0]) {
             this.province1 = x;
           }
@@ -932,27 +955,27 @@ export default {
         if (!!bankarr1[1]) {
           this.$axios
             .post("/yulan/areaRegion/getCity.do", this.province1)
-            .then(res => {
+            .then((res) => {
               this.citys1 = res.data.city;
-              this.citys1.forEach(x => {
+              this.citys1.forEach((x) => {
                 if (x.regionName == bankarr1[1]) this.city1 = x;
               });
               if (!!bankarr1[2]) {
                 this.$axios
                   .post("/yulan/areaRegion/getCountry.do", this.city1)
-                  .then(res => {
+                  .then((res) => {
                     this.areas1 = res.data.country;
-                    this.areas1.forEach(x => {
+                    this.areas1.forEach((x) => {
                       if (x.regionName == bankarr1[2]) this.area1 = x;
                     });
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     console.log(err);
                   });
                 // this.dataCity1 = bankarr1[1];
               }
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
             });
           this.areas1 = [];
@@ -966,7 +989,7 @@ export default {
             this.cardobj.hasPublicAccount == "N"))
       ) {
         let bankarr2 = this.cardobj.account2Location.split("-");
-        this.provinces2.forEach(x => {
+        this.provinces2.forEach((x) => {
           if (x.regionName == bankarr2[0]) {
             this.province2 = x;
           }
@@ -975,27 +998,27 @@ export default {
         if (!!bankarr2[1]) {
           this.$axios
             .post("/yulan/areaRegion/getCity.do", this.province2)
-            .then(res => {
+            .then((res) => {
               this.citys2 = res.data.city;
-              this.citys2.forEach(x => {
+              this.citys2.forEach((x) => {
                 if (x.regionName == bankarr2[1]) this.city2 = x;
               });
               if (!!bankarr2[2]) {
                 this.$axios
                   .post("/yulan/areaRegion/getCountry.do", this.city2)
-                  .then(res => {
+                  .then((res) => {
                     this.areas2 = res.data.country;
-                    this.areas2.forEach(x => {
+                    this.areas2.forEach((x) => {
                       if (x.regionName == bankarr2[2]) this.area2 = x;
                     });
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     console.log(err);
                   });
                 // this.dataCity1 = bankarr1[1];
               }
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
             });
           this.areas2 = [];
@@ -1030,7 +1053,7 @@ export default {
         "公司：三证五证未合一",
         "个体户：已取得税务登记证",
         "个体户：未取得税务登记证",
-        "个人"
+        "个人",
       ];
       if (
         this.cardobj.customerentitytypex != "0" &&
@@ -1084,11 +1107,11 @@ export default {
         console.log("有图片没路劲的会报错", err);
       }
       this.getWeiTuo();
-    }
+    },
   },
   computed: {
     // 根据下来菜单确定上传的图片是图片数组的哪一张（index值）
-    showImageIndex: function() {
+    showImageIndex: function () {
       return this.photoTypesList.indexOf(this.photoType);
     },
     customerentitytypex() {
@@ -1167,7 +1190,7 @@ export default {
             "公司：三证五证合一",
             "公司：三证五证未合一",
             "个体户：已取得税务登记证",
-            "个体户：未取得税务登记证"
+            "个体户：未取得税务登记证",
           ];
         }
       }
@@ -1187,7 +1210,7 @@ export default {
           return [
             "公司：三证五证合一",
             "公司：三证五证未合一",
-            "个体户：已取得税务登记证"
+            "个体户：已取得税务登记证",
           ];
         }
       }
@@ -1197,18 +1220,18 @@ export default {
         this.pickWay = "has-has";
         return true;
       } else return false;
-    }
+    },
   },
   mounted() {
     this.$axios
       .post("/yulan/areaRegion/getProvince.do")
-      .then(res => {
+      .then((res) => {
         this.provinces1 = this.provinces2 = res.data.province;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
 </script>
 

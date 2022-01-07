@@ -175,7 +175,7 @@ export default {
       databool2: false,
       aRetailing: "0", //
       cMatching: "0", //
-      stockpercent: "10", //备货占比
+      stockpercent: "12", //备货占比
       rewordpercent: "", //
       rewordpercent2: "",
       startDate: new Date().getFullYear() + "-01-01", //协议开始日期
@@ -464,40 +464,6 @@ export default {
         }
       }
     }
-    // cidYear() {
-    //   if (this.showReject == true && this.ccid) {
-    //     //修改获取原来的
-    //     // this.$axios
-    //     //   .post("/yulan/YLcontractentry/getYLcontract.do", {
-    //     //     ccid: this.ccid
-    //     //   })
-    //     GetYlContractByCustomer({
-    //       cid: this.ccid,
-    //       year: this.cyear
-    //     })
-    //       .then(res => {
-    //         if (res.data != null && res.data.contract) {
-    //           this.weiTuoObj = res.data.contract;
-    //           if (this.weiTuoObj.preferedbrand) {
-    //             this.preferedbrand = this.weiTuoObj.preferedbrand;
-    //             this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-    //             this.databool2 = this.preferedbrand.indexOf("软装") != -1;
-    //           } else {
-    //           }
-    //           this.aRetailing = this.weiTuoObj.aRetailing;
-    //           this.cMatching = this.weiTuoObj.cMatching;
-    //           this.rewordpercent = this.weiTuoObj.rewordpercent;
-    //           this.rewordpercent2 = this.weiTuoObj.rewordpercent2;
-    //           this.endDate = new Date(this.weiTuoObj.endDate);
-    //           this.startDate = new Date(this.weiTuoObj.startDate);
-    //           this.stockpercent = this.weiTuoObj.stockpercent;
-    //         }
-    //       })
-    //       .catch(err => {
-    //         console.log("获取协议书信息失败", err);
-    //       });
-    //   }
-    // }
   },
   mounted() {
     if (this.showReject == true && this.ccid) {

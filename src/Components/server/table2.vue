@@ -74,6 +74,7 @@
 import serSearch from "@/Components/server/ser-search";
 import serPagination from "@/Components/server/ser-pagination";
 import serProtocol from "@/Components/server/ser-protocol";
+import { GetCardAndContract } from "@/api/card";
 
 export default {
   name: "table2",
@@ -197,6 +198,22 @@ export default {
       }
     };
     this.loading = true;
+    GetCardAndContract({
+        page: this.currentPage,
+        limit: this.pagesize,
+        year: this.selYear,
+        state: this.nowstatus,
+        find: this.find,
+        area_1: this.nowarea1,
+        area_2: this.nowarea2,
+        cid: this.cid,
+        position: this.position,
+        ylcstate: "DEP_MARKET_CHECK",
+        spotCheckState: "",
+      })
+        .then((res) => {
+          console.log(res)
+        })
     this.$axios
       .post("/yulan/YLcontractentry/getYlcsbysigned.do", {
         limit: this.pagesize,
@@ -210,6 +227,7 @@ export default {
         position: this.position
       })
       .then(res => {
+        console.log(res)
         if (res.data != null && res.data.code == 0) {
           if (Array.isArray(res.data.area)) {
             this.area = res.data.area;

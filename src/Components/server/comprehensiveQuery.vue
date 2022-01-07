@@ -48,28 +48,52 @@
       element-loading-spinner="el-icon-loading"
     >
       <el-table-column prop="CID" label="客户号" width="80"></el-table-column>
-      <el-table-column prop="CNAME" label="客户名称" width="310"></el-table-column>
-      <el-table-column prop="CONTRACTYEAR" label="年份" width="120"></el-table-column>
-      <el-table-column prop="STATE" label="资料卡状态" :formatter="statusFormatter" width="150"></el-table-column>
-      <el-table-column prop="YLCSTATE" label="协议书状态" :formatter="YLStatusFormatter" width="150"></el-table-column>
+      <el-table-column
+        prop="CNAME"
+        label="客户名称"
+        width="310"
+      ></el-table-column>
+      <el-table-column
+        prop="CONTRACTYEAR"
+        label="年份"
+        width="120"
+      ></el-table-column>
+      <el-table-column
+        prop="STATE"
+        label="资料卡状态"
+        :formatter="statusFormatter"
+        width="150"
+      ></el-table-column>
+      <el-table-column
+        prop="YLCSTATE"
+        label="协议书状态"
+        :formatter="YLStatusFormatter"
+        width="150"
+      ></el-table-column>
       <el-table-column label="所属办事处">
         <template slot-scope="scope">
-          <p>{{scope.row.MARKETNAME}} - {{scope.row.SUBMARKETNAME}}</p>
+          <p>{{ scope.row.MARKETNAME }} - {{ scope.row.SUBMARKETNAME }}</p>
         </template>
       </el-table-column>
       <el-table-column label="资料卡" width="80">
         <template slot-scope="scope">
-          <el-button type="text" style="color:#85ca80" @click="handleVerify(scope.row)">查看</el-button>
+          <el-button
+            type="text"
+            style="color: #85ca80"
+            @click="handleVerify(scope.row)"
+            >查看</el-button
+          >
         </template>
       </el-table-column>
       <el-table-column label="协议书" width="100">
         <template slot-scope="scope">
           <el-button
             type="text"
-            style="color:#85ca80"
+            style="color: #85ca80"
             @click="queryProtocol(scope.row)"
             v-if="scope.row.YLCSTATE != 'SALEMANFILLING'"
-          >查看</el-button>
+            >查看</el-button
+          >
           <span v-else>暂无协议</span>
         </template>
       </el-table-column>
