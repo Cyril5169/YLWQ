@@ -36,6 +36,14 @@ export default new Router({
       component: Login
     },
     {
+      path: '*',
+      redirect: '/'
+    },
+    {
+      path: '',
+      redirect: '/'
+    },
+    {
       path: '/client',    //这里是经销商路由
       name: 'client',
       redirect: '/client/tip',

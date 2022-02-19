@@ -21,7 +21,7 @@
                 id="WallPaper"
                 v-model="databool1"
               />
-              <label for="WallPaper">玉兰（墙纸类产品）</label>
+              <label for="WallPaper">玉兰（墙纸、墙布、墙板、墙漆、辅料）</label>
               <br />
               <input
                 type="checkbox"
@@ -792,10 +792,8 @@ export default {
       this.getWeiTuo();
       if (newV.preferedbrand) {
         this.preferedbrand = newV.preferedbrand;
-        this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-        this.databool2 =
-          this.preferedbrand.indexOf("软装") != -1 ||
-          this.preferedbrand.indexOf("布") != -1;
+        this.databool1 = this.preferedbrand.indexOf("玉兰") > -1;
+        this.databool2 = this.preferedbrand.indexOf("兰居") > -1;
       }
       this.invoiceType = this.cardobj.invoiceType || ""; //发票类型
       this.accountType = this.accountTypesList[newV.customerentitytypex - 1]; //账号类型

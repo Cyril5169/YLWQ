@@ -162,7 +162,7 @@ export default {
         let buNox = ((350 - buNo.length * 19) / 2 + 270) * 3.25;
         ctx.fillText(buNo, buNox, 1635);
         ctx.fillText(area, 650, 1985);
-        ctx.fillText(date, 775, 2105);
+        ctx.fillText(date, 775, 2110);
         me.imgLoading = false;
       };
       //img.src = "http://14.29.221.4:10250/upload/images/newshouquan2.png";

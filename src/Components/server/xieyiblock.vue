@@ -4,7 +4,7 @@
     <div class="xieyi-title" id="yxpp">
       经营品牌：
       <input type="checkbox" name="brand" id="WallPaper1" v-model="databool1" />
-      <label for="WallPaper1">玉兰（墙纸类产品）</label>
+      <label for="WallPaper1">玉兰（墙纸、墙布、墙板、墙漆、辅料）</label>
       <input type="checkbox" name="brand" id="SoftProducts1" v-model="databool2" />
       <label for="SoftProducts1">兰居尚品（布艺类产品）</label>
     </div>
@@ -433,9 +433,9 @@ export default {
         if (this.weiTuoObj == null) this.aRetailing = "";
         else this.aRetailing = this.weiTuoObj.aRetailing;
         if (this.databool2) {
-          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
-          this.preferedbrand = "√玉兰（墙纸类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）";
         }
       } else {
         this.aRetailing = "0";
@@ -451,14 +451,14 @@ export default {
         if (this.weiTuoObj == null) this.cMatching = "";
         else this.cMatching = this.weiTuoObj.cMatching;
         if (this.databool1) {
-          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√兰居尚品（布艺类产品）";
         }
       } else {
         this.cMatching = "0";
         if (this.databool1) {
-          this.preferedbrand = "√玉兰（墙纸类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）";
         } else {
           this.preferedbrand = "";
         }

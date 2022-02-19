@@ -13,7 +13,7 @@
           </p>
           <div class="inteninput">
             <input type="checkbox" name="brand" id="WallPaper" v-model="databool1" :disabled="only" />
-            <label for="WallPaper">玉兰（墙纸类产品）</label>
+            <label for="WallPaper">玉兰（墙纸、墙布、墙板、墙漆、辅料）</label>
             <br />
             <input
               type="checkbox"
@@ -306,9 +306,9 @@ export default {
     databool1(newV, oldV) {
       if (newV) {
         if (this.databool2) {
-          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
-          this.preferedbrand = "√玉兰（墙纸类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）";
         }
       } else {
         if (this.databool2) {
@@ -321,13 +321,13 @@ export default {
     databool2(newV, oldV) {
       if (newV) {
         if (this.databool1) {
-          this.preferedbrand = "√玉兰（墙纸类产品）√兰居尚品（布艺类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√兰居尚品（布艺类产品）";
         }
       } else {
         if (this.databool1) {
-          this.preferedbrand = "√玉兰（墙纸类产品）";
+          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）";
         } else {
           this.preferedbrand = "";
         }
