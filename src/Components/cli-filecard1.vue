@@ -4,10 +4,10 @@
       <div class="filesLeft">
         <div class="person">
           <img src="../assets/images/头像.png" />
-          <span class="cliName">{{cardobj.cname}}</span>
+          <span class="cliName">{{ cardobj.cname }}</span>
         </div>
         <div class="intention">
-          <p class="title" style="position:relative;top:-14px">
+          <p class="title" style="position: relative; top: -14px">
             意向品牌
             <span class="must-input">（必选）</span>
           </p>
@@ -15,13 +15,7 @@
             <input type="checkbox" name="brand" id="WallPaper" v-model="databool1" :disabled="only" />
             <label for="WallPaper">玉兰（墙纸、墙布、墙板、墙漆、辅料）</label>
             <br />
-            <input
-              type="checkbox"
-              name="brand"
-              id="SoftProducts"
-              v-model="databool2"
-              :disabled="only"
-            />
+            <input type="checkbox" name="brand" id="SoftProducts" v-model="databool2" :disabled="only" />
             <label for="SoftProducts">兰居尚品（布艺类产品）</label>
           </div>
         </div>
@@ -31,178 +25,87 @@
             主营品牌（非玉兰）
             <span class="must-input">（必填）</span>
           </p>
-          <input
-            type="text"
-            name="brandName"
-            v-model="currentProduct"
-            :readOnly="only"
-            :class="{readOnly:only}"
-          />
+          <input type="text" name="brandName" v-model="currentProduct" :readOnly="only" :class="{ readOnly: only }" />
         </div>
         <div class="receipt">
-          <p class="title" style="position:relative;top:-22px;">
+          <p class="title" style="position: relative; top: -22px">
             发票开具类型
             <br />
             <span class="must-input">（必选）</span>
           </p>
           <div class="recinput">
-            <input
-              type="radio"
-              name="receiptType"
-              value="不开发票"
-              id="no"
-              v-model="invoiceType"
-              :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-            />
+            <input type="radio" name="receiptType" value="不开发票" id="no" v-model="invoiceType"
+              :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
             <label for="no">不开发票</label>
             <br />
-            <input
-              type="radio"
-              name="receiptType"
-              value="增值税普通发票"
-              id="normal"
-              v-model="invoiceType"
-              :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-            />
+            <input type="radio" name="receiptType" value="增值税普通发票" id="normal" v-model="invoiceType"
+              :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
             <label for="normal">增值税普通发票</label>
-            <input
-              type="radio"
-              name="receiptType"
-              value="电子普通发票"
-              id="electron"
-              v-model="invoiceType"
-              :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-            />
+            <input type="radio" name="receiptType" value="电子普通发票" id="electron" v-model="invoiceType"
+              :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
             <label for="electron">电子普通发票</label>
             <br />
-            <input
-              type="radio"
-              name="receiptType"
-              value="增值税专用发票"
-              id="only"
-              v-model="invoiceType"
-              :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-            />
+            <input type="radio" name="receiptType" value="增值税专用发票" id="only" v-model="invoiceType"
+              :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
             <label for="only">增值税专用发票</label>
           </div>
         </div>
         <div class="taxPayer">
           <p class="title">一般纳税人</p>
-          <input
-            type="radio"
-            name="payerType"
-            value="yes"
-            id="yes"
-            v-model="taxPayerType"
-            :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-          />
+          <input type="radio" name="payerType" value="yes" id="yes" v-model="taxPayerType"
+            :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
           <label for="yes">是</label>
-          <input
-            type="radio"
-            name="payerType"
-            value="not"
-            id="not"
-            v-model="taxPayerType"
-            :disabled="only || (this.cardobj.vatInvoiceFlag == 'Y')"
-          />
+          <input type="radio" name="payerType" value="not" id="not" v-model="taxPayerType"
+            :disabled="only || this.cardobj.vatInvoiceFlag == 'Y'" />
           <label for="not">否</label>
         </div>
         <!--发票开具类型不同选项-->
         <div class="message1" v-show="isShow1">
           <p class="title">接收邮箱</p>
-          <input
-            type="text"
-            id="recipeTargetMb"
-            name="email1"
-            v-model="recipeTargetMb"
-            :readOnly="only"
-            :class="{readOnly:only}"
-          />
+          <input type="text" id="recipeTargetMb" name="email1" v-model="recipeTargetMb" :readOnly="only"
+            :class="{ readOnly: only }" />
         </div>
 
         <div class="message2" v-show="isShow2">
           <p class="title">增值税发票开票信息</p>
           <div class="address">
             <p class="title">地址</p>
-            <input
-              type="text"
-              name="invAddress"
-              v-model="invAddress"
-              :disabled="(this.cardobj.vatInvoiceFlag == 'Y')"
-              :readOnly="only"
-              :class="{readOnly:only}"
-            />
+            <input type="text" name="invAddress" v-model="invAddress" :disabled="this.cardobj.vatInvoiceFlag == 'Y'"
+              :readOnly="only" :class="{ readOnly: only }" />
           </div>
           <div class="telephone">
             <p class="title">电话</p>
-            <input
-              type="text"
-              name="invTelephone"
-              v-model="invTelephone"
-              :disabled="(this.cardobj.vatInvoiceFlag == 'Y')"
-              :readOnly="only"
-              :class="{readOnly:only}"
-            />
+            <input type="text" name="invTelephone" v-model="invTelephone" :disabled="this.cardobj.vatInvoiceFlag == 'Y'"
+              :readOnly="only" :class="{ readOnly: only }" />
           </div>
           <div class="bank">
             <p class="title">开户银行</p>
-            <input
-              type="text"
-              name="invBank"
-              v-model="invBankname"
-              :disabled="(this.cardobj.vatInvoiceFlag == 'Y')"
-              :readOnly="only"
-              :class="{readOnly:only}"
-            />
+            <input type="text" name="invBank" v-model="invBankname" :disabled="this.cardobj.vatInvoiceFlag == 'Y'"
+              :readOnly="only" :class="{ readOnly: only }" />
           </div>
           <div class="bankAccount">
             <p class="title">银行账号</p>
-            <input
-              type="text"
-              name="invBanmaccount"
-              v-model="invBanmaccount"
-              :disabled="(this.cardobj.vatInvoiceFlag == 'Y')"
-              :readOnly="only"
-              :class="{readOnly:only}"
-            />
+            <input type="text" name="invBanmaccount" v-model="invBanmaccount" :disabled="this.cardobj.vatInvoiceFlag == 'Y'"
+              :readOnly="only" :class="{ readOnly: only }" />
           </div>
         </div>
       </div>
       <div class="filesRight">
         <div class="owner">
           <p class="title">法人代表/经营者</p>
-          <input
-            type="text"
-            name="ownerName"
-            :readonly="true"
-            class="readOnly"
-            :value="cardobj.xJuridicPerson"
-          />
+          <input type="text" name="ownerName" :readonly="true" class="readOnly" :value="cardobj.xJuridicPerson" />
         </div>
         <div class="owner">
           <p class="title">
             法人手机
             <span class="must-input">（必填）</span>
           </p>
-          <input
-            type="text"
-            name="tel"
-            v-model="juridicPersonHandset"
-            :readOnly="only"
-            :class="{readOnly:only}"
-          />
+          <input type="text" name="tel" v-model="juridicPersonHandset" :readOnly="only" :class="{ readOnly: only }" />
         </div>
         <div class="owner">
           <p class="title">店面面积 (平方米)</p>
-          <input
-            type="number"
-            name="space"
-            v-model="shopArea"
-            :readOnly="only"
-            :class="{readOnly:only}"
-            onpaste="return false;"
-            oninput="value=value.replace(/[^\d]/g,'')"
-          />
+          <input type="number" name="space" v-model="shopArea" :readOnly="only" :class="{ readOnly: only }"
+            onpaste="return false;" oninput="value=value.replace(/[^\d]/g,'')" />
         </div>
       </div>
     </div>
@@ -217,7 +120,7 @@ export default {
   name: "cli-filecard1",
   props: {
     cardobj: null,
-    only: Boolean
+    only: Boolean,
   },
   data() {
     return {
@@ -235,7 +138,7 @@ export default {
       invBankname: this.cardobj.invBankname, //开户银行
       invBanmaccount: this.cardobj.invBanmaccount, //银行账号
       juridicPersonHandset: this.cardobj.juridicPersonHandset, //手机
-      recipeTargetMb: this.cardobj.recipeTargetMb //电子普通发票邮箱
+      recipeTargetMb: this.cardobj.recipeTargetMb, //电子普通发票邮箱
       // vatInvoiceFlag:"N" //是否已开增值税发票：Y是，N否
     };
   },
@@ -286,7 +189,9 @@ export default {
         if (newV.preferedbrand) {
           this.preferedbrand = newV.preferedbrand;
           this.databool1 = this.preferedbrand.indexOf("墙纸") != -1;
-          this.databool2 = this.preferedbrand.indexOf("软装") != -1 || this.preferedbrand.indexOf("布") != -1;
+          this.databool2 =
+            this.preferedbrand.indexOf("软装") != -1 ||
+            this.preferedbrand.indexOf("布") != -1;
         }
         (this.shopArea = this.cardobj.shopArea), //店面面积
           (this.invAddress = this.cardobj.invAddress), //地址
@@ -306,7 +211,8 @@ export default {
     databool1(newV, oldV) {
       if (newV) {
         if (this.databool2) {
-          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
+          this.preferedbrand =
+            "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）";
         }
@@ -321,7 +227,8 @@ export default {
     databool2(newV, oldV) {
       if (newV) {
         if (this.databool1) {
-          this.preferedbrand = "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
+          this.preferedbrand =
+            "√玉兰（墙纸、墙布、墙板、墙漆、辅料）√兰居尚品（布艺类产品）";
         } else {
           this.preferedbrand = "√兰居尚品（布艺类产品）";
         }
@@ -332,7 +239,7 @@ export default {
           this.preferedbrand = "";
         }
       }
-    }
+    },
   },
   methods: {
     handleInput(e) {
@@ -407,10 +314,10 @@ export default {
         invTelephone: this.invTelephone, //电话
         invBankname: this.invBankname, //开户银行
         invBanmaccount: this.invBanmaccount, //银行账号
-        juridicPersonHandset: this.juridicPersonHandset //手机
+        juridicPersonHandset: this.juridicPersonHandset, //手机
         // vatInvoiceFlag:this.vatInvoiceFlag//是否已开增值税发票：Y是，N否
       });
-    }
+    },
     //检查
     // check(){
     //   if(!this.shopArea || !this.juridicPersonHandset || !this.currentProduct)return false;
@@ -425,7 +332,7 @@ export default {
     //   }
     //   return true;
     // }
-  }
+  },
 };
 </script>
 

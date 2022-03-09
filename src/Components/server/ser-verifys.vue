@@ -1,7 +1,7 @@
 <template>
   <div class="verifys-wrapper" ref="VerifysLoad">
     <div class="temp">
-      <div ref="verifysLeap" style="height:40px"></div>
+      <div ref="verifysLeap" style="height: 40px"></div>
       <i class="el-icon-close" @click="dispear"></i>
       <!-- 1 -->
       <h2>基本信息</h2>
@@ -9,148 +9,68 @@
         <div class="filesLeft">
           <div class="person">
             <img src="../../assets/images/头像.png" />
-            <span class="cliName">{{cardobj.cname}}</span>
+            <span class="cliName">{{ cardobj.cname }}</span>
           </div>
           <div class="intention">
             <p class="title">意向品牌</p>
             <div class="inteninput">
-              <input
-                type="checkbox"
-                disabled="disabled"
-                name="brand"
-                id="WallPaper"
-                v-model="databool1"
-              />
+              <input type="checkbox" disabled="disabled" name="brand" id="WallPaper" v-model="databool1" />
               <label for="WallPaper">玉兰（墙纸、墙布、墙板、墙漆、辅料）</label>
               <br />
-              <input
-                type="checkbox"
-                disabled="disabled"
-                name="brand"
-                id="SoftProducts"
-                v-model="databool2"
-              />
+              <input type="checkbox" disabled="disabled" name="brand" id="SoftProducts" v-model="databool2" />
               <label for="SoftProducts">兰居尚品（布艺类产品）</label>
             </div>
           </div>
 
           <div class="nowBrand">
             <p class="title">主营品牌（非玉兰）</p>
-            <input
-              type="text"
-              name="brandName"
-              readonly="brandName"
-              class="readOnly"
-              :value="cardobj.currentProduct"
-            />
+            <input type="text" name="brandName" readonly="brandName" class="readOnly" :value="cardobj.currentProduct" />
           </div>
           <div class="receipt">
             <p class="title">发票开具类型</p>
-            <input
-              class="readOnly"
-              readonly
-              type="text"
-              :value="cardobj.invoiceType"
-              style="width:135px"
-            />
+            <input class="readOnly" readonly type="text" :value="cardobj.invoiceType" style="width: 135px" />
           </div>
           <div class="taxPayer">
             <p class="title">一般纳税人</p>
-            <input
-              type="radio"
-              disabled
-              name="payerType"
-              value="yes"
-              id="yes"
-              v-model="taxPayerType"
-            />
+            <input type="radio" disabled name="payerType" value="yes" id="yes" v-model="taxPayerType" />
             <label for="yes">是</label>
-            <input
-              type="radio"
-              disabled
-              name="payerType"
-              value="not"
-              id="not"
-              v-model="taxPayerType"
-            />
+            <input type="radio" disabled name="payerType" value="not" id="not" v-model="taxPayerType" />
             <label for="not">否</label>
           </div>
 
           <div class="message1" v-show="isShow1">
             <p class="title">接收邮箱</p>
-            <input
-              type="text"
-              name="email1"
-              v-model="cardobj.recipeTargetMb"
-              readonly
-              class="readOnly"
-            />
+            <input type="text" name="email1" v-model="cardobj.recipeTargetMb" readonly class="readOnly" />
           </div>
 
           <div class="message2" v-show="isShow2">
             <p class="title">增值税发票开票信息</p>
             <div class="address">
               <p class="title">地址</p>
-              <input
-                type="text"
-                name="invAddress"
-                v-model="cardobj.invAddress"
-                readonly
-                class="readOnly"
-              />
+              <input type="text" name="invAddress" v-model="cardobj.invAddress" readonly class="readOnly" />
             </div>
             <div class="telephone">
               <p class="title">电话</p>
-              <input
-                type="text"
-                name="invTelephone"
-                v-model="cardobj.invTelephone"
-                readonly
-                class="readOnly"
-              />
+              <input type="text" name="invTelephone" v-model="cardobj.invTelephone" readonly class="readOnly" />
             </div>
             <div class="bank">
               <p class="title">开户银行</p>
-              <input
-                type="text"
-                name="invBank"
-                v-model="cardobj.invBankname"
-                readonly
-                class="readOnly"
-              />
+              <input type="text" name="invBank" v-model="cardobj.invBankname" readonly class="readOnly" />
             </div>
             <div class="bankAccount">
               <p class="title">银行账号</p>
-              <input
-                type="text"
-                name="invBanmaccount"
-                v-model="cardobj.invBanmaccount"
-                readonly
-                class="readOnly"
-              />
+              <input type="text" name="invBanmaccount" v-model="cardobj.invBanmaccount" readonly class="readOnly" />
             </div>
           </div>
         </div>
         <div class="filesRight">
           <div class="owner">
             <p class="title">法人代表/经营者</p>
-            <input
-              type="text"
-              name="ownerName"
-              readonly="ownerName"
-              class="readOnly"
-              :value="cardobj.xJuridicPerson"
-            />
+            <input type="text" name="ownerName" readonly="ownerName" class="readOnly" :value="cardobj.xJuridicPerson" />
           </div>
           <div class="owner">
             <p class="title">主营区域</p>
-            <input
-              type="text"
-              name="area"
-              readonly="area"
-              class="readOnly"
-              :value="cardobj.marketname"
-            />
+            <input type="text" name="area" readonly="area" class="readOnly" :value="cardobj.marketname" />
           </div>
           <div class="owner">
             <p class="title">店面面积 (平方米)</p>
@@ -158,13 +78,7 @@
           </div>
           <div class="owner">
             <p class="title">法人手机</p>
-            <input
-              type="text"
-              name="tel"
-              readonly
-              class="readOnly"
-              :value="cardobj.juridicPersonHandset"
-            />
+            <input type="text" name="tel" readonly class="readOnly" :value="cardobj.juridicPersonHandset" />
           </div>
         </div>
       </div>
@@ -188,19 +102,13 @@
           <div class="content-wrapper">
             <p class="title">通讯地址</p>
             <!-- <input type="text" readonly="address" class="readOnly" v-model="cardobj.xPostAddress"> -->
-            <div class="longAddress">{{cardobj.xPostAddress}}</div>
+            <div class="longAddress">{{ cardobj.xPostAddress }}</div>
           </div>
         </div>
         <div class="fliesRight">
           <div class="content-wrapper">
             <p class="title">电话</p>
-            <input
-              type="text"
-              name="phone"
-              readonly="phone"
-              class="readOnly"
-              v-model="cardobj.xOfficeTel"
-            />
+            <input type="text" name="phone" readonly="phone" class="readOnly" v-model="cardobj.xOfficeTel" />
           </div>
           <div class="content-wrapper">
             <p class="title">传真</p>
@@ -231,7 +139,7 @@
           <div class="delivery">
             <p class="title">收货地址</p>
             <!-- <input type="text" class="readOnly" readOnly v-model="cardobj.xDeliveryAdress"> -->
-            <div class="longAddress">{{cardobj.xDeliveryAdress}}</div>
+            <div class="longAddress">{{ cardobj.xDeliveryAdress }}</div>
           </div>
         </div>
         <div class="filesRight">
@@ -245,13 +153,7 @@
           </div>
           <div class="emailAddress">
             <p class="title">邮编</p>
-            <input
-              type="text"
-              class="readOnly"
-              readonly
-              name="zipCodeWl"
-              v-model="cardobj.zipCodeWl"
-            />
+            <input type="text" class="readOnly" readonly name="zipCodeWl" v-model="cardobj.zipCodeWl" />
           </div>
         </div>
       </div>
@@ -259,48 +161,21 @@
       <h2>银行账户</h2>
       <div class="wrapper-jun">
         <div class="div1">
-          <serDepute
-            v-show="showcliDepute"
-            :ccid="this.cardobj.cid"
-            :year="this.cardobj.contractyear"
-            @dispearDepute="dispearDepute()"
-            @showDeputePhoto="showPhoto"
-            style="position:absolute;top:100px;"
-          ></serDepute>
+          <serDepute v-show="showcliDepute" :ccid="this.cardobj.cid" :year="this.cardobj.contractyear"
+            @dispearDepute="dispearDepute()" @showDeputePhoto="showPhoto" style="position: absolute; top: 100px"></serDepute>
 
           <div class="ways">经营方式</div>
           <form class="ways-contents">
-            <input
-              disabled
-              type="radio"
-              v-model="pickWay"
-              value="has-has"
-              id="has-has"
-              name="bussiness-way"
-            />
+            <input disabled type="radio" v-model="pickWay" value="has-has" id="has-has" name="bussiness-way" />
             <label for="has-has">&nbsp;&nbsp;有营业执照-有对账公号&nbsp;&nbsp;&nbsp;（请仅填公司汇款账号信息）</label>
             <br />
-            <input
-              disabled
-              type="radio"
-              v-model="pickWay"
-              value="has-no"
-              id="has-no"
-              name="bussiness-way"
-            />
+            <input disabled type="radio" v-model="pickWay" value="has-no" id="has-no" name="bussiness-way" />
             <label for="has-no">&nbsp;&nbsp;有营业执照-无对账公号&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label>
             <br />
             <!-- <div class="add-account" v-show="isShow">
               <a class="alert-block" @click="moreMessageInput">查看授权委托账号信息及附件</a>
             </div>-->
-            <input
-              disabled
-              type="radio"
-              v-model="pickWay"
-              value="no-no"
-              id="no-no"
-              name="bussiness-way"
-            />
+            <input disabled type="radio" v-model="pickWay" value="no-no" id="no-no" name="bussiness-way" />
             <label for="no-no">&nbsp;&nbsp;无营业执照&nbsp;&nbsp;&nbsp;（请仅填个人汇款账号信息）</label>
             <br />
           </form>
@@ -323,10 +198,13 @@
               <!-- <div><span>银行所在地</span><input type="text" v-model="cardobj.account1Location" readOnly class="readOnly"></div> -->
               <div>
                 <span>银行所在地</span>
-                <div
-                  class="longAddress"
-                  style="display:inline-block;padding:0 10px;vertical-align:top"
-                >{{cardobj.account1Location}}</div>
+                <div class="longAddress" style="
+                    display: inline-block;
+                    padding: 0 10px;
+                    vertical-align: top;
+                  ">
+                  {{ cardobj.account1Location }}
+                </div>
               </div>
             </div>
             <div class="company" v-show="cardobj.hasPublicAccount == 'N'">
@@ -346,10 +224,13 @@
               <!-- <div><span>银行所在地</span><input type="text" v-model="cardobj.account2Location" readOnly class="readOnly"></div> -->
               <div>
                 <span>银行所在地</span>
-                <div
-                  class="longAddress"
-                  style="display:inline-block;padding:0 10px;vertical-align:top"
-                >{{cardobj.account2Location}}</div>
+                <div class="longAddress" style="
+                    display: inline-block;
+                    padding: 0 10px;
+                    vertical-align: top;
+                  ">
+                  {{ cardobj.account2Location }}
+                </div>
               </div>
             </div>
           </div>
@@ -361,83 +242,46 @@
           <div class="photos-infos">
             <!-- 1 -->
             <div class="photos-info">
-              <img
-                class="photo-show"
-                id="show"
-                alt
-                :src="file1Idcard"
-                @click="showPhoto2(file1Idcard)"
-              />
+              <img class="photo-show" id="show" alt :src="file1Idcard" @click="showPhoto2(file1Idcard)" />
               <div class="photo-title">1-身份证头像面</div>
-              <div class="photo-message">{{cardobj.file1Op}}</div>
+              <div class="photo-message">{{ cardobj.file1Op }}</div>
               <div class="info-wrapper">
                 身份证号：
-                <input
-                  type="text"
-                  name="IDcard"
-                  class="IDcard readOnly"
-                  v-model="cardobj.file1IdcardNo"
-                  readonly
-                />
+                <input type="text" name="IDcard" class="IDcard readOnly" v-model="cardobj.file1IdcardNo" readonly />
               </div>
             </div>
             <!-- 2 -->
             <div class="photos-info">
-              <img
-                class="photo-show"
-                id="show"
-                alt
-                :src="file5IdcardBg"
-                @click="showPhoto2(file5IdcardBg)"
-              />
+              <img class="photo-show" id="show" alt :src="file5IdcardBg" @click="showPhoto2(file5IdcardBg)" />
               <div class="photo-title">2-身份证国徽面</div>
-              <div class="photo-message">{{cardobj.file5Op}}</div>
+              <div class="photo-message">{{ cardobj.file5Op }}</div>
             </div>
             <!-- 3 -->
             <div class="photos-info" v-show="card3Show">
-              <img
-                class="photo-show"
-                id="show"
-                alt
-                :src="file2Businesslicense"
-                @click="showPhoto2(file2Businesslicense)"
-              />
+              <img class="photo-show" id="show" alt :src="file2Businesslicense" @click="showPhoto2(file2Businesslicense)" />
               <div class="photo-title">3-营业执照</div>
-              <div class="photo-message">{{cardobj.file2Op}}</div>
+              <div class="photo-message">{{ cardobj.file2Op }}</div>
               <div class="info-wrapper">
                 营业执照注册号：
-                <input
-                  type="text"
-                  name="IDcard"
-                  class="IDcard readOnly"
-                  readonly
-                  v-model="cardobj.file2BusinesslicenseNo"
-                />
+                <input type="text" name="IDcard" class="IDcard readOnly" readonly v-model="cardobj.file2BusinesslicenseNo" />
               </div>
               <div class="info-wrapper">
                 营业执照有效期：
-                <input
-                  type="text"
-                  class="IDcard readOnly"
-                  readonly
-                  :value="cardobj.file2BusinesslicenseNoend == 0?cardobj.file2BusinesslicenseEnd:'长期有效'"
-                />
+                <input type="text" class="IDcard readOnly" readonly :value="
+                    cardobj.file2BusinesslicenseNoend == 0
+                      ? cardobj.file2BusinesslicenseEnd
+                      : '长期有效'
+                  " />
               </div>
             </div>
             <!-- 4 -->
             <div class="photos-info" v-show="card4Show">
               <img class="photo-show" id="show" alt :src="file4Gtqc" @click="showPhoto2(file4Gtqc)" />
               <div class="photo-title">4-税务登记证（国税）</div>
-              <div class="photo-message">{{cardobj.file4Op}}</div>
+              <div class="photo-message">{{ cardobj.file4Op }}</div>
               <div class="info-wrapper">
                 税务证号：
-                <input
-                  type="text"
-                  v-model="cardobj.file4GtqcNo"
-                  name="IDcard"
-                  class="IDcard readOnly"
-                  readonly
-                />
+                <input type="text" v-model="cardobj.file4GtqcNo" name="IDcard" class="IDcard readOnly" readonly />
               </div>
             </div>
           </div>
@@ -471,7 +315,7 @@ var ms = {
   SALEMAN_M: "办事处经理",
   SALEMAN_S: "业务经理",
   BILLDEP_APPROVE: "订单部",
-  LEGALCHECK: "法务专员"
+  LEGALCHECK: "法务专员",
 };
 var remoteImageURL = "http://14.29.221.4:10250/upload";
 var loadingInstance; //加载
@@ -487,7 +331,7 @@ export default {
     cid: "",
     showBtn: "",
     checkBtn: "",
-    year: ""
+    year: "",
   },
   data() {
     return {
@@ -532,14 +376,14 @@ export default {
         "公司：三证五证未合一",
         "个体户：已取得税务登记证",
         "个体户：未取得税务登记证",
-        "个人"
+        "个人",
       ],
       accountType: "",
       allphotoTypesList: [
         "1-身份证头像面",
         "2-身份证国徽面",
         "3-营业执照",
-        "4-税务登记证（国税）"
+        "4-税务登记证（国税）",
       ],
       photoTypesList: ["1-身份证头像面", "2-身份证国徽面", "3-营业执照"], //真正渲染上选择列表的数组
       photoType: "1-身份证头像面",
@@ -554,7 +398,7 @@ export default {
       reason: "",
       position: this.$store.state.user.pos[0].position,
       recordTitle: "", //传给评审记录的数据
-      recordArr: [] //传给评审记录的数据
+      recordArr: [], //传给评审记录的数据
     };
   },
   methods: {
@@ -581,10 +425,10 @@ export default {
         newP,
         "newWin",
         "width=667,height=885,top=" +
-          t +
-          ",left=" +
-          l +
-          ",toolbar=no,menubar=no,location=no,status=yes"
+        t +
+        ",left=" +
+        l +
+        ",toolbar=no,menubar=no,location=no,status=yes"
       );
     },
     //审核资料卡红叉关闭
@@ -603,18 +447,12 @@ export default {
     queding() {
       let position = this.$store.state.user.pos[0].position;
       if (position == "SALEMAN_M" || position == "SALEMAN_S") {
-        // this.$axios
-        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-        //     cid: this.cid,
-        //     state: "BIILDEPCHECKING",
-        //     memo: this.memo + "通过;"
-        //   })
         UpdateState({
           cid: this.cid,
           year: this.year,
           state: "BIILDEPCHECKING",
-          memo: this.memo + "通过;"
-        }).then(res => {
+          memo: this.memo + "通过;",
+        }).then((res) => {
           this.$alert("审核成功！状态更新为：订单部审核中");
           this.$emit("close", false);
           //location.reload();
@@ -622,21 +460,14 @@ export default {
         });
         this.hide = false;
       } else if (position == "BILLDEP_APPROVE") {
-        // this.$axios
-        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-        //     cid: this.cid,
-        //     state: "APPROVED",
-        //     memo: this.memo + "通过;"
-        //   })
         UpdateState({
           cid: this.cid,
           year: this.year,
           state: "APPROVED",
-          memo: this.memo + "通过;"
-        }).then(res => {
+          memo: this.memo + "通过;",
+        }).then((res) => {
           this.$alert("审核成功！状态更新为：已通过");
           this.$emit("close", false);
-          //location.reload();
           this.updatePage(); //小刷新
         });
         this.hide = false;
@@ -652,11 +483,10 @@ export default {
           year: this.year,
           state: this.cardobj.state,
           memo: "",
-          checkStatus: "Y"
-        }).then(res => {
+          checkStatus: "Y",
+        }).then((res) => {
           this.$alert("已通过！");
           this.$emit("close", false);
-          //location.reload();
           this.updatePage(); //小刷新if
         });
         this.hide = false;
@@ -675,18 +505,12 @@ export default {
         position == "SALEMAN_M" ||
         position == "SALEMAN_S"
       ) {
-        // this.$axios
-        //   .post("/yulan/infoState/bussinessCheckCustomerInfoCard.do", {
-        //     cid: this.cid,
-        //     state: "CUSTOMERPORCESSING2", //正确
-        //     memo: this.memo + "退回，原因是 [" + this.reason + "];"
-        //   })
         UpdateState({
           cid: this.cid,
           year: this.year,
           state: "CUSTOMERPORCESSING2",
-          memo: this.memo + "退回，原因是 [" + this.reason + "];"
-        }).then(res => {
+          memo: this.memo + "退回，原因是 [" + this.reason + "];",
+        }).then((res) => {
           this.$alert("退回该客户资料卡成功");
           this.$emit("close", false);
           //location.reload();
@@ -708,8 +532,8 @@ export default {
           year: this.year,
           state: state,
           checkStatus: "N",
-          memo: this.memo + "退回，原因是 [" + this.reason + "];"
-        }).then(res => {
+          memo: this.memo + "退回，原因是 [" + this.reason + "];",
+        }).then((res) => {
           this.$alert("抽查不通过！");
           this.$emit("close", false);
           this.updatePage();
@@ -734,60 +558,20 @@ export default {
       this.$axios
         .post("/yulan/customerInfo/getYLcontract.do", {
           ccid: this.cardobj.cid,
-          ccyear: this.cardobj.contractyear
+          ccyear: this.cardobj.contractyear,
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.code == 0) this.addCheck = "yes";
           else if (res.data.code == 1) this.addCheck = "no";
           if (this.addCheck == "yes") this.isShow = true;
           else this.isShow = false;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("拿委托状态错误呀");
         });
-    }
+    },
   },
   watch: {
-    // cidYear(newV) {
-    //   if(newV.cid){
-    //   //新进卡片图片先清空
-    //   this.file1Idcard = "";
-    //   this.file2Businesslicense = "";
-    //   this.file4Gtqc = "";
-    //   this.file5IdcardBg = "";
-    //   this.accountType = ""; //账户类型也先清空
-    //   loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
-
-    //   // this.$axios
-    //   //   .post("/yulan/customerInfo/getCustomerInfo.do", {
-    //   //     CID: newV
-    //   //   })
-    //   GetCardByCustomer({ cid: newV.cid, year: newV.year })
-    //     .then(res => {
-    //       if (res.data != null && res.data.length > 0) {
-    //         this.cardobj = res.data[0];
-    //         // //发送请求拿评审的数据
-    //         this.$axios
-    //           .post("/yulan/infoState/getCustomerInfoCardState.do", {
-    //             cid: newV.cid,
-    //             year: this.cardobj.contractyear
-    //           })
-    //           .then(res2 => {
-    //             this.recordTitle = res2.data.customerInfo;
-    //             if (this.cardobj.state == "ONCREATE")
-    //               this.recordTitle = "资料卡确认中";
-    //             if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
-    //           })
-    //           .catch(err => {
-    //             console.log("拿评审记录数据错误?" + err);
-    //           });
-    //       }
-    //     })
-    //     .catch(function(err) {
-    //       console.log("cards检查拿对象报错", err);
-    //     });
-    //   }
-    // },
     cardobj(newV) {
       this.getWeiTuo();
       if (newV.preferedbrand) {
@@ -797,15 +581,12 @@ export default {
       }
       this.invoiceType = this.cardobj.invoiceType || ""; //发票类型
       this.accountType = this.accountTypesList[newV.customerentitytypex - 1]; //账号类型
-      // this.hasPublicAccount = this.cardobj.hasPublicAccount;//有无对公账号
 
       //经营方式
       if (newV.busientType == "公司") {
         if (newV.hasPublicAccount == "Y") this.pickWay = "has-has";
         else {
           this.pickWay = "has-no";
-          // if(newV.privateAccountAuthed == "Y")this.isShow = true;
-          // else this.isShow = false;
         }
       } else {
         this.pickWay = "no-no";
@@ -873,11 +654,11 @@ export default {
           break;
       }
     },
-    hide: function() {
+    hide: function () {
       this.$nextTick(() => {
         this.$refs.tuihuiBtn.scrollIntoView(false);
       });
-    }
+    },
   },
   computed: {
     images() {
@@ -885,7 +666,7 @@ export default {
         this.file1Idcard,
         this.file2Businesslicense,
         this.file4Gtqc,
-        this.file5IdcardBg
+        this.file5IdcardBg,
       ];
       return images;
     },
@@ -928,9 +709,9 @@ export default {
     cidYear() {
       return {
         cid: this.cid,
-        year: this.year
+        year: this.year,
       };
-    }
+    },
   },
   mounted() {
     if (this.cid) {
@@ -942,31 +723,31 @@ export default {
       this.accountType = ""; //账户类型也先清空
       loadingInstance = Loading.service(this.$refs.VerifysLoad); //开始加载
       GetCardByCustomer({ cid: this.cid, year: this.year })
-        .then(res => {
+        .then((res) => {
           if (res.data != null && res.data.length > 0) {
             this.cardobj = res.data[0];
             // //发送请求拿评审的数据
             this.$axios
               .post("/yulan/infoState/getCustomerInfoCardState.do", {
                 cid: this.cid,
-                year: this.cardobj.contractyear
+                year: this.cardobj.contractyear,
               })
-              .then(res2 => {
+              .then((res2) => {
                 this.recordTitle = res2.data.customerInfo;
                 if (this.cardobj.state == "ONCREATE")
                   this.recordTitle = "资料卡确认中";
                 if (res2.data.memo) this.recordArr = res2.data.memo.reverse();
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log("拿评审记录数据错误?" + err);
               });
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("cards检查拿对象报错", err);
         });
     }
-  }
+  },
 };
 </script>
 
